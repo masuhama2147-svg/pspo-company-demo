@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>P・SPO — ホーム｜今、空いてる？が、ひと目で。</title>
+<meta name="description" content="あなたの登録エリアの空きを地図でひと目に。近くの空き・あなたに合った時間・使い放題サービスまで。日常使いのP・SPOアプリ。" />
+<meta name="theme-color" content="#f4f6f9" />
+<link rel="manifest" href="manifest.webmanifest" />
+<!-- ローカル専用シークレット（gitignore済み・未配置でも地図はリストへ安全にフォールバック） -->
+<script src="js/config.local.js" onerror="this.remove()"></script>
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body>
+<main id="main">
+  <section class="section-tight">
+    <div class="container">
+
+      <!-- 挨拶（パーソナライズ） -->
+      <div id="appGreet" class="app-greet io"></div>
+
+      <!-- 今いちばん空いてる（行動の起点） -->
+      <div id="appReco" class="io" style="margin-top:14px"></div>
+
+      <figure class="photo-band io photo-band--ux" aria-hidden="true" style="margin-top:18px">
+        <img src="assets/pspo-visual-app-reco.png" alt="" loading="lazy" onerror="this.closest('.photo-band').remove()" />
+      </figure>
+
+      <!-- 登録エリアの地図（核心） -->
+      <h2 class="big-head io" style="margin-top:34px">近くの空きを、地図で。</h2>
+      <div id="mapMain" class="io"></div>
+
+      <!-- クイック操作 -->
+      <div class="app-quick io" id="appQuick" style="margin-top:18px"></div>
+
+      <!-- 近くの施設（位置情報はオプトイン・既定はホーム店舗周辺） -->
+      <div class="c-card io" id="nearbyCard" style="margin-top:24px"></div>
+
+      <!-- できること（既定は畳む＝情報削減・progressive disclosure） -->
+      <details class="app-more io" style="margin-top:18px">
+        <summary>できること（30種類以上）を見る</summary>
+        <p class="t-muted" style="margin:14px 0 18px;max-width:56ch">カテゴリ別に整理。<b class="text-accent">予約要否</b>と<b class="text-accent">使える店舗数</b>もひと目で。</p>
+        <div class="cat" id="catalog"></div>
+      </details>
+
+      <p class="center io" style="margin-top:20px;font-size:.86rem;color:var(--fg-muted)">はじめての方：<a class="link-accent" href="price.html">料金</a> ・ <a class="link-accent" href="guide.html">はじめ方</a></p>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon, getPrefs } from "./js/ui.js";
+import { getAuth } from "./js/auth.js";
+import { renderMap } from "./js/widgets.js";
+import { renderServiceCatalog } from "./js/services.js";
+import { getMember, personalRecommendation, currentPersona } from "./js/member.js";
+import { getStore, storeRatio } from "./js/data.js";
+import { levelOf } from "./js/config.js";
+import { emptiestStore } from "./js/live.js";
+import { hasLocationConsent, showConsentSheet } from "./js/consent.js";
+import { nearbyFacilities, homeOrigin, requestGeolocation, fmtKm } from "./js/facilities.js";
+
+initChrome({ active: "home" });
+renderMap(document.getElementById("mapMain"));
+renderServiceCatalog(document.getElementById("catalog"));
+
+// 挨拶
+function renderGreet(){
+  const auth = getAuth();
+  const m = getMember();
+  const p = currentPersona();
+  const hello = auth ? "おかえりなさい。" : "ようこそ。";
+  document.getElementById("appGreet").innerHTML = `
+    <p class="t-eyebrow">P・SPO — ホーム</p>
+    <h1 class="app-greet__h">${hello}<br><span class="text-accent">今、空いてる？</span>を、ひと目で。</h1>
+    <p class="t-muted" style="margin-top:6px">ホームは <b>${m.homeStore.name}</b>（${m.homeStore.area}）。${p.emoji} <b>${p.headline}</b></p>`;
+}
+
+// 今いちばん空いてる店（行動の起点）
+function renderReco(){
+  const best = emptiestStore();
+  const r = storeRatio(best); const lv = levelOf(r);
+  const rec = personalRecommendation();
+  document.getElementById("appReco").innerHTML = `
+    <div class="c-card c-card--glow" data-level="${lv.id}">
+      <div class="cluster" style="justify-content:space-between;gap:12px">
+        <div>
+          <div class="t-faint" style="font-size:.78rem">いま、いちばん空いてる</div>
+          <div style="font-family:var(--font-display);font-weight:900;font-size:1.25rem;margin-top:2px">${best.name}</div>
+          <div class="c-level" data-level="${lv.id}" style="margin-top:6px"><span class="c-dot"></span>${lv.label}・${Math.round(r*100)}%</div>
+        </div>
+        <a class="c-btn c-btn--primary" href="live.html?store=${best.id}">${icon('arrow',{size:16})} 空きを見る</a>
+      </div>
+      <div class="c-callout" style="margin-top:14px"><span class="c-callout__icon">${icon('sparkles')}</span><div class="c-callout__body">${rec.line}</div></div>
+    </div>`;
+}
+
+// クイック操作
+document.getElementById("appQuick").innerHTML = [
+  ["area.html","pulse","空きを探す","住所・現在地で近い順"],
+  ["live.html","clock","店舗ライブ","ゾーン・設備の空き"],
+  ["me.html","user","マイページ","ランク・割引・目標"],
+].map(([href,ic,t,d])=>`<a class="app-quick__item c-card" href="${href}"><span class="app-quick__ic">${icon(ic,{size:20})}</span><div><div class="app-quick__t">${t}</div><div class="app-quick__d">${d}</div></div>${icon('arrow',{size:16,cls:'accent-ic'})}</a>`).join("");
+
+// 近くの施設（既定＝ホーム店舗周辺。同意＋許可があればGPSで精度UP）
+let nearbyOrigin = homeOrigin();
+async function loadGps(){ const g = await requestGeolocation(); if (g) nearbyOrigin = g; renderNearby(); }
+function renderNearby(){
+  const list = nearbyFacilities(nearbyOrigin, 6);
+  const consented = hasLocationConsent();
+  document.getElementById("nearbyCard").innerHTML = `
+    <div class="c-card__head"><span class="c-card__title">近くの施設</span><span class="t-faint" style="font-size:.74rem">${nearbyOrigin.label}から</span></div>
+    <ul class="facil-list" role="list">${list.map(f=>`<li class="facil"><span class="facil__cat">${f.cat.split(" ")[0]}</span><div class="facil__main"><div class="facil__name">${f.name}</div><div class="facil__meta">${f.cat.split(" ").slice(1).join(" ")}</div></div><span class="facil__km">${fmtKm(f.distKm)}</span></li>`).join("")}</ul>
+    <div class="facil-foot">
+      ${consented ? `<span class="t-faint" style="font-size:.78rem;display:inline-flex;align-items:center;gap:5px">${icon("check",{size:13})} 位置情報オン（いつでも変更可）</span>`
+                  : `<button class="c-btn c-btn--ghost c-btn--sm" id="shareLoc">${icon("target",{size:15})} 位置を共有してもっと近くを</button>`}
+      <a class="t-faint" style="font-size:.78rem" href="data.html">データの使われ方 →</a>
+    </div>`;
+  const sl = document.getElementById("shareLoc");
+  if (sl) sl.addEventListener("click", ()=>showConsentSheet({ onChange:(c)=>{ if (c.location) loadGps(); else renderNearby(); } }));
+}
+
+renderGreet();
+renderReco();
+if (hasLocationConsent()) loadGps(); else renderNearby();
+window.addEventListener("sukima:update", ()=>{ renderReco(); });
+// オンボ/ログイン完了 → 挨拶・レコメンド更新＋地図を登録エリアへ再センタリング＋近隣を更新
+window.addEventListener("sukima:profile-updated", ()=>{
+  renderGreet(); renderReco();
+  nearbyOrigin = hasLocationConsent() ? nearbyOrigin : homeOrigin();
+  renderNearby();
+  const mapEl = document.getElementById("mapMain");
+  mapEl.__built = false; mapEl.__noGoogle = false; mapEl.innerHTML = "";
+  renderMap(mapEl);
+});
+</script>
+</body>
+</html>

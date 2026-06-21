@@ -1,0 +1,24 @@
+{
+  "name": "P・SPO（改修提案デモ）",
+  "short_name": "P・SPO",
+  "description": "P・SPO の混雑を“見る”のではなく“わかる”ために作り直した概念デモ。空席のリアルタイム可視化・パーソナライズ・退会抑止・経営拡大。",
+  "lang": "ja",
+  "dir": "ltr",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0e13",
+  "theme_color": "#0a0e13",
+  "categories": ["health", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "assets/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "assets/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml" },
+    { "src": "assets/icon-maskable.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "店舗ライブ", "url": "live.html" },
+    { "name": "マイページ", "url": "me.html" },
+    { "name": "経営・拡大", "url": "growth.html" }
+  ]
+}

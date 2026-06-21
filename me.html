@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>マイページ｜P・SPO — あなたの通いを、価値に。</title>
+<meta name="description" content="あなたの来館がランク・連続記録・利用連動割引・目標に変わる。あなたに合った活用法まで。通うほどお得で、続けやすいパーソナライズ。" />
+<meta name="theme-color" content="#fdf9f2" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body>
+<main id="main">
+  <section class="section-tight">
+    <div class="container">
+      <p class="t-eyebrow">MY PAGE — あなたの記録</p>
+      <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">あなたの通いを、価値に。</h1>
+      <p class="t-muted" style="max-width:60ch;margin-top:6px">あなたの来館が、ランク・連続記録・割引・目標に変わる。通うほどお得に、もっと続けやすく。</p>
+
+      <div class="persona-row" id="personaRow" style="margin-top:18px" role="group" aria-label="通い方を選ぶ"></div>
+
+      <!-- ランク + チェックイン -->
+      <div class="c-card c-card--glow" style="margin-top:6px">
+        <div class="me-hero">
+          <div id="rankBox"></div>
+          <div class="stack">
+            <div id="statRow" class="me-band__stats" style="grid-template-columns:repeat(3,1fr)"></div>
+            <button class="c-btn c-btn--primary" id="checkinBtn">チェックイン</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="me-grid" style="margin-top:18px">
+        <!-- 連続記録 -->
+        <div class="c-card io">
+          <div class="c-card__head"><span class="c-card__title">連続記録</span><span class="c-badge c-badge--accent" id="streakBadge"></span></div>
+          <div class="c-streak" id="streak"></div>
+          <p class="t-faint" style="font-size:.78rem;margin-top:12px">直近14日の来館。黄色は“いつもの日”。連続が途切れないことが、退会しない最大の予測因子。</p>
+        </div>
+
+        <!-- 利用連動割引（データ還元） -->
+        <div class="c-card io">
+          <div class="c-card__head"><span class="c-card__title">利用連動割引</span><span class="c-badge c-badge--accent">データ還元</span></div>
+          <div id="discountBox"></div>
+          <div class="c-callout c-callout--ok" style="margin-top:12px"><span class="c-callout__icon"></span><div class="c-callout__body" id="discountNote"></div></div>
+        </div>
+
+        <!-- 目標 -->
+        <div class="c-card io">
+          <div class="c-card__head"><span class="c-card__title">今週の目標</span></div>
+          <div class="goal-wrap" id="goalBox"></div>
+          <div class="cluster" style="margin-top:14px;gap:8px" role="group" aria-label="目標を調整">
+            <button class="c-btn c-btn--ghost c-btn--sm" data-goal="-1" aria-label="目標を1減らす">−</button>
+            <span class="t-faint" style="font-size:.8rem">目標を調整</span>
+            <button class="c-btn c-btn--ghost c-btn--sm" data-goal="1" aria-label="目標を1増やす">＋</button>
+          </div>
+        </div>
+
+        <!-- バッジ -->
+        <div class="c-card io">
+          <div class="c-card__head"><span class="c-card__title">獲得バッジ</span></div>
+          <div class="c-tag-row" id="badges"></div>
+        </div>
+
+        <!-- あなたに合った活用法 -->
+        <div class="c-card io" style="grid-column:1/-1">
+          <div class="c-card__head"><span class="c-card__title">あなたに合った活用法</span><span class="c-badge c-badge--accent">AIレコメンド（デモ）</span></div>
+          <div id="recoBox"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon, toast, getProfile, setProfile } from "./js/ui.js";
+import { PERSONAS } from "./js/insights.js";
+import { getMember, checkInNow, setGoal, personalRecommendation, currentPersona } from "./js/member.js";
+import { levelOf } from "./js/config.js";
+import { storeRatio } from "./js/data.js";
+
+initChrome({ active: "me" });
+
+function renderPersona(){
+  const cur=getProfile();
+  document.getElementById("personaRow").innerHTML=PERSONAS.map((p)=>
+    `<button class="c-chip ${p.id===cur?'is-active':''}" data-persona="${p.id}" aria-pressed="${p.id===cur}">${p.emoji} ${p.label}</button>`).join("");
+  document.querySelectorAll("[data-persona]").forEach((b)=>b.addEventListener("click",()=>{setProfile(b.dataset.persona);renderAll();toast(`「${b.textContent.trim()}」に切替`);}));
+}
+
+function renderAll(){
+  const m=getMember();
+
+  document.getElementById("rankBox").innerHTML=`
+    <div class="c-rank">
+      <div class="c-rank__medal" style="--rank-col:${m.rank.col};width:84px;height:84px;font-size:2.4rem">${m.rank.emoji}</div>
+      <div class="c-rank__info">
+        <div class="c-rank__tier" style="--rank-col:${m.rank.col};font-size:1.4rem">${m.rank.label}</div>
+        <div class="c-rank__next">${m.next?`次の<b style="color:${m.next.col}">${m.next.label}</b>まで ${(m.next.min-m.points).toLocaleString()}pt（特典: ${m.next.perk}）`:"最高ランク到達 — 特製メタルカード"}</div>
+        <div class="c-meter" style="margin-top:10px;max-width:340px"><div class="c-meter__fill" style="--lv:${m.rank.col};width:${m.rankProgress}%"></div></div>
+        <div class="t-faint" style="font-size:.74rem;margin-top:6px">${m.points.toLocaleString()} pt ・ 累計来館 ${m.lifetimeVisits}回 ・ 加入${m.joinMonths}ヶ月</div>
+      </div>
+    </div>`;
+
+  document.getElementById("statRow").innerHTML=`
+    <div class="c-stat"><span class="c-stat__num c-stat__num--accent">${m.weeksStreak}</span><span class="c-stat__label">週連続</span></div>
+    <div class="c-stat"><span class="c-stat__num">${m.studyMin>0?Math.round(m.studyMin/60):Math.round(m.trainMin/60)}<small style="font-size:.5em">h</small></span><span class="c-stat__label">今月の${m.studyMin>0?"勉強":"トレ"}</span></div>
+    <div class="c-stat"><span class="c-stat__num">${m.monthVisits}</span><span class="c-stat__label">今月の来館</span></div>`;
+
+  document.getElementById("checkinBtn").innerHTML=`${icon('check',{size:18})} チェックイン（＋30pt）`;
+
+  // 連続記録
+  document.getElementById("streakBadge").textContent=`${m.weeksStreak}週連続`;
+  document.getElementById("streak").innerHTML=m.last14.map((d)=>{
+    const cls=d.on?(d.peak?'c-streak__day--peak':'c-streak__day--on'):'';
+    return `<span class="c-streak__day ${cls}" title="${d.date.getMonth()+1}/${d.date.getDate()}">${d.date.getDate()}</span>`;
+  }).join("");
+
+  // 割引
+  document.getElementById("discountBox").innerHTML=`
+    <div class="c-stat"><span class="c-stat__num c-stat__num--accent">¥${m.discountYen.toLocaleString()}</span><span class="c-stat__label">来月の割引（今月${m.monthVisits}回・うちオフピーク${m.offPeakVisits}回）</span></div>`;
+  document.getElementById("discountNote").innerHTML=`<b>使うほど、お得。</b> 来館が多いほど、混む時間を避けるほど割引が増える。学生の『利用数に応じた割引を』にそのまま応える設計。`;
+
+  // 目標
+  document.getElementById("goalBox").innerHTML=`
+    <div class="c-ring" style="--p:${m.goalPct};--ring-col:var(--accent)"><div class="c-ring__txt">${m.goalPct}%<small>達成</small></div></div>
+    <div><div style="font-weight:700">${m.goal.label}</div><div class="t-muted" style="font-size:.86rem">${m.goalCurrent} / ${m.goal.target} ${m.goal.unit}</div></div>`;
+
+  // バッジ
+  document.getElementById("badges").innerHTML=m.badges.length?m.badges.map((b)=>`<span class="c-badge c-badge--gold">${b.emoji} ${b.label}</span>`).join(""):'<span class="t-faint" style="font-size:.85rem">来館を重ねるとバッジが増えます</span>';
+
+  // 活用法レコメンド
+  const rec=personalRecommendation(); const p=currentPersona();
+  document.getElementById("recoBox").innerHTML=`
+    <div class="c-callout"><span class="c-callout__icon">${icon('sparkles')}</span><div class="c-callout__body">${rec.line}</div></div>
+    <div class="c-callout" style="margin-top:10px"><span class="c-callout__icon">${icon('clock')}</span><div class="c-callout__body">${p.recommend}</div></div>
+    <p class="t-faint" style="font-size:.78rem;margin-top:10px">${p.emoji} <b>${p.headline}</b> — 通い方に合わせて文面が変わります。</p>`;
+
+  // 割引/コールアウトのアイコン差し込み
+  document.querySelectorAll('.c-callout--ok .c-callout__icon').forEach(e=>{ if(!e.querySelector('svg')) e.innerHTML=icon('coin'); });
+}
+
+document.addEventListener("click",(e)=>{
+  if(e.target.closest("#checkinBtn")){ const {added}=checkInNow(); renderAll(); toast(added?"チェックイン！ +30pt":"本日はチェックイン済み",{icon:'check'}); }
+  const g=e.target.closest("[data-goal]"); if(g){ const m=getMember(); setGoal(m.goal.target+Number(g.dataset.goal)); renderAll(); }
+});
+
+renderPersona(); renderAll();
+</script>
+</body>
+</html>

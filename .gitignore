@@ -1,0 +1,38 @@
+# OS / tooling
+.DS_Store
+node_modules/
+.playwright-mcp/
+verify-*.png
+
+# ⚠️ 個人情報を含む元データ — 絶対にコミット／公開しない
+#   （本プロジェクトの「非PII射影・信頼性ファースト」方針に一致）
+名刺データ.csv
+PSPO____________.csv
+PSPO全員データ/
+PSPO小山分析.xlsx
+PSPOさんの課題.xlsx
+
+# 一次資料（社内向け・配布注意）
+PSPOの概要.pdf
+PSPO小山分析.pdf
+PSPO_鎌倉.pdf
+P-spo*.pdf
+PSPO 大学生向けマーケティング戦略提案.*
+
+# Google Maps APIキー等のローカル・シークレット（コミット禁止）
+# キーは js/config.local.js に置く（config.js は window.__SUKIMA_GMAPS_KEY を参照）
+js/config.local.js
+
+# ===== 公開デプロイ用の追加除外 =====
+test-results/
+playwright-report/
+.DS_Store
+*.tsbuildinfo
+# リールの“マスター原本”は未使用＝公開しない（サイトが使うのは web/ の最適化版のみ）
+assets/reels/*.mp4
+# 一時成果物
+audit-*.jpeg
+reel-*-urls.json
+# 内部作業物（公開デモには含めない）
+docs/
+screenshots/

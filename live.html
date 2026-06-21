@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>店舗ライブ｜P・SPO — P・SPO 改修工事</title>
+<meta name="description" content="ゾーン別・設備別の空きをリアルタイムで。あと何台空き・推定待ち時間・時間帯予報まで、来店判断にそのまま使える。" />
+<meta name="theme-color" content="#fdf9f2" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body>
+<main id="main">
+  <section class="section-tight">
+    <div class="container">
+      <div class="cluster" style="justify-content:space-between;margin-bottom:18px">
+        <div>
+          <p class="t-eyebrow">LIVE — 体感リアルタイム</p>
+          <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">店舗ライブ</h1>
+        </div>
+        <span class="c-badge" id="updated"><span class="live-dot" style="margin-right:6px"></span>—</span>
+      </div>
+
+      <!-- 店舗スイッチャー -->
+      <div class="store-switch" id="storeSwitch" role="tablist" aria-label="店舗を選ぶ"></div>
+
+      <!-- ゲージ + サマリー -->
+      <div class="live-head" style="margin-top:18px">
+        <div class="c-card c-card--glow live-gauge-wrap" id="gaugeCard"></div>
+        <div class="stack" id="summary"></div>
+      </div>
+
+      <!-- 2カラム: ゾーン / 設備・予報 -->
+      <div class="live-cols">
+        <div class="c-card">
+          <div class="c-card__head"><span class="c-card__title">ゾーン別の空き</span><span class="t-faint" style="font-size:.74rem">4秒ごと更新</span></div>
+          <div class="zone-grid" id="zoneGrid"></div>
+          <div class="c-callout c-callout--ok" style="margin-top:16px" id="zoneNote"></div>
+        </div>
+
+        <div class="stack">
+          <div class="c-card">
+            <div class="c-card__head"><span class="c-card__title">設備の空き（あと何台）</span></div>
+            <div id="gearList"></div>
+          </div>
+          <div class="c-card">
+            <div class="c-card__head"><span class="c-card__title">今日の混雑予報</span><span class="t-faint" style="font-size:.74rem">24時間</span></div>
+            <div class="c-forecast" id="forecast"></div>
+            <div class="c-nudge" id="nudge" style="margin-top:16px"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon, levelPill, relTime, toast, fmtClock, getPrefs } from "./js/ui.js";
+import { STORES, getStore, storeRatio, storeOccupied, storeCapacity } from "./js/data.js";
+import { startLive, lastUpdated } from "./js/live.js";
+import { levelOf, ZONE_KIND } from "./js/config.js";
+
+initChrome({ active: "live" });
+
+const params = new URLSearchParams(location.search);
+const pref = getPrefs();
+const prefStore = pref && STORES.some((s)=>s.id===pref.homeStoreId) ? pref.homeStoreId : null;
+let currentId = params.get("store") || prefStore || STORES[0].id;
+
+const ZONE_ICON = { machine:"dumbbell", free:"weight", cardio:"run", studio:"yoga", sauna:"sauna", cafe:"cup", works:"desk", shower:"drop" };
+
+function renderSwitch() {
+  document.getElementById("storeSwitch").innerHTML = STORES.map((s)=>{
+    const r = storeRatio(s); const lv = levelOf(r);
+    return `<button class="c-chip ${s.id===currentId?'is-active':''}" data-store="${s.id}" role="tab" aria-selected="${s.id===currentId}">
+      <span class="c-dot" data-level="${lv.id}" style="--lv:var(--lv-${lv.id})"></span>${s.name}</button>`;
+  }).join("");
+  document.querySelectorAll("[data-store]").forEach((b)=>b.addEventListener("click",()=>{
+    currentId=b.dataset.store; history.replaceState(null,"",`?store=${currentId}`); renderAll();
+  }));
+}
+
+function renderGauge(s){
+  const r=storeRatio(s); const lv=levelOf(r);
+  document.getElementById("gaugeCard").innerHTML=`
+    <div data-level="${lv.id}">
+      <div class="c-gauge" style="--val:${r};--size:230px">
+        <div class="c-gauge__inner">
+          <div class="c-gauge__pct">${Math.round(r*100)}<small>%</small></div>
+          <div class="c-gauge__label">${lv.label}</div>
+          <div class="c-gauge__sub">${storeOccupied(s)} / ${storeCapacity(s)} 人</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-display);font-weight:700;font-size:1.2rem">${s.name}</div>
+      <div class="t-faint" style="font-size:.82rem">${s.area}・24時間営業</div>
+    </div>`;
+}
+
+function renderSummary(s){
+  const r=storeRatio(s); const lv=levelOf(r);
+  // 今後で最も空く時間
+  const hour=new Date().getHours(); let best=hour,bv=1;
+  for(let h=hour+1;h<hour+8;h++){const hh=h%24; if(s.forecast[hh]<bv){bv=s.forecast[hh];best=hh;}}
+  document.getElementById("summary").innerHTML=`
+    <div class="c-card" data-level="${lv.id}">
+      <div class="cluster" style="justify-content:space-between"><span class="c-card__title">いまの判断</span>${levelPill(r)}</div>
+      <p class="c-card__body" style="margin-top:10px">${lv.id==="free"?"<b class='text-free'>今が狙い目。</b>待ちはほぼありません。":lv.id==="moderate"?"快適に使えます。人気の器具は一部待ちが出るかも。":`<b class='text-full'>${lv.label}。</b>${best!==hour?`<b>${best}時頃</b>が空きやすい見込み。`:""}`}</p>
+      <div class="cluster" style="margin-top:12px">
+        <button class="c-btn c-btn--primary c-btn--sm" id="notifyBtn">${icon('bell',{size:16})}空いたら通知</button>
+        <button class="c-btn c-btn--ghost c-btn--sm" data-install>${icon('download',{size:16})}アプリにする</button>
+      </div>
+    </div>
+    <div class="c-card">
+      <div class="cluster" style="gap:10px"><span class="c-avatar" style="width:38px;height:38px">${icon('women',{size:18})}</span>
+      <div><div style="font-weight:600;font-size:.92rem">人が少ない時間が選べる</div><div class="t-faint" style="font-size:.78rem">空いてる時間・店舗がわかるから、待たずに、安心して通える。</div></div></div>
+    </div>`;
+  const nb=document.getElementById("notifyBtn"); if(nb) nb.addEventListener("click",()=>toast(`${s.name}が空いたら通知します（デモ）`,{icon:'bell'}));
+}
+
+function renderZones(s){
+  document.getElementById("zoneGrid").innerHTML=s.zones.map((z)=>{
+    const r=z.capacity?z.occupied/z.capacity:0; const lv=levelOf(r);
+    return `<div class="c-zone" data-level="${lv.id}">
+      <div class="c-zone__top"><span class="c-zone__name"><span class="c-zone__icon">${icon(ZONE_ICON[z.kind]||'dumbbell',{size:18})}</span>${z.label}</span></div>
+      <div class="c-zone__meter"><div class="c-zone__fill" style="width:${Math.round(r*100)}%"></div></div>
+      <div class="c-zone__foot"><span>${lv.label}</span><span class="c-zone__count">${z.capacity-z.occupied}/${z.capacity} 空き</span></div>
+    </div>`;
+  }).join("");
+  // 目当てのゾーンが「あと何枠空いてるか」を一言で（来店判断の核）
+  const freest=[...s.zones].sort((a,b)=>(b.capacity-b.occupied)-(a.capacity-a.occupied))[0];
+  document.getElementById("zoneNote").innerHTML=`<span class="c-callout__icon">${icon('check')}</span><div class="c-callout__body"><b>${freest.label}</b>がいちばん余裕（あと${freest.capacity-freest.occupied}枠）。狙い目の時間は右の予報で。</div>`;
+}
+
+function renderGear(s){
+  const ratio=storeRatio(s);
+  document.getElementById("gearList").innerHTML=s.equipment.map((g)=>{
+    const fr=g.total?g.free/g.total:0; const lv=levelOf(1-fr);
+    const pips=Array.from({length:g.total},(_,i)=>`<span class="c-gear__pip ${i<g.free?'c-gear__pip--free':''}"></span>`).join("");
+    const wait=g.free>0?null:Math.round(6+ratio*12);
+    return `<div class="c-gear" data-level="${lv.id}">
+      <span class="c-gear__name">${g.name}</span>
+      <span class="c-gear__free">${g.free}<small>/${g.total}</small></span>
+      <span class="c-gear__bar">${pips}</span>
+      ${wait?`<span class="c-gear__wait">満席 — 推定待ち <b>${wait}分</b></span>`:`<span class="c-gear__wait">今すぐ使えます</span>`}
+    </div>`;
+  }).join("");
+}
+
+function renderForecast(s){
+  const now=new Date().getHours();
+  document.getElementById("forecast").innerHTML=s.forecast.map((v,h)=>{
+    const lv=levelOf(v);
+    return `<div class="c-forecast__col" data-now="${h===now}" data-level="${lv.id}" title="${h}時: ${Math.round(v*100)}%">
+      <div class="c-forecast__bar" style="height:${Math.max(6,Math.round(v*100))}%"></div>
+      <div class="c-forecast__hr">${h%3===0?h:''}</div></div>`;
+  }).join("");
+  // ナッジ（空き時間誘導）
+  let best=now,bv=1; for(let h=now+1;h<now+9;h++){const hh=h%24; if(s.forecast[hh]<bv){bv=s.forecast[hh];best=hh;}}
+  document.getElementById("nudge").innerHTML=`<div class="c-nudge__emoji">🌙</div><div class="c-nudge__txt"><b>${best}時</b>が今日の狙い目。空いてる時間に来館で<b>ドリンク1杯無料</b>（オフピーク特典・デモ）。</div>`;
+}
+
+function renderAll(){
+  const s=getStore(currentId);
+  renderSwitch(); renderGauge(s); renderSummary(s); renderZones(s); renderGear(s); renderForecast(s);
+  document.getElementById("updated").innerHTML=`<span class="live-dot" style="margin-right:6px"></span>最終更新 ${relTime(lastUpdated())}`;
+}
+
+renderAll();
+startLive();
+window.addEventListener("sukima:update", renderAll);
+</script>
+</body>
+</html>

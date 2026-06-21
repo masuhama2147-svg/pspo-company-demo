@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>経営AIエージェント｜三福HDを、松山発のAIカンパニーへ。</title>
+<meta name="description" content="顧客アプリとは別系統の、経営企画を支えるAIエージェントシステム。PSPOを松山のデータゲートウェイに、生活者の行動データ×AIで松山→全国→世界へ。市民規模のデータゆえ信頼性ファースト。一緒に構築しましょう。" />
+<meta name="theme-color" content="#16243a" />
+<link rel="manifest" href="manifest.webmanifest" />
+<!-- ローカル専用シークレット（gitignore済み・未配置でも地図はリストへ安全にフォールバック） -->
+<script src="js/config.local.js" onerror="this.remove()"></script>
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<meta property="og:title" content="経営AIエージェント — 三福HDを松山発のAIカンパニーへ" />
+<meta property="og:image" content="assets/og.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body class="surface-cine">
+<div class="cine-cursor" aria-hidden="true"></div>
+<main id="main">
+  <section class="pro-hero">
+    <div class="container">
+      <p class="pro-eyebrow reveal reveal-1">経営AIエージェント — 管理者・事業提案レイヤー</p>
+      <h1 class="reveal reveal-2">三福HDを、松山発の<span class="text-accent">AIカンパニー</span>へ。</h1>
+      <p class="pro-lead reveal reveal-3">顧客アプリ（P・SPOアプリ）とは<b>別系統</b>の、経営企画を支えるAIエージェント。PSPOを松山の<b>データゲートウェイ</b>に、生活者の行動データ×AIで <b>松山 → 全国 → 世界</b> へ。新しいデータを足す前に、いまあるデータを<b>計算</b>して意思決定材料を出す。</p>
+      <div class="pro-metric-row reveal reveal-4" id="heroMetrics"></div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="c-callout c-callout--warn io"><span class="c-callout__icon" id="sepIc"></span><div class="c-callout__body"><b>これは顧客が見る画面ではありません。</b> 経営判断のデータと顧客体験のデータは切り分けています。会員アプリは <a href="app.html" style="color:var(--accent)">P・SPOアプリ</a>。計算で示す意思決定材料の詳細は <a href="data.html" style="color:var(--accent)">データ戦略・都市知能</a> に。</div></div>
+      <figure class="photo-band io photo-band--ux" aria-hidden="true" style="margin-top:18px">
+        <img src="assets/pspo-visual-ai-data.png" alt="" loading="lazy" onerror="this.closest('.photo-band').remove()" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- 経営判断ダッシュボード -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">経営判断ダッシュボード</p><h2>現状データを“見える化”して、意思決定する。</h2><p>新しいデータを足す前に、すでにある顔認証・来館・利用データをAIエージェントが集約・分析。</p></div>
+      <div class="growth-cols">
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">店舗別 稼働（今）</span><span class="t-faint" style="font-size:.74rem">占有率・降順</span></div><div id="storePerf"></div></div>
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">活用する“現状データ”</span></div><ul id="dataSources" style="display:grid;gap:9px"></ul>
+          <p class="t-faint" style="font-size:.76rem;margin-top:10px">＝センサーを増やす前に、まず手元のデータで意思決定の精度を上げる（現実解）。</p></div>
+      </div>
+      <div class="c-card io" style="margin-top:18px"><div class="c-card__head"><span class="c-card__title">どの分析 → 何を決めるか</span><span class="c-badge c-badge--accent">情報収集AIエージェント</span></div><div class="comp-scroll"><table class="c-table" id="analysesTable"></table></div></div>
+      <div class="c-callout c-callout--privacy io" style="margin-top:18px"><span class="c-callout__icon" id="methodIc"></span><div class="c-callout__body"><b>混雑の“単一の正”＝顔認証入退館の純人数(in−out)。</b> 多数カメラは画角の重複・死角で同一人物を<b>二重計上</b>しやすく、設置・運用コストも高い＝データの有用性が落ちる。入退館ログの差分(in−out)なら<b>カメラ非依存・低コストで正確</b>に在館人数が出る。ゾーン粒度が要る場面のみ匿名センサで補完。<b>会員アプリには計測方法を出さず</b>、画面には人数・空き台数だけを射影する（顧客はカメラレス表現）。</div></div>
+    </div>
+  </section>
+
+  <!-- ロードマップ 松山→全国→世界 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">VISION</p><h2>松山から、世界へ。</h2><p>「AIエージェントシステムを松山で築くなら、PSPO攻略が前提」。生活者の暮らしに最も接点を持つPSPOが起点。</p></div>
+      <div class="c-steps io" id="roadmap"></div>
+    </div>
+  </section>
+
+  <!-- データゲートウェイ / 堀 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">なぜPSPOか — 堀(MOAT)</p><h2>PSPOは、松山の<span class="text-sea">データゲートウェイ</span>。</h2><p>「誰が・どこで・何をしているか」＝BtoCの“C”の行動データを、面で取得できる。これは自治体・県でも取れない。</p></div>
+      <div class="growth-cols">
+        <div class="io" id="gatewayMap"></div>
+        <div class="stack">
+          <div class="c-card io"><div class="c-card__head"><span class="c-card__title">松山市民の約3%、面で広がるデータ基盤</span><span class="c-badge c-badge--sea">第一者データ</span></div>
+            <p class="c-card__body">現状でも会員 <b id="memCount"></b>＝市内最大級の生活者ネットワーク。愛媛中心に<b id="storeCount"></b>店舗（使い放題）の多業態来館で、暮らしに広く接点。クッキー規制後に強い“原本データ”。</p></div>
+          <div class="c-card io"><ul id="moat" style="display:grid;gap:10px"></ul></div>
+        </div>
+      </div>
+      <div class="c-callout c-callout--privacy io" style="margin-top:18px"><span class="c-callout__icon" id="censusIc"></span><div class="c-callout__body"><b>国勢調査＝5年に1度の静的スナップショット。PSPO＝本人紐付き・連続更新の行動パネル。</b> footprint内では“センサス＞射影サンプル”。確定的(deterministic)な来館は、cookie・サンプルの確率推定とは精度の次元が違う。</div></div>
+      <div class="section-head io" style="margin-top:26px"><p class="t-eyebrow">実証済みの型（別スケール）</p><h3 style="font-size:1.2rem">世界の first-party データ事業が、同じ構造を証明している。</h3></div>
+      <div class="grid grid-cards io" id="analogs"></div>
+    </div>
+  </section>
+
+  <!-- AIエージェント群 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">AI × OSS エージェント群</p><h2>海外の急成長AIを、PSPOに移植する。</h2></div>
+      <div class="c-callout io" id="aiNote" style="margin-bottom:18px"></div>
+      <div class="move-grid io" id="aiMoves"></div>
+      <div class="c-card io" style="margin-top:18px"><div class="c-card__head"><span class="c-card__title">海外の急成長AI事例（示唆）</span></div><div id="overseas"></div></div>
+    </div>
+  </section>
+
+  <!-- 信頼性・ガバナンス -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">信頼性ファースト</p><h2>市民のデータを扱う。だから、ここが事業の前提。</h2><p>「松山市民の暮らしのデータ」を扱う以上、ガバナンスは後付けではなく中核。これが競争優位の“信頼”を生む。</p></div>
+      <div class="grid grid-cards io" id="gov"></div>
+      <div class="c-card io" style="margin-top:18px;border-left:4px solid var(--lv-full)">
+        <div class="c-card__head"><span class="c-card__title">誠実な限界と正統性</span><span class="c-badge c-badge--gold">過大評価しない</span></div>
+        <ul id="limits" style="display:grid;gap:10px"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- データビジネス / civic -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">データビジネス — 第二の収益線</p><h2>自治体が取れないものを、補完する。</h2><p>松山全体を俯瞰するデータ事業。すべて本人同意・匿名加工・公益性を前提に。</p></div>
+      <div class="move-grid io" id="civic"></div>
+    </div>
+  </section>
+
+  <!-- AIが解く経営課題（compact） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">AIエージェントが解く課題</p><h2>退会の構造と、需要の偏り。</h2></div>
+      <div class="c-callout c-callout--warn io" id="churnFraming" style="margin-bottom:18px"></div>
+      <div class="growth-cols">
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">退会者に占める割合（年齢別）</span></div><div id="churnByAge"></div><p class="t-faint" style="font-size:.78rem;margin-top:8px">18歳が突出（卒業＋県外進学）。離脱予測AIで先回り。</p></div>
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">需要平準化（松山大街道店）</span></div>
+          <div class="t-faint" style="font-size:.78rem;margin:4px 0">現状 → オフピーク誘導後</div>
+          <div class="c-forecast" id="fcNow"></div><div class="c-forecast" id="fcSmooth" style="margin-top:8px"></div>
+          <p class="t-faint" style="font-size:.76rem;margin-top:8px">同じ会員数で受入余地↑・満足度↑。出店前に1店舗効率を最大化。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 競合 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">競合ベンチ</p><h2>「可視化→行動変容→データ収益」の3段。</h2><p>PSPOは最後発でも、本人紐付きの第一者データで勝てる。</p></div>
+      <div class="c-card io comp-scroll"><table class="c-table" id="compTable"></table></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container container-narrow center io">
+      <h2 style="font-size:clamp(1.6rem,4.6vw,2.4rem)">一緒に、構築しましょう。</h2>
+      <p class="t-muted" style="margin-top:8px;max-width:60ch;margin-inline:auto">顧客体験（P・SPOアプリ）で信頼を取り、PSPOを松山のデータゲートウェイに。<br>そこから、三福HDを松山発のAIカンパニーへ。</p>
+      <div style="max-width:420px;margin:18px auto 0"><div class="cluster" style="justify-content:space-between"><span class="t-faint" style="font-size:.8rem">100店舗ロードマップ</span><span class="numeral" id="storeProg"></span></div>
+        <div class="c-meter" style="margin-top:6px"><div class="c-meter__fill" id="storeProgBar" style="--lv:var(--accent)"></div></div></div>
+      <div class="cluster" style="justify-content:center;margin-top:22px"><a class="c-btn c-btn--primary" href="critique.html">提案の根拠（批評）→</a><a class="c-btn c-btn--ghost" href="app.html">顧客アプリを見る</a></div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon, fmtInt } from "./js/ui.js";
+import { CHURN, COMPETITORS, AI_PLAYBOOK, AI_PLAYBOOK_NOTE, OVERSEAS_AI, PSPO_FACTS, ROADMAP, MOAT_POINTS, CIVIC_APPS, GOVERNANCE, DATA_ANALOGS, LIMITS, ANALYSES, DATA_SOURCES } from "./js/insights.js";
+import { getStore, STORES, storeRatio, storeOccupied, storeCapacity } from "./js/data.js";
+import { levelOf } from "./js/config.js";
+import { startLive } from "./js/live.js";
+import { renderMap } from "./js/widgets.js";
+import { cohortCurves, levelDemand, rankSites, MATSUYAMA_MESH } from "./js/stats.js";
+
+initChrome({ active: "growth" });
+document.getElementById("sepIc").innerHTML = icon("warn");
+document.getElementById("methodIc").innerHTML = icon("data");
+
+// ヒーロー：計算で出した意思決定材料（data.html と同じエンジン）
+const _stu = cohortCurves().find((c) => c.id === "student");
+const _dl = levelDemand(getStore("okaido").forecast);
+const _comp = [{ name: "大街道", lat: 33.8447, lng: 132.7679, attr: 42 }, { name: "空港通り", lat: 33.8230, lng: 132.7300, attr: 36 }, { name: "久米", lat: 33.8290, lng: 132.8120, attr: 30 }];
+const _cand = [{ name: "砥部", lat: 33.7490, lng: 132.7900, attr: 34 }, { name: "北条", lat: 33.9760, lng: 132.7720, attr: 30 }, { name: "東温", lat: 33.7909, lng: 132.8719, attr: 32 }];
+const _top = rankSites(_cand, _comp, MATSUYAMA_MESH)[0];
+const _M = (n, l, h) => `<div class="metric"><div class="metric__n">${n}</div><div class="metric__l">${l}</div>${h ? `<div class="metric__hint">${h}</div>` : ""}</div>`;
+document.getElementById("heroMetrics").innerHTML =
+  _M("約" + _stu.median.toFixed(1) + "ヶ月", "学生の中央生存", "早期離脱＝最大の課題") +
+  _M("+" + _dl.capacityUpliftPct + "%", "需要平準化の余地", "同一会員数で") +
+  _M("「" + _top.name + "」", "次の出店 最有力", "Huff商圏スコア最大") +
+  _M(fmtInt(CHURN.totals.members), "会員（2025）", "松山市民の約3%");
+
+// 経営判断ダッシュボード
+function renderStorePerf(){
+  document.getElementById("storePerf").innerHTML = [...STORES].sort((a,b)=>storeRatio(b)-storeRatio(a)).map((s)=>{
+    const r=storeRatio(s); const lv=levelOf(r);
+    return `<div style="margin:10px 0"><div class="cluster" style="justify-content:space-between;font-size:.84rem"><span>${s.name}</span><span class="numeral" style="color:var(--lv-${lv.id})">${Math.round(r*100)}%</span></div>
+      <div class="c-meter" style="margin-top:4px"><div class="c-meter__fill" data-level="${lv.id}" style="width:${Math.round(r*100)}%"></div></div></div>`;
+  }).join("");
+}
+renderStorePerf();
+document.getElementById("dataSources").innerHTML = DATA_SOURCES.map((d)=>`<li style="display:flex;gap:10px"><span class="text-sea" style="flex:none">${icon("data",{size:16})}</span><span style="font-size:.88rem">${d}</span></li>`).join("");
+document.getElementById("analysesTable").innerHTML = `<thead><tr><th>分析</th><th>使うデータ</th><th>決めること</th></tr></thead><tbody>${ANALYSES.map((a)=>`<tr><td><b>${a.analysis}</b></td><td>${a.data}</td><td>${a.decision}</td></tr>`).join("")}</tbody>`;
+
+// ロードマップ
+document.getElementById("roadmap").innerHTML = ROADMAP.map((r)=>`<div class="c-step"><div class="c-step__n">${icon(r.icon,{size:20,cls:'accent-ic'})}</div><div class="t-eyebrow" style="font-size:.7rem">${r.phase}</div><div class="c-step__t">${r.place}</div><div class="c-step__d">${r.body}</div></div>`).join("");
+
+// ゲートウェイ
+renderMap(document.getElementById("gatewayMap"));
+document.getElementById("memCount").textContent = fmtInt(CHURN.totals.members)+"名";
+document.getElementById("storeCount").textContent = PSPO_FACTS.stores;
+document.getElementById("moat").innerHTML = MOAT_POINTS.map((m)=>`<li style="display:flex;gap:10px"><span class="accent-ic" style="flex:none">${icon("check",{size:18})}</span><span style="font-size:.9rem">${m}</span></li>`).join("");
+document.getElementById("censusIc").innerHTML = icon("data");
+document.getElementById("analogs").innerHTML = DATA_ANALOGS.map((a)=>`<div class="c-card"><div class="c-card__title" style="font-size:.98rem">${a.region} ${a.name}</div><p class="c-card__body" style="font-size:.84rem;margin-top:6px">${a.what}</p><div class="c-callout c-callout--ok" style="margin-top:8px;padding:8px 10px"><span class="c-callout__icon">${icon("check",{size:14})}</span><div class="c-callout__body" style="font-size:.78rem">${a.lesson}</div></div></div>`).join("");
+document.getElementById("limits").innerHTML = LIMITS.map((l)=>`<li style="display:flex;gap:10px"><span class="text-full" style="flex:none">${icon("warn",{size:16})}</span><span style="font-size:.88rem">${l}</span></li>`).join("");
+
+// AIエージェント
+document.getElementById("aiNote").innerHTML = `<span class="c-callout__icon">${icon("sparkles")}</span><div class="c-callout__body">${AI_PLAYBOOK_NOTE}</div>`;
+document.getElementById("aiMoves").innerHTML = AI_PLAYBOOK.map((m)=>`<div class="c-card io">
+  <div class="cluster" style="justify-content:space-between;margin-bottom:8px"><span class="c-badge c-badge--sea">影響${m.impact}</span><span class="c-badge ${m.demo?'c-badge--accent':'c-badge--gold'}">${m.demo?'デモ可':'要実装'}</span></div>
+  <div class="c-card__title" style="font-size:1rem">${m.move}</div>
+  <p class="c-card__body" style="font-size:.86rem;margin-top:6px">${m.why}</p>
+  <div class="c-callout" style="margin-top:10px;padding:10px 12px"><span class="c-callout__icon">${icon("data",{size:16})}</span><div class="c-callout__body" style="font-size:.8rem"><b>AI/OSS:</b> ${m.aiOss}</div></div>
+  <div class="t-faint" style="font-size:.74rem;margin-top:8px">参考: ${m.by}</div></div>`).join("");
+document.getElementById("overseas").innerHTML = OVERSEAS_AI.map((o)=>`<div class="c-row"><div class="c-row__main"><div class="c-row__title">${o.region} ${o.name}</div><div class="c-row__sub">${o.what}</div></div><div class="t-faint" style="font-size:.78rem;max-width:46%;text-align:right">${o.lesson}</div></div>`).join("");
+
+// ガバナンス
+document.getElementById("gov").innerHTML = GOVERNANCE.map((g)=>`<div class="c-card"><div class="cluster" style="gap:10px;margin-bottom:6px"><span class="accent-ic">${icon("shield",{size:20})}</span><div class="c-card__title" style="font-size:.98rem">${g.p}</div></div><p class="c-card__body" style="font-size:.86rem">${g.d}</p></div>`).join("");
+
+// civic
+document.getElementById("civic").innerHTML = CIVIC_APPS.map((c)=>`<div class="c-card io">
+  <div class="c-card__title" style="font-size:1rem">${c.app}</div>
+  <div class="c-badge c-badge--sea" style="margin-top:6px">対象: ${c.who}</div>
+  <p class="c-card__body" style="font-size:.86rem;margin-top:8px">${c.why}</p>
+  <div class="c-callout c-callout--ok" style="margin-top:10px;padding:9px 11px"><span class="c-callout__icon">${icon("shield",{size:15})}</span><div class="c-callout__body" style="font-size:.78rem">信頼性: ${c.trust}</div></div></div>`).join("");
+
+// churn
+document.getElementById("churnFraming").innerHTML = `<span class="c-callout__icon">${icon("warn")}</span><div class="c-callout__body">${CHURN.framing} <b>＝全体の退会率が高いのではない</b>（居場所化で継続率はむしろ業界比良い）。AIエージェントは“学生コホートの定着”に効かせる。</div>`;
+const maxShare = Math.max(...CHURN.churned.map((c)=>c.share));
+document.getElementById("churnByAge").innerHTML = CHURN.churned.map((c)=>{ const hot=c.age===18;
+  return `<div style="margin:11px 0"><div class="cluster" style="justify-content:space-between;font-size:.86rem"><span>${c.age}歳</span><span class="numeral" style="color:${hot?'var(--lv-full)':'var(--fg-muted)'}">${c.share}%</span></div>
+  <div class="c-meter" style="margin-top:5px"><div class="c-meter__fill" style="--lv:${hot?'var(--lv-full)':'var(--accent)'};width:${Math.round(c.share/maxShare*100)}%"></div></div></div>`;
+}).join("");
+
+// demand
+const okaido = getStore("okaido");
+function fcRow(arr){ const now=new Date().getHours(); return arr.map((v,h)=>{const lv=levelOf(v);return `<div class="c-forecast__col" data-now="${h===now}" data-level="${lv.id}"><div class="c-forecast__bar" style="height:${Math.max(6,Math.round(v*100))}%"></div><div class="c-forecast__hr">${h%3===0?h:''}</div></div>`;}).join(""); }
+const smooth = okaido.forecast.map((v)=> v>0.72 ? 0.72 : (v<0.3 ? Math.min(0.55, v+0.16) : v));
+document.getElementById("fcNow").innerHTML = fcRow(okaido.forecast);
+document.getElementById("fcSmooth").innerHTML = fcRow(smooth);
+
+// competitors
+document.getElementById("compTable").innerHTML = `<thead><tr><th>企業</th><th>方式</th><th>ビジネスモデル</th><th>PSPOへの示唆</th></tr></thead><tbody>${COMPETITORS.map((c)=>`<tr><td><b>${c.region} ${c.name}</b></td><td>${c.modality}</td><td>${c.model}</td><td>${c.lesson}</td></tr>`).join("")}</tbody>`;
+
+// roadmap meter
+const prog = Math.min(100, Math.round(PSPO_FACTS.stores/100*100));
+document.getElementById("storeProg").textContent = PSPO_FACTS.stores+" / 100";
+document.getElementById("storeProgBar").style.width = prog+"%";
+
+startLive();
+window.addEventListener("sukima:update", ()=>{ renderMap(document.getElementById("gatewayMap")); renderStorePerf(); });
+</script>
+<script type="module" src="js/cine.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>P・SPO COMPANY — 地域の暮らしを、リアルタイムにつなぐ。</title>
+<meta name="description" content="P・SPOカンパニーの情報設計デモ。使う人へのアプリ、はじめての人への申し込み、経営の人へのAI・データ、地元企業への人流データをひとつの入口へ。" />
+<meta name="theme-color" content="#16243a" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<meta property="og:title" content="P・SPO COMPANY — 地域の暮らしを、リアルタイムにつなぐ。" />
+<meta property="og:image" content="assets/pspo-company-hero.png" />
+<meta property="og:type" content="website" />
+<!-- LCP: 生成したカンパニーヒーローを先読み -->
+<link rel="preload" as="image" href="assets/pspo-company-hero.png" fetchpriority="high" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body class="surface-cine">
+<div class="cine-cursor" aria-hidden="true"></div>
+<main id="main">
+
+  <!-- HERO（生成画像を“舞台”に、光・ノード・導線をCSSで動かす） -->
+  <section class="hero-brand">
+    <div class="hero-brand__media"><img id="heroImg" src="assets/pspo-company-hero.png" alt="" /></div>
+    <div class="hero-brand__scrim" aria-hidden="true"></div>
+    <div class="cine-particles" aria-hidden="true"></div>
+    <div class="hero-brand__motion" aria-hidden="true">
+      <span class="hero-orbit hero-orbit--a"></span>
+      <span class="hero-orbit hero-orbit--b"></span>
+      <span class="hero-pulse hero-pulse--a"></span>
+      <span class="hero-pulse hero-pulse--b"></span>
+      <span class="hero-pulse hero-pulse--c"></span>
+    </div>
+    <div class="container hero-brand__inner">
+      <div class="hero-brand__lead">
+        <p class="hero-brand__eyebrow reveal reveal-1">EHIME WELLNESS DATA PLATFORM</p>
+        <h1 class="hero-brand__big reveal reveal-2">PSPO<br>COMPANY</h1>
+        <p class="hero-brand__sub reveal reveal-3">地域の暮らしを、リアルタイムにつなぐ。</p>
+        <!-- Heroに実数値の信頼シグナルを（情報量UP） -->
+        <div class="hero-brand__stats reveal reveal-4" id="heroStats"></div>
+      </div>
+      <div class="hero-brand__panel levitate">
+        <div class="hero-price-card hero-join-card" aria-label="P・SPOの入会導線">
+          <span>会員になるには</span>
+          <b>まずは3分で確認</b>
+          <small>料金・初期費用・必要なものを次の画面でまとめて見られます。</small>
+        </div>
+        <div class="store-badges" id="heroBadges"></div>
+        <div class="store-qr" id="heroQr"></div>
+        <div class="hero-brand__cta">
+          <a class="c-btn c-btn--primary c-btn--lg" id="heroJoin" href="price.html">会員になるには</a>
+          <a class="c-btn c-btn--ghost c-btn--lg" id="heroTrial" target="_blank" rel="noopener">無料体験・見学を予約</a>
+        </div>
+        <p class="hero-brand__note">※ 改善提案デモ。写真は公式サイトのもの。ストアバッジは公式アプリ「P・SPO24」のダウンロードへ。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 役割ルーター：3つの体験（役割分担） -->
+  <section class="section" id="roles">
+    <div class="container">
+      <h2 class="big-head center io">あなたに合った、入口へ。</h2>
+      <p class="t-muted center io" style="margin:-18px auto 30px;max-width:54ch">P・SPO の体験は、<b class="text-accent">役割ごと</b>に分けて設計しています。使う人・はじめての人・自社経営・地元企業。</p>
+      <div class="role-router io" id="roleRouter"></div>
+    </div>
+  </section>
+
+  <!-- サービス（実アイコン・タップで店舗数） -->
+  <section class="section" id="services">
+    <div class="container">
+      <h2 class="big-head center io">月額一本で、これ全部。</h2>
+      <p class="t-muted center io" style="margin:-18px auto 22px;max-width:54ch">気になる業態をタップ → <b class="text-accent">何店舗で使えるか</b>と店舗一覧が見られます。</p>
+      <!-- antigravity流：業態アイコンが流れるショーケース（装飾） -->
+      <div class="icon-marquee io" style="margin:4px 0 26px" aria-hidden="true"><div class="icon-marquee__track" id="iconRow"></div></div>
+      <div class="visual-rail io" id="serviceVisualRail" aria-hidden="true"></div>
+      <div class="c-svcs io" id="svcs"></div>
+    </div>
+  </section>
+
+  <!-- 公式リール・ショーケース（実写フッテージを antigravity 流に“浮遊”させる） -->
+  <section class="section section--aurora" id="reels">
+    <div class="container">
+      <p class="t-eyebrow center io">REAL FOOTAGE — 公式リール</p>
+      <h2 class="big-head center io" style="margin-top:6px">施設の“いま”を、リールで。</h2>
+      <p class="t-muted center io" style="margin:-14px auto 26px;max-width:56ch">P・SPO公式Instagramのリールから。実際のジム・スタジオ・店舗の雰囲気を、そのまま。</p>
+      <div class="reel-showcase io" id="reelShowcase"></div>
+    </div>
+  </section>
+
+  <!-- 入会導線（トップでは金額を出しすぎず、詳細は料金ページへ） -->
+  <section class="section">
+    <div class="container container-narrow io">
+      <div class="aura-card center">
+        <div class="figure figure--hero" style="align-items:center">
+          <div class="figure__n figure__n--text">会員になるには</div>
+          <div class="figure__l" style="text-align:center">月額・初期費用・オプションを、初心者でも迷わない順番で確認できます。</div>
+        </div>
+        <div class="cluster" style="justify-content:center;margin-top:24px">
+          <a class="c-btn c-btn--primary c-btn--lg" href="price.html">会員になるには</a>
+          <a class="c-btn c-btn--ghost c-btn--lg" href="guide.html">はじめ方ガイド</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 実績 -->
+  <section class="section">
+    <div class="container">
+      <h2 class="big-head center io">数字で見る、P・SPO。</h2>
+      <div class="c-proof io" id="proof"></div>
+      <!-- 協賛チーム（地域貢献＝信頼シグナル） -->
+      <div id="teams" class="io" style="margin-top:32px"></div>
+    </div>
+  </section>
+
+  <!-- お知らせ（公式の最新情報＝ブランドが動いている信頼シグナル） -->
+  <section class="section-tight">
+    <div class="container">
+      <h2 class="big-head center io" style="font-size:clamp(1.4rem,4vw,2rem)">お知らせ</h2>
+      <div id="news" class="io" style="max-width:760px;margin-inline:auto"></div>
+    </div>
+  </section>
+
+  <!-- 申し込み（実 hacomono への導線・地域で方法が違う） -->
+  <section class="section" id="apply">
+    <div class="container">
+      <div class="c-card io apply-band">
+        <div>
+          <p class="t-eyebrow">はじめての方へ — 申し込み</p>
+          <h2 style="font-size:clamp(1.5rem,4vw,2.2rem);margin-top:4px">見学・体験から、入会まで。</h2>
+          <p class="t-muted" style="margin-top:8px;max-width:54ch">多くのエリアは<b>完全Web入会</b>。<b>西条・新居浜・大洲</b>は来店予約のうえ手続き。まずは気軽に見学・体験から（下のエリア別をご確認ください）。</p>
+          <div class="cluster" style="margin-top:18px">
+            <a class="c-btn c-btn--primary c-btn--lg" id="webJoin" target="_blank" rel="noopener">Web入会・予約（公式）</a>
+            <a class="c-btn c-btn--ghost c-btn--lg" href="guide.html">はじめ方ガイドを見る</a>
+          </div>
+        </div>
+        <img class="apply-band__img" id="applyImg" alt="" loading="lazy" />
+      </div>
+      <!-- エリア別の入会フロー（公式：地域で方法・支払いが違う＝迷わせない） -->
+      <div id="joinAreas" class="io" style="margin-top:40px"></div>
+      <!-- 低摩擦チャネル：公式LINE＋アプリ会員特典 -->
+      <div id="channels" class="io" style="margin-top:20px"></div>
+      <!-- 法人会員・福利厚生でのご利用（BtoB会員＝健康経営） -->
+      <div id="corporate" class="io" style="margin-top:20px"></div>
+    </div>
+  </section>
+
+  <!-- 最終CTA（締めは conversion＝無料体験予約。アプリ訴求はバッジに留める） -->
+  <section class="section center io section--aurora">
+    <div class="container container-narrow center">
+      <h2 class="big-head">まずは、無料体験から。</h2>
+      <p class="t-muted" style="margin:-14px auto 18px;max-width:48ch">実際の施設を確かめてから、入会するか決められます。</p>
+      <div class="cluster" style="justify-content:center;margin-top:6px">
+        <a class="c-btn c-btn--primary c-btn--lg" id="ctaTrial" target="_blank" rel="noopener">無料体験・見学を予約</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" href="price.html">会員になるには</a>
+      </div>
+      <div class="store-badges" id="ctaBadges" style="justify-content:center;margin-top:20px"></div>
+    </div>
+  </section>
+
+</main>
+
+<script type="module">
+import { initLanding, icon } from "./js/ui.js";
+import { OFFICIAL, PSPO_FACTS, CHURN, JOIN_AREAS, RESERVE_NOTE, SUPPORTING_TEAMS, NEWS } from "./js/insights.js";
+import { CORPORATE_PRICING } from "./js/pspo-info.js";
+import { renderServiceGrid } from "./js/services.js";
+import { GEO_STORES } from "./js/geo.js";   // 店舗数の単一真実源（地図・近い順・サービス件数と共有）
+import { VISUAL_RAIL } from "./js/visuals.js";
+import { mountReelShowcase } from "./js/reels.js";   // 公式リールの無重力ショーケース
+import "./js/cine.js";   // シネマティック演出（粒子登録＋カーソル光・非対応で安全に無効）
+
+initLanding();
+renderServiceGrid(document.getElementById("svcs"), OFFICIAL.icon);
+mountReelShowcase(document.getElementById("reelShowcase"));
+document.getElementById("serviceVisualRail").innerHTML =
+  `<div class="visual-rail__track">${VISUAL_RAIL.map((src) => `<figure class="visual-tile"><img src="${src}" alt="" loading="lazy" /></figure>`).join("")}</div>`;
+
+// 業態アイコンの横スクロール・ショーケース（2セット連結でシームレスループ）
+const MARQUEE = ["dumbbell","run","yoga","sauna","cup","desk","drop","weight","home","pulse","spark","shield","user","growth"];
+const chips = MARQUEE.map((g)=>`<span class="icon-chip">${icon(g,{size:22})}</span>`).join("");
+document.getElementById("iconRow").innerHTML = chips + chips;
+
+// 生成ヒーロー（読み込み失敗時は背景グラデのまま）
+const hero = document.getElementById("heroImg");
+hero.onerror = () => hero.remove();
+const applyImg = document.getElementById("applyImg");
+applyImg.src = "assets/pspo-visual-guide.png"; applyImg.onerror = () => applyImg.remove();
+document.getElementById("webJoin").href = OFFICIAL.hacomono;            // 入会（公式Web）
+document.getElementById("heroTrial").href = OFFICIAL.cta.trial;         // 体験・見学
+document.getElementById("ctaTrial").href = OFFICIAL.cta.trial;          // 最終CTAも体験予約
+// heroJoin「会員になる」は price.html（料金まるわかり）へ＝markupのhrefを使用
+
+// エリア別の入会フロー（地域で方法・支払い・必要書類が違う＝迷わせない）
+document.getElementById("joinAreas").innerHTML = `
+  <h3 class="big-head center" style="font-size:clamp(1.4rem,4vw,2rem);margin-bottom:8px">エリアで、入会方法が違います。</h3>
+  <p class="t-muted center" style="margin:0 auto 22px;max-width:58ch">${RESERVE_NOTE}</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(244px,1fr))">
+    ${JOIN_AREAS.map((a)=>`
+      <a class="c-card" href="${a.url}" target="_blank" rel="noopener">
+        <div class="c-card__title" style="font-size:1rem">${a.area}</div>
+        <p style="margin-top:10px;font-size:.9rem"><b class="text-accent">${a.how}</b> ／ 支払い：${a.pay}</p>
+        <p class="t-muted" style="font-size:.8rem;margin-top:8px;line-height:1.55">必要なもの：${a.docs}</p>
+        <span class="link-accent" style="font-size:.86rem;display:inline-block;margin-top:12px">このエリアで申し込む →</span>
+      </a>`).join("")}
+  </div>`;
+
+// 低摩擦チャネル：公式LINE＋アプリ会員特典
+document.getElementById("channels").innerHTML = `
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+    <div class="c-card">
+      <div class="c-card__title" style="font-size:1rem">${icon("bell",{size:18})} 公式LINE</div>
+      <p class="t-muted" style="font-size:.88rem;margin-top:8px">${OFFICIAL.line.note}</p>
+      <a class="c-btn c-btn--ghost c-btn--sm" href="${OFFICIAL.line.url}" target="_blank" rel="noopener" style="margin-top:12px">友だち追加</a>
+    </div>
+    <div class="c-card">
+      <div class="c-card__title" style="font-size:1rem">${icon("coin",{size:18})} アプリ会員特典</div>
+      <p class="t-muted" style="font-size:.88rem;margin-top:8px">${OFFICIAL.appPerks}</p>
+    </div>
+  </div>`;
+
+// お知らせ（公式の最新情報。個別記事URLがある項目だけリンク化＝トップ誤着地を防ぐ）
+document.getElementById("news").innerHTML = NEWS.map((n)=>{
+  const inner = `<div class="data-row__l" style="font-weight:600;display:flex;align-items:center;gap:10px;font-size:.92rem"><span style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--accent-ink);background:var(--cta);padding:3px 9px;border-radius:var(--r-pill);flex:none">${n.tag}</span>${n.t}</div>${n.url?`<div class="data-row__v" style="font-size:1rem;font-family:var(--font-body);color:var(--fg-muted)">→</div>`:""}`;
+  return n.url
+    ? `<a class="data-row" href="${n.url}" target="_blank" rel="noopener" style="text-decoration:none">${inner}</a>`
+    : `<div class="data-row">${inner}</div>`;
+}).join("");
+
+// 法人会員・福利厚生でのご利用（健康経営／従業員割引）— 公式の法人プランへ
+document.getElementById("corporate").innerHTML = `
+  <div class="corp-brief">
+    <div class="corp-brief__main">
+      <div class="c-card__title">${icon("cap",{size:18})} 法人会員・福利厚生でのご利用</div>
+      <p class="t-muted">従業員の健康経営・福利厚生に。<b>${CORPORATE_PRICING.minUsers}</b>から契約でき、人数が増えるほど1人あたりの月額が下がります。</p>
+      <div class="corp-mini">
+        ${CORPORATE_PRICING.plans.map((p)=>`<div><span>${p.name}</span><b>人数別</b><small>割引あり</small></div>`).join("")}
+      </div>
+      <p class="t-faint">${CORPORATE_PRICING.included[0]}。初期費用と人数別料金は、法人プランページで確認できます。</p>
+    </div>
+    <a class="c-btn c-btn--primary" href="${OFFICIAL.cta.corporate}" target="_blank" rel="noopener" style="flex:none">法人プランを見る</a>
+  </div>`;
+
+// 協賛チーム（地域貢献＝信頼シグナル）
+document.getElementById("teams").innerHTML = `
+  <div class="support-band">
+    <p class="t-eyebrow center">SUPPORTING TEAM — 協賛</p>
+    <h3>地域のスポーツチームを応援しています。</h3>
+    <div class="support-grid">
+      ${SUPPORTING_TEAMS.map((t)=>`
+        <a class="support-logo" href="${t.url}" target="_blank" rel="noopener" aria-label="${t.name}">
+          <img src="${t.logo}" alt="${t.name}" loading="lazy" />
+        </a>`).join("")}
+    </div>
+  </div>`;
+
+// 実ストアバッジ → 公式アプリ「P・SPO24」の実ストアへ直行（即ダウンロード）
+const B = OFFICIAL.appBadge, S = OFFICIAL.appStore;
+const badge = (img, label, url) => `<a class="store-badge-img" href="${url}" target="_blank" rel="noopener" aria-label="${label}でダウンロード"><img src="${img}" alt="${label}" loading="lazy" onerror="this.closest('.store-badge-img').classList.add('is-txt');this.remove();"><span>${label}</span></a>`;
+const badges = badge(B.apple, "App Store", S.apple) + badge(B.google, "Google Play", S.google);
+document.getElementById("heroBadges").innerHTML = badges;
+document.getElementById("ctaBadges").innerHTML = badges;
+
+// Heroの信頼スタット（単一真実源：店舗数は GEO_STORES.length で実データと必ず一致）
+const HERO_STATS = [
+  [GEO_STORES.length + "", "店舗 使い放題"],
+  [(CHURN.totals.members / 10000).toFixed(1) + "万+", "会員（2025年）"],
+  ["30+", "使い放題サービス"],
+  ["24h", "営業"],
+];
+document.getElementById("heroStats").innerHTML = HERO_STATS.map(([n, l]) => `<div class="hero-brand__stat"><b>${n}</b><span>${l}</span></div>`).join("");
+// QR（PCでスマホ読み取り）
+document.getElementById("heroQr").innerHTML = `
+  <div class="store-qr__item"><img src="${B.appleQr}" alt="App Store QR" loading="lazy" onerror="this.closest('.store-qr__item').remove()"><span>App Store</span></div>
+  <div class="store-qr__item"><img src="${B.googleQr}" alt="Google Play QR" loading="lazy" onerror="this.closest('.store-qr__item').remove()"><span>Google Play</span></div>
+  <span class="store-qr__lbl">スマホで読み取り</span>`;
+
+// 役割ルーター（4つの役割へ振り分け）
+const ROLES = [
+  { tag: "使う人", title: "アプリ（日常使い）", desc: "毎日の空き・住所で近い順・あなた最適化。1つのアプリで完結。", href: "app.html", ic: "home", cls: "" },
+  { tag: "はじめての人", title: "申し込み（見学→入会）", desc: "見学・体験から入会まで。料金まるわかり＋初期費用シミュレータ。", href: "guide.html", ic: "cap", cls: "" },
+  { tag: "事業者向け｜経営の人（自社）", title: "経営AI・データ", desc: "計算で出す意思決定材料／松山の都市知能／倫理。", href: "growth.html", ic: "data", cls: "role-card--biz" },
+  { tag: "事業者向け｜地元企業の人", title: "マチミル（人流データ × AI）", desc: "個人を追跡せず、松山の“人の流れ”を月額で。製造業・飲食の経営判断に。", href: "machimiru.html", ic: "growth", cls: "role-card--biz" },
+];
+document.getElementById("roleRouter").innerHTML = ROLES.map((r) => `
+  <a class="role-card ${r.cls}" href="${r.href}">
+    <div class="role-card__ic">${icon(r.ic, { size: 26 })}</div>
+    <div class="role-card__tag">${r.tag}</div>
+    <div class="role-card__title">${r.title}</div>
+    <p class="role-card__desc">${r.desc}</p>
+    <span class="role-card__go">ひらく ${icon("arrow", { size: 16 })}</span>
+  </a>`).join("");
+
+// 実績（HERO_STATS を再利用＝二重管理と数値不整合を解消）
+document.getElementById("proof").innerHTML = HERO_STATS.map(([n, l]) => `<div class="figure" style="align-items:center;gap:2px"><div class="figure__n" style="font-size:clamp(2.2rem,6vw,3.4rem)">${n}</div><div class="figure__l" style="text-align:center">${l}</div></div>`).join("");
+</script>
+</body>
+</html>

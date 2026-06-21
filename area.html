@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>店舗・空き｜P・SPO — エリアから探す</title>
+<meta name="description" content="P・SPOの実在店舗をエリア・カテゴリ・キーワードで検索。地図と空き状況をひと目で。公式サイトの店舗情報に準拠。" />
+<meta name="theme-color" content="#f4f6f9" />
+<link rel="manifest" href="manifest.webmanifest" />
+<!-- ローカル専用シークレット（gitignore済み・未配置でも地図はリストへ安全にフォールバック） -->
+<script src="js/config.local.js" onerror="this.remove()"></script>
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body>
+<main id="main">
+  <section class="section-tight">
+    <div class="container">
+      <p class="t-eyebrow">AREA — エリアから探す</p>
+      <h1 style="font-size:clamp(1.7rem,4.4vw,2.6rem)">店舗・空きを、探す。</h1>
+      <p class="t-muted" style="margin-top:6px;max-width:60ch">タップで詳細。<b class="text-accent">住所・駅・地名</b>か<b class="text-accent">現在地</b>から、近い順に。</p>
+
+      <!-- 住所・駅で近い順（位置情報は使わない・geo.jsで解決） -->
+      <div id="nearFinder" class="near-finder io" style="margin-top:16px"></div>
+
+      <figure class="photo-band io photo-band--ux" aria-hidden="true" style="margin-top:18px">
+        <img src="assets/pspo-visual-area-live.png" alt="" loading="lazy" onerror="this.closest('.photo-band').remove()" />
+      </figure>
+
+      <!-- スマートマップ -->
+      <div id="areaMap" class="io" style="margin-top:18px"></div>
+
+      <!-- 検索＋絞り込み -->
+      <div class="area-filters io" style="margin-top:18px">
+        <div id="areaSearch"></div>
+        <div class="area-filters__row">
+          <div class="area-filters__group"><span class="area-filters__label">エリア</span><div class="c-tag-row" id="areaChips"></div></div>
+          <div class="area-filters__group"><span class="area-filters__label">カテゴリ</span><div class="c-tag-row" id="catChips"></div></div>
+        </div>
+      </div>
+
+      <!-- エリアへジャンプ -->
+      <nav class="area-jump io" id="areaJump" aria-label="エリアへ移動"></nav>
+
+      <p class="t-faint io" id="areaCount" style="font-size:.82rem;margin-top:14px"></p>
+
+      <!-- 店舗（エリア別） -->
+      <div id="areaList" class="io" style="margin-top:8px"></div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon } from "./js/ui.js";
+import { levelOf } from "./js/config.js";
+import { GEO_STORES as REAL_STORES, geocodeQuery, nearestStores, fmtKm } from "./js/geo.js";
+import { renderMap, simRatio } from "./js/widgets.js";
+import { servicesOf, defOf } from "./js/services.js";
+import { hasLocationConsent, showConsentSheet } from "./js/consent.js";
+import { requestGeolocation } from "./js/facilities.js";
+
+initChrome({ active: "live" });
+renderMap(document.getElementById("areaMap"));
+
+// エリア（地域）グルーピング（公式の地域見出しに準拠）
+const REGIONS = [
+  { key: "matsuyama", title: "愛媛県 松山市・東温市・砥部エリア", areas: ["松山", "東温", "砥部", "伊予", "松前"] },
+  { key: "toyo",      title: "愛媛県 西条市・新居浜市エリア",     areas: ["西条", "新居浜"] },
+  { key: "nanyo",     title: "愛媛県 南予エリア（宇和島・大洲・内子）", areas: ["南予"] },
+  { key: "shimanami", title: "愛媛県 しまなみエリア（今治）",     areas: ["しまなみ"] },
+  { key: "aichi",     title: "愛知県 半田市エリア",               areas: ["愛知"] },
+  { key: "hokkaido",  title: "北海道エリア",                       areas: ["北海道"] },
+];
+function regionOf(s){ return REGIONS.find((r) => r.areas.includes(s.area)) || REGIONS[0]; }
+
+// カテゴリ（店名から推定）
+function categoryOf(name){
+  if (/Cafe|カフェ|Study|STUDY ROOM|スタディ/i.test(name)) return "カフェ・自習";
+  if (/SAUNA|サウナ|温泉|SPA|湯|Relax/i.test(name)) return "サウナ・SPA";
+  if (/BEAUTY|ビューティー|エステ|epi|アイケア|AGE-LAB|NATURAL/i.test(name)) return "ビューティー";
+  if (/カラオケ|Piano|Music/i.test(name)) return "カラオケ";
+  if (/WORKS|ワーク/i.test(name)) return "ワーク";
+  if (/LAUNDRY|ランドリー/i.test(name)) return "ランドリー";
+  if (/酒場|ダーツ|ビリヤード|古着|GALLERY|Lounge|Pig|うどん|食堂|フード|Event/i.test(name)) return "その他";
+  return "ジム";
+}
+const CATS = ["すべて", "ジム", "カフェ・自習", "サウナ・SPA", "ビューティー", "カラオケ", "ワーク", "ランドリー", "その他"];
+const AREAS = ["すべて", ...new Set(REAL_STORES.map((s) => s.area))];
+const dirUrl = (s) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.addr || (s.lat + "," + s.lng))}`;
+
+const state = { q: "", area: "すべて", cat: "すべて", near: null, nearLabel: "" };
+
+// 住所・駅で近い順（位置情報は使わない・geo.js で解決）
+const nearFinder = document.getElementById("nearFinder");
+nearFinder.innerHTML = `
+  <div class="c-search c-search--lg">
+    <span class="c-search__ic">${icon("target",{size:20})}</span>
+    <input id="nearInput" class="c-search__input" type="search" inputmode="search" autocomplete="off"
+      placeholder="住所・駅・地名で近い順（例: 大街道 / 西条 / 道後）" aria-label="住所・駅・地名で近い順に並べる" />
+    <button id="nearClear" class="c-search__clear" type="button" aria-label="入力をクリア" hidden>×</button>
+  </div>
+  <div class="cluster" style="margin-top:8px"><button class="c-btn c-btn--ghost c-btn--sm" id="gpsBtn">${icon("target",{size:15})} 現在地から近い順</button></div>
+  <p class="near-finder__hint" id="nearHint" role="status">住所・駅名を入れるか、現在地から。近い順に並びます。</p>`;
+const nearInput = document.getElementById("nearInput");
+const nearClear = document.getElementById("nearClear");
+const nearHint = document.getElementById("nearHint");
+
+// GPS パーソナライズ（オプトイン）。許可があれば現在地から近い順。
+document.getElementById("gpsBtn").addEventListener("click", () => {
+  if (hasLocationConsent()) useGps();
+  else showConsentSheet({ focus: "location", onChange: (c) => { if (c.location) useGps(); } });
+});
+async function useGps(){
+  nearHint.textContent = "📍 現在地を取得中…"; nearHint.className = "near-finder__hint";
+  const g = await requestGeolocation();
+  if (g) { state.near = { lat: g.lat, lng: g.lng }; state.nearLabel = "現在地"; nearInput.value = "";
+    nearHint.innerHTML = `${icon("check",{size:14})} <b>現在地</b>から近い順に並べました`; nearHint.className = "near-finder__hint near-finder__hint--ok"; render(); }
+  else { nearHint.textContent = "現在地を取得できませんでした。住所・駅名でも探せます。"; nearHint.className = "near-finder__hint near-finder__hint--warn"; }
+}
+let nearTimer = null;
+nearInput.addEventListener("input", (e) => {
+  const v = e.target.value.trim();
+  nearClear.hidden = !v;
+  clearTimeout(nearTimer);
+  nearTimer = setTimeout(() => resolveNear(v), 200); // Doherty: 即時感を保ちつつ過剰計算を抑制
+});
+nearClear.addEventListener("click", () => { nearInput.value = ""; nearClear.hidden = true; resolveNear(""); nearInput.focus(); });
+function resolveNear(v) {
+  if (!v) {
+    state.near = null; state.nearLabel = "";
+    nearHint.textContent = "住所・駅名を入れるか、現在地から。近い順に並びます。";
+    nearHint.className = "near-finder__hint";
+  } else {
+    const origin = geocodeQuery(v);
+    if (origin) {
+      state.near = origin; state.nearLabel = origin.label;
+      nearHint.innerHTML = `${icon("check",{size:14})} <b>${origin.label}</b> から近い順に並べました（距離は概略）`;
+      nearHint.className = "near-finder__hint near-finder__hint--ok";
+    } else {
+      state.near = null; state.nearLabel = "";
+      nearHint.innerHTML = `「${v}」が見つかりません。例: <b>大街道 / 道後 / 西条 / 新居浜 / 今治 / 宇和島</b>`;
+      nearHint.className = "near-finder__hint near-finder__hint--warn";
+    }
+  }
+  render();
+}
+
+// 検索ボックス
+document.getElementById("areaSearch").innerHTML = `<div class="c-search"><span class="c-search__ic">${icon("pulse",{size:18})}</span><input id="q" class="c-search__input" type="search" inputmode="search" placeholder="店名・住所で絞り込み（例: サウナ / カフェ）" aria-label="店舗を絞り込み" /></div>`;
+document.getElementById("areaChips").innerHTML = AREAS.map((a,i)=>`<button class="c-chip ${i===0?'is-active':''}" data-area="${a}">${a}</button>`).join("");
+document.getElementById("catChips").innerHTML = CATS.map((c,i)=>`<button class="c-chip ${i===0?'is-active':''}" data-cat="${c}">${c}</button>`).join("");
+
+document.getElementById("q").addEventListener("input",(e)=>{ state.q=e.target.value.trim(); render(); });
+document.querySelectorAll("[data-area]").forEach((b)=>b.addEventListener("click",()=>{ state.area=b.dataset.area; setActive("[data-area]",b); render(); }));
+document.querySelectorAll("[data-cat]").forEach((b)=>b.addEventListener("click",()=>{ state.cat=b.dataset.cat; setActive("[data-cat]",b); render(); }));
+function setActive(sel,btn){ document.querySelectorAll(sel).forEach((x)=>{x.classList.toggle("is-active",x===btn); x.setAttribute("aria-pressed",x===btn);}); }
+
+function match(s){
+  const n=state.q.toLowerCase();
+  const areaOk = state.area==="すべて" || s.area===state.area;
+  const catOk = state.cat==="すべて" || categoryOf(s.name)===state.cat;
+  const qOk = !n || `${s.name} ${s.addr} ${s.area}`.toLowerCase().includes(n);
+  return areaOk && catOk && qOk;
+}
+
+// 最小表示＝1行（空き色＋店名＋短い状態＋km）。タップで詳細（選択して初めて出す＝情報削減）。
+function storeRow(s, distKm){
+  const r=simRatio(s); const lv=levelOf(r);
+  const km = (typeof distKm === "number") ? `<span class="store-min__km">${fmtKm(distKm)}</span>` : "";
+  return `<button class="store-min" type="button" data-name="${s.name.replace(/"/g,'&quot;')}" data-level="${lv.id}">
+    <span class="c-dot" style="--lv:var(--lv-${lv.id})"></span>
+    <span class="store-min__name">${s.name}</span>
+    <span class="store-min__lvl" style="color:var(--lv-${lv.id}-text)">${lv.label}</span>
+    ${km}
+    <span class="store-min__go">${icon("arrow",{size:15})}</span>
+  </button>`;
+}
+
+function render(){
+  const matched = REAL_STORES.filter(match);
+  const listEl = document.getElementById("areaList");
+  const jumpEl = document.getElementById("areaJump");
+  // 近い順モード：距離(km)で並べたフラット一覧
+  if (state.near) {
+    const ranked = nearestStores(state.near, matched).list;
+    document.getElementById("areaCount").textContent = `${ranked.length} 店舗｜${state.nearLabel} から近い順`;
+    jumpEl.innerHTML = "";
+    listEl.innerHTML = ranked.length
+      ? `<div class="area-group__rows">${ranked.map((s)=>storeRow(s, s.distKm)).join("")}</div>`
+      : `<p class="t-muted">該当する店舗がありません。</p>`;
+    return;
+  }
+  // 通常：エリア別グルーピング
+  document.getElementById("areaCount").textContent = `${matched.length} 店舗`;
+  const groups = REGIONS.map((reg)=>({reg, list: matched.filter((s)=>regionOf(s).key===reg.key)})).filter((g)=>g.list.length);
+  jumpEl.innerHTML = groups.map((g)=>`<a class="c-chip" href="#reg-${g.reg.key}">${g.reg.title.replace(/^愛媛県 |^愛知県 /,"")}（${g.list.length}）</a>`).join("");
+  listEl.innerHTML = groups.length ? groups.map((g)=>`
+    <section class="area-group" id="reg-${g.reg.key}">
+      <h2 class="area-group__head">${g.reg.title}<span>${g.list.length}店舗</span></h2>
+      <div class="area-group__rows">${g.list.map((s)=>storeRow(s)).join("")}</div>
+    </section>`).join("") : `<p class="t-muted">該当する店舗がありません。</p>`;
+}
+
+render();
+window.addEventListener("sukima:update", ()=>{ render(); renderMap(document.getElementById("areaMap")); });
+
+// 店舗詳細シート（公式の各店フィールドを“整理”して1枚に）
+document.getElementById("areaList").addEventListener("click",(e)=>{
+  const b = e.target.closest("[data-name]"); if(!b) return;
+  const s = REAL_STORES.find((x)=>x.name===b.dataset.name); if(s) openStoreDetail(s);
+});
+function openStoreDetail(s){
+  if(document.querySelector(".svc-overlay")) return;
+  const r=simRatio(s); const lv=levelOf(r); const cat=categoryOf(s.name);
+  const svcs=[...servicesOf(s.name)].map((id)=>defOf(id)?.label||id);
+  // ドリンク在庫（愛大前店などの“コーヒー切れ”＝学生ピークで品切れ）。狙い目時間へ誘導＝行動変容。
+  const studentHeavy = /愛大|松大|清水町|樋又/.test(s.name + s.addr);
+  const drink = studentHeavy
+    ? { txt: "混雑時は残り少なめ（学生利用が多い）", k: "busy", tip: " ・ 14〜15時が狙い目" }
+    : { txt: "在庫あり", k: "free", tip: "" };
+  const ov=document.createElement("div");
+  ov.className="svc-overlay"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true"); ov.setAttribute("aria-label",`${s.name} の詳細`);
+  ov.innerHTML=`<div class="svc-card">
+    <button class="svc-close" type="button" aria-label="閉じる">×</button>
+    <div class="svc-head"><span class="svc-emoji">📍</span><div>
+      <h3 class="svc-title">${s.name}</h3>
+      <p class="svc-meta"><span class="c-level" data-level="${lv.id}" style="--lv:var(--lv-${lv.id})"><span class="c-dot"></span>${lv.label}・${Math.round(r*100)}%</span> ・ ${cat}</p></div></div>
+    <div class="sd-list">
+      <div class="sd-row"><span class="sd-row__k">エリア</span><span class="sd-row__v">${s.area}</span></div>
+      <div class="sd-row"><span class="sd-row__k">住所</span><span class="sd-row__v">${s.addr}</span></div>
+      <div class="sd-row"><span class="sd-row__k">営業</span><span class="sd-row__v">24時間・年中無休（多くの店舗）</span></div>
+      <div class="sd-row"><span class="sd-row__k">予約</span><span class="sd-row__v">予約制（無予約は待ちの場合あり）</span></div>
+      <div class="sd-row"><span class="sd-row__k">入館</span><span class="sd-row__v">QRコード</span></div>
+      <div class="sd-row"><span class="sd-row__k">ドリンク</span><span class="sd-row__v" style="color:var(--lv-${drink.k})">${drink.txt}${drink.tip}</span></div>
+      ${svcs.length?`<div class="sd-row" style="align-items:flex-start"><span class="sd-row__k">使えるサービス</span><span class="sd-tags">${svcs.map((t)=>`<span class="c-badge">${t}</span>`).join("")}</span></div>`:""}
+    </div>
+    <p class="t-faint" style="font-size:.74rem">※ スタッフ常駐時間・駐車・電話など店舗ごとの詳細は公式店舗ページでご確認ください（整理の実証）。</p>
+    <div class="svc-list" style="grid-auto-flow:column;display:flex;gap:8px;margin-top:12px">
+      <a class="c-btn c-btn--primary c-btn--block" href="${dirUrl(s)}" target="_blank" rel="noopener">${icon('arrow',{size:15})} 経路</a>
+      <a class="c-btn c-btn--ghost c-btn--block" href="live.html">空き状況</a>
+    </div></div>`;
+  document.body.appendChild(ov);
+  requestAnimationFrame(()=>ov.classList.add("show"));
+  document.documentElement.style.overflow="hidden";
+  const close=()=>{ ov.setAttribute("aria-hidden","true"); ov.classList.remove("show"); document.documentElement.style.overflow=""; setTimeout(()=>ov.remove(),260); };
+  ov.querySelector(".svc-close").addEventListener("click",close);
+  ov.addEventListener("click",(e)=>{ if(e.target===ov) close(); });
+  ov.addEventListener("keydown",(e)=>{ if(e.key==="Escape") close(); });
+  setTimeout(()=>ov.querySelector(".svc-close")?.focus(),280);
+}
+</script>
+</body>
+</html>

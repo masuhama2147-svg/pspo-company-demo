@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>はじめ方ガイド｜P・SPO — 見学・体験から入会まで、迷わない。</title>
+<meta name="description" content="見学・体験（有人¥500/無人無料）→ 入会（地域別フロー・必要書類・未成年）→ 持ち物・ルール（予約制）まで、はじめてのP・SPOを順を追って整理。" />
+<meta name="theme-color" content="#f4f6f9" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body>
+<main id="main">
+  <section class="section-tight">
+    <div class="container container-narrow">
+      <!-- 実在感の錨：はじめての不安を、実在する場所の写真でやわらげる（装飾・公式pspo.jp） -->
+      <figure class="photo-band io" aria-hidden="true">
+        <img src="assets/pspo-visual-guide.png" alt="" loading="lazy" onerror="this.closest('.photo-band').remove()" />
+      </figure>
+      <p class="t-eyebrow">START — はじめ方ガイド</p>
+      <h1 style="font-size:clamp(1.7rem,4.4vw,2.6rem)">はじめての P・SPO、迷わない。</h1>
+      <p class="t-muted" style="margin-top:6px;max-width:60ch">公式サイトで各所に散らばっている「見学・体験 → 入会 → 持ち物・ルール」を、<b class="text-accent">順を追って</b>整理しました。</p>
+
+      <!-- 予約制（埋もれさせない） -->
+      <div class="c-callout c-callout--warn io" id="reserveTop" style="margin-top:18px"></div>
+
+      <!-- ステップ -->
+      <div id="steps" style="margin-top:20px"></div>
+
+      <!-- 持ち物 / 未成年 -->
+      <div class="me-grid" style="margin-top:24px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));display:grid;gap:16px">
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">体験の持ち物</span></div><div class="guide-chips" id="bring"></div></div>
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">未成年の方へ</span></div><p class="c-card__body" id="minors" style="font-size:.9rem"></p></div>
+      </div>
+
+      <!-- ルール -->
+      <div class="c-card io" style="margin-top:16px">
+        <div class="c-card__head"><span class="c-card__title">利用のルール</span></div>
+        <div id="rules"></div>
+        <p class="t-muted" id="hours" style="font-size:.8rem;margin-top:12px"></p>
+      </div>
+
+      <!-- 退会・休会（解約の不安を解消＝加入の障壁を下げる） -->
+      <div class="c-card io" style="margin-top:16px">
+        <div class="c-card__head"><span class="c-card__title">退会・休会について</span></div>
+        <p class="c-card__body" id="cancel" style="font-size:.9rem"></p>
+      </div>
+
+      <div class="cluster io" style="justify-content:center;margin-top:24px">
+        <a class="c-btn c-btn--primary c-btn--lg" href="https://pspo24.hacomono.jp" target="_blank" rel="noopener">Web入会・予約（公式）</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" href="price.html">料金を見る</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" href="area.html">近くの店舗を探す</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon } from "./js/ui.js";
+import { GUIDE } from "./js/pspo-info.js";
+
+initChrome({ active: "" });
+
+document.getElementById("reserveTop").innerHTML = `<span class="c-callout__icon">${icon("warn")}</span><div class="c-callout__body"><b>P・SPOは予約制です。</b> ${GUIDE.rules[0].d} まずは見学・体験から。</div>`;
+
+const STEPS = [
+  { n: "1", t: "まず、見学・体験", d: `気軽に試せます。<b>有人店舗：¥${GUIDE.trial.staffed.price}／${GUIDE.trial.staffed.dur}</b>、<b>無人店舗：無料／${GUIDE.trial.unstaffed.dur}</b>（${GUIDE.trial.unstaffed.note}）。`,
+    chips: ["Webで予約（pspo24.hacomono.jp）", "場所と日時を選ぶ", "QRで入館"] },
+  { n: "2", t: "入会する（地域で方法が違う）", d: `<b>${GUIDE.join.webRegions.join("・")} は完全Web入会</b>。${GUIDE.join.webNote}`,
+    chips: GUIDE.join.storeFlow },
+  { n: "3", t: "必要なもの", d: "入会手続きには次が必要です。",
+    chips: GUIDE.join.docs },
+];
+document.getElementById("steps").innerHTML = STEPS.map(s=>`
+  <div class="guide-step io">
+    <div class="guide-step__n">${s.n}</div>
+    <div><div class="guide-step__t">${s.t}</div><div class="guide-step__d">${s.d}</div>
+      <div class="guide-chips">${s.chips.map(c=>`<span class="guide-chip">${icon("check",{size:13,cls:"accent-ic"})}${c}</span>`).join("")}</div></div>
+  </div>`).join("");
+
+document.getElementById("bring").innerHTML = GUIDE.bring.map(b=>`<span class="guide-chip">${b}</span>`).join("");
+document.getElementById("minors").textContent = GUIDE.minors;
+document.getElementById("rules").innerHTML = GUIDE.rules.map(r=>`
+  <div class="c-row"><div class="c-row__main"><div class="c-row__title" style="font-size:.92rem">${r.t}</div><div class="c-row__sub">${r.d}</div></div></div>`).join("");
+document.getElementById("hours").textContent = "営業時間：" + GUIDE.hours;
+document.getElementById("cancel").textContent = GUIDE.cancel;
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>なぜ、この戦略か｜三福HD経営層への説明 — P・SPO</title>
+<meta name="description" content="学生コホートの過剰退会という事実から、顧客体験→信頼→データの蛇口→会員価値・経営判断・松山のEBPMへ。計算で示す意思決定材料と、高い倫理。出典・限界つきで、なぜこの戦略かを順序立てて説明します。" />
+<meta name="theme-color" content="#16243a" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<meta property="og:title" content="なぜ、この戦略か — 三福HD経営層への説明" />
+<meta property="og:image" content="assets/og.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body class="surface-cine">
+<div class="cine-cursor" aria-hidden="true"></div>
+<main id="main">
+
+  <section class="pro-hero">
+    <div class="container">
+      <p class="pro-eyebrow reveal reveal-1">EXECUTIVE BRIEF — 三福HD 経営層へ</p>
+      <h1 class="reveal reveal-2">なぜ、<span class="text-accent">この戦略</span>か。</h1>
+      <p class="pro-lead reveal reveal-3">結論：<b>顧客体験で信頼を取り、PSPOを松山のデータゲートウェイにする。</b>そのデータを高い倫理のもと、会員価値（退会抑止）・経営判断・松山の発展(EBPM)へ還元する。以下、<b>事実 → 打ち手 → 堀 → 計算 → 倫理 → 行程</b>の順で、出典と限界つきで説明します。</p>
+      <div class="pro-metric-row reveal reveal-4" id="heroMetrics"></div>
+    </div>
+  </section>
+
+  <div id="chapters"></div>
+
+  <section class="section center io">
+    <div class="container container-narrow center">
+      <h2 class="big-head">一緒に、構築しましょう。</h2>
+      <p class="t-muted" style="margin-top:8px;max-width:60ch;margin-inline:auto">小さく確実に（まず手元データの計算と顧客体験）始め、信頼が貯まるほど価値が増える。松山発のAIカンパニーへ。</p>
+      <div class="cluster" style="justify-content:center;margin-top:22px">
+        <a class="c-btn c-btn--primary c-btn--lg" href="data.html">計算の詳細（データ戦略）</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" href="app.html">顧客アプリを体験</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon, fmtInt } from "./js/ui.js";
+import { PSPO_FACTS, CHURN, MOAT_POINTS, LIMITS, ROADMAP } from "./js/insights.js";
+import { getStore } from "./js/data.js";
+import { cohortCurves, levelDemand, rankSites, MATSUYAMA_MESH } from "./js/stats.js";
+
+initChrome({ active: "brief" });
+
+const stu = cohortCurves().find((c) => c.id === "student");
+const all = cohortCurves().find((c) => c.id === "all");
+const dl = levelDemand(getStore("okaido").forecast);
+const comp = [{ name: "大街道", lat: 33.8447, lng: 132.7679, attr: 42 }, { name: "空港通り", lat: 33.8230, lng: 132.7300, attr: 36 }, { name: "久米", lat: 33.8290, lng: 132.8120, attr: 30 }];
+const cand = [{ name: "砥部", lat: 33.7490, lng: 132.7900, attr: 34 }, { name: "北条", lat: 33.9760, lng: 132.7720, attr: 30 }, { name: "東温", lat: 33.7909, lng: 132.8719, attr: 32 }];
+const top = rankSites(cand, comp, MATSUYAMA_MESH)[0];
+
+const M = (n, l, h) => `<div class="metric"><div class="metric__n">${n}</div><div class="metric__l">${l}</div>${h ? `<div class="metric__hint">${h}</div>` : ""}</div>`;
+document.getElementById("heroMetrics").innerHTML =
+  M(fmtInt(CHURN.totals.members), "会員（2025）", "松山市民の約3%（現状）") +
+  M(PSPO_FACTS.stores, "多業態店舗", "面で暮らしに接点") +
+  M("約" + stu.median.toFixed(1) + "ヶ月", "学生の中央生存", "最大の課題＝早期離脱") +
+  M("100%", "非PII射影", "顧客面は集計のみ");
+
+const CH = [
+  { n: "01", t: "いま起きていること（事実）",
+    b: `PSPOは急成長（2016年約350名 → 2025年 約1.6万人、2026年に愛媛80店舗突破）。継続率は居場所化で<b>業界比むしろ良い</b>。問題は“全体の退会率”ではなく、<b>学生コホートの過剰退会</b>：在籍に占める学生12.49%に対し、退会者に占める割合は16.3%、18歳が突出。生存分析でも学生の中央生存は<b>約${stu.median.toFixed(1)}ヶ月</b>＝全会員（約${all.median.toFixed(1)}ヶ月）の半分以下。加えてデジタル体験が弱い（混雑はカメラ映像を目視・アプリは外部ブラウザへ遷移・パーソナライズ皆無）。`,
+    src: "出典：学生BPO一次資料（PSPOさんの課題.xlsx 2025-05-31）／公式サイト実地確認／本書の生存分析（観測平均在籍に整合）。" },
+  { n: "02", t: "だから、何をするか（打ち手）",
+    b: `まず<b>顧客体験（P・SPOアプリ）で勝つ</b>：①登録エリアの地図で“今空いてる”がひと目／②住所・駅で近い順／③通い方に合わせたパーソナライズ／④1つのアプリで完結（外部遷移ゼロ・ワンタップ・ログイン）。そして<b>取得済みの来館データを会員に還元</b>（ランク・連続記録・利用連動割引）。退会の多い18歳・女性・学生に効かせ、<b>習慣化</b>（Fogg/Hooked/自己決定理論）で継続を商品の中心に。顧客面は<b>カメラレス・非PII</b>を貫く。`,
+    src: "設計：chocoZAP/競合研究＋HCI理論。退会抑止は新規獲得CACより安く、100店舗化の分母を守る。" },
+  { n: "03", t: "なぜPSPOなのか（堀＝MOAT）",
+    b: `松山を対象に都市データ事業を作る瞬間、PSPOのデータが前提になる。PSPOだけが「本人紐付き・連続・多業態・footprint内センサス」の行動パネルを持ち、これは行政が国勢調査やアンケートでは取れない粒度・頻度。親会社・三福綜合不動産の空き店舗活用で<b>観測点（店舗）を低コストで面的に増やせる</b>。顧客体験がデータの“蛇口”＝使われるほど賢くなる好循環。`,
+    moat: true,
+    src: "実証済みの型（別スケール）：Amazon／Tesco Clubcard（80%浸透・first-party ROAS 6.60）／Ponta・楽天／Kroger。構造の相似であり規模の同等ではない。" },
+  { n: "04", t: "計算が、意思決定になる",
+    b: `“新しいデータを足す前に、いまあるデータを計算する”。本提案は在ブラウザで統計を実装：<b>生存分析</b>（誰が・いつ辞めるかを先回り）、<b>需要平準化</b>（同一会員数で受入余地<b>+${dl.capacityUpliftPct}%</b>・ピーク<b>−${dl.shavedPct}%</b>）、<b>Huff出店モデル</b>（次の最有力は「${top.name}」＝商圏スコア最大）、<b>人流の重力モデル/OD</b>（松山の流動を面で）。意思決定に直結する数字を出します。<b>本書は一次資料＋代表値での実証</b>であり、実運用では実データで再校正します（過大評価しない）。`,
+    metrics: true,
+    src: "計算根拠：本書のデータ戦略ページ（data.html）。手法：指数生存（パラメトリック・観測平均在籍に整合）・時系列平滑化・Huff・重力モデル・k匿名/差分プライバシー。実運用の生存推定は lifelines(Kaplan-Meier/Cox) を想定。" },
+  { n: "05", t: "高い倫理＝競争優位の“信頼”",
+    b: `市民規模のデータを扱う以上、倫理は後付けでなく中核。<b>目的限定（APPI）・本人同意・匿名加工（k-匿名化／差分プライバシー）・オプトアウト・公平性監視・human-in-the-loop</b>。そして<b>正統性</b>——「誰の許可で都市を測るのか」に、行政・市民との合意と説明責任で応える。位置情報は<b>オプトイン・粗粒度・常時追跡なし</b>、拒否しても全機能が使える。この信頼そのものが堀になる。`,
+    src: "設計：個人情報保護法（APPI）の利用目的変更・通知公表・匿名加工情報基準。Kroger/84.51の教訓＝堀は“本人紐付きデータの所有”。" },
+  { n: "06", t: "松山 → 全国 → 世界（行程）と、誠実な限界",
+    b: `Phase1 松山（PSPO攻略・データ基盤）→ Phase2 全国（のれん分け×AIオペ）→ Phase3 世界（都市OSをSaaS輸出）。三福HDを<b>松山発のAIカンパニー</b>へ。ただし誠実に：会員1.5万は松山市民の数%＝“代表”でなく“補完”、同意の射程は入退館認証であり都市/広告/第三者は別目的、スケールは early-stage パネル。<b>過大評価しない</b>ことが、長期の信頼を作る。`,
+    limits: true,
+    src: "出典：2030ビジョン（のれん分けカンパニー制）。限界はWF3検証（代表性・同意の射程・匿名加工の実効性・スケールの現実）。" },
+];
+
+document.getElementById("chapters").innerHTML = CH.map((c) => `
+  <section class="section-tight">
+    <div class="container">
+      <div class="brief-ch io">
+        <div class="brief-ch__n">${c.n}</div>
+        <div class="brief-ch__body">
+          <h2 class="brief-ch__t">${c.t}</h2>
+          <p class="brief-ch__p">${c.b}</p>
+          ${c.metrics ? `<div class="pro-metric-row" style="margin-top:16px">${
+            M("+" + dl.capacityUpliftPct + "%", "需要平準化の余地") + M("−" + dl.shavedPct + "%", "ピーク削減") + M("「" + top.name + "」", "次の出店 最有力") + M("約" + stu.median.toFixed(1) + "ヶ月", "学生の中央生存")
+          }</div>` : ""}
+          ${c.moat ? `<ul class="brief-ch__list">${MOAT_POINTS.slice(0, 3).map((m) => `<li><span class="accent-ic">${icon("check", { size: 16 })}</span>${m}</li>`).join("")}</ul>` : ""}
+          ${c.limits ? `<ul class="brief-ch__list">${LIMITS.slice(0, 3).map((l) => `<li><span class="text-full">${icon("warn", { size: 15 })}</span>${l}</li>`).join("")}</ul>` : ""}
+          <p class="brief-ch__src">${c.src}</p>
+        </div>
+      </div>
+    </div>
+  </section>`).join("");
+</script>
+<script type="module" src="js/cine.js"></script>
+</body>
+</html>

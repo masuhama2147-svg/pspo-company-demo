@@ -1,0 +1,112 @@
+/* ============================================================================
+   motion.css ── アニメーション / マイクロインタラクション
+   5層CSSの最終層。CSS-only。reduced-motion を最優先で尊重する。
+   ========================================================================== */
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--lv) 45%, transparent); }
+  50%      { box-shadow: 0 0 0 7px color-mix(in srgb, var(--lv) 0%, transparent); }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes cctvScan {
+  from { background-position: 0 0; }
+  to   { background-position: 0 60px; }
+}
+
+/* 計器の「生きてる感」: アクセントのライブ点 */
+@keyframes livePing {
+  0%   { transform: scale(1);   opacity: .9; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.live-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.live-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); animation: livePing 2s ease-out infinite; }
+
+/* ページロード: 段階的な立ち上がり (staggered reveal) */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; animation: fadeUp .7s cubic-bezier(.2,.8,.2,1) forwards; }
+.reveal-1 { animation-delay: .05s; }
+.reveal-2 { animation-delay: .14s; }
+.reveal-3 { animation-delay: .23s; }
+.reveal-4 { animation-delay: .32s; }
+.reveal-5 { animation-delay: .41s; }
+.reveal-6 { animation-delay: .50s; }
+
+/* スクロール出現 (IntersectionObserver で .in を付与) */
+.io { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.io.in { opacity: 1; transform: none; }
+
+/* カウントアップ中の数字の微発光 */
+@keyframes numGlow { 0%,100% { text-shadow: none; } 50% { text-shadow: 0 0 18px var(--accent-glow); } }
+
+/* トースト */
+@keyframes toastIn { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+.toast { animation: toastIn .3s ease forwards; }
+
+/* グラデーション・オーラ（ヒーロー背景） */
+@keyframes auraFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(2%, -3%) scale(1.06); }
+}
+.aura { animation: auraFloat 14s ease-in-out infinite; }
+
+/* Aurora の流れ（base.css の body::before が参照） */
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate3d(-2.5%, 2%, 0) scale(1.08) rotate(2deg); }
+  100% { transform: translate3d(2%, -1.5%, 0) scale(1.05) rotate(-1.5deg); }
+}
+
+/* ボタンの“触覚”: 主要CTAは浮く→押すと沈む（Dohertyの即時反応） */
+.c-btn--primary, .c-btn--sea, .c-btn--xl { will-change: transform; }
+.c-btn--primary:hover, .c-btn--sea:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -12px var(--accent-glow); }
+.c-btn--primary:active, .c-btn--sea:active, .c-btn--xl:active { transform: translateY(1px) scale(.985); }
+
+/* スクロール出現をひと段プレミアムに（わずかなスケールイン） */
+.io { transform: translateY(22px) scale(.99); }
+
+/* 無重力（lift）の質感: ガラスカード等の微浮遊。reduced-motion で停止。 */
+@keyframes levitate { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.levitate { animation: levitate 6.5s ease-in-out infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .levitate { animation: none; } }
+
+/* ===== スクロール駆動の出現（研究反映: deep-research確証）=====
+   対応ブラウザ(Chromium/Safari)はコンポジタで実行＝メインスレッド負荷ゼロ・JS不要。
+   非対応(Firefox等)は既存の .io(IntersectionObserver で .in 付与) にフォールバック。
+   重要則: animation-timeline は animation ショートハンドの“後”に宣言（後でないと auto に戻る）。
+   完了キーフレームは 50% に置き、画面内で出現が完了するようにする。 */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .io {
+      opacity: 1; transform: none;                 /* JSフォールバックの初期状態を解除 */
+      animation: ioReveal 1ms linear both;          /* duration:1ms（Firefox対策・タイムラインが進行を支配） */
+      animation-timeline: view();                   /* ← ショートハンドの後で宣言 */
+      animation-range: entry 0% cover 38%;          /* 入ってきて画面内で完了 */
+    }
+  }
+}
+@keyframes ioReveal {
+  from { opacity: 0; transform: translateY(22px) scale(.99); }
+  50%  { opacity: 1; transform: none; }
+}
+
+/* ===== reduced-motion: すべての装飾モーションを停止 ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal, .io { opacity: 1 !important; transform: none !important; }
+  .io { animation-timeline: none !important; }   /* スクロール駆動も無効化（研究の推奨パターン） */
+  .c-ticker__track, .c-events__track { animation: none !important; }
+}

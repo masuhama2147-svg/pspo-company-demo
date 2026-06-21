@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>料金まるわかり｜P・SPO — P・SPO の料金を、ひと目で。</title>
+<meta name="description" content="月額・オプション・初期費用・キャンペーンを1画面に整理。開始日とプランから初期費用の総額を計算できる初期費用シミュレータつき。" />
+<meta name="theme-color" content="#f4f6f9" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body>
+<main id="main">
+  <section class="section-tight">
+    <div class="container">
+      <p class="t-eyebrow io">PRICE — 料金まるわかり</p>
+      <!-- 焦点数字（巨大figure）＋「全プラン24時間通い放題」＋価値 -->
+      <div id="priceHero" class="io"></div>
+
+      <!-- 初心者向け：料金の見方 -->
+      <div id="priceGuide" class="io" style="margin-top:22px"></div>
+
+      <!-- 新規獲得の主動線：入会の前に、まず無料体験・見学 -->
+      <div id="priceCta" class="io" style="margin-top:26px"></div>
+
+      <!-- メインの料金プラン（BASIC / SPA / DAY） -->
+      <div id="planCards" class="io" style="margin-top:26px"></div>
+
+      <!-- プランビルダー（Apple Mac風：足すほど料金UP＆使える施設が分かる＝初心者にやさしい） -->
+      <div class="io" style="margin-top:44px">
+        <h2 class="big-head" style="font-size:clamp(1.5rem,4vw,2.2rem);margin-bottom:6px">あなたのプランを、組み立てる。</h2>
+        <p class="t-muted" style="max-width:58ch;margin-bottom:22px">ベースを選んで、必要なものを足すだけ。<b class="text-accent">料金</b>と<b class="text-accent">使えるようになる施設</b>が、その場で分かります。</p>
+        <div class="builder" id="builder"></div>
+      </div>
+
+      <!-- 実在感の錨（薄型・装飾・公式pspo.jp） -->
+      <figure class="photo-band io" aria-hidden="true" style="margin-top:30px">
+        <img src="assets/pspo-visual-price.png" alt="" loading="lazy" onerror="this.closest('.photo-band').remove()" />
+      </figure>
+
+      <!-- 法人契約 -->
+      <div id="corporatePrice" class="io" style="margin-top:30px"></div>
+
+      <div class="price-grid" style="margin-top:28px">
+        <div class="stack">
+          <div class="c-card io">
+            <div class="c-card__head"><span class="c-card__title">はじめの費用</span></div>
+            <div id="initTable"></div>
+            <details class="app-more" style="margin-top:14px">
+              <summary>対象の方だけにかかる費用（初回のみ）を見る</summary>
+              <div id="initOnce" style="padding:0 20px 18px"></div>
+            </details>
+          </div>
+          <div class="c-card io">
+            <div class="c-card__head"><span class="c-card__title">月額オプション</span></div>
+            <div id="options"></div>
+          </div>
+          <div class="c-card io">
+            <div class="c-card__head"><span class="c-card__title">キャンペーンで安くなる</span><span class="c-badge c-badge--accent">お得</span></div>
+            <div id="campaigns"></div>
+          </div>
+          <div class="c-card io">
+            <div class="c-card__head"><span class="c-card__title">都度利用（会員でなくても）</span></div>
+            <div id="dropIn"></div>
+          </div>
+        </div>
+
+        <!-- 初期費用シミュレータ：結果を大型ディスプレイ数字で -->
+        <div class="c-card c-card--glow io sim">
+          <div class="c-card__head"><span class="c-card__title">初期費用シミュレータ</span></div>
+          <div class="sim__field"><span>プラン</span><div class="sim__seg" id="simPlan"></div></div>
+          <div class="sim__field"><span>キャンペーン</span><div class="sim__seg" id="simCamp"></div></div>
+          <label class="sim__field"><span>開始日：今月の残り日数 <b id="daysVal" class="mono"></b>日</span>
+            <input id="days" type="range" min="1" max="31" step="1" value="15" style="accent-color:var(--accent);min-height:44px;width:100%" /></label>
+          <div class="sim__total">
+            <div class="t-faint" style="font-size:.78rem">あなたの初期費用（概算）</div>
+            <div class="sim__total-n" id="simTotal"></div>
+            <div class="sim__break" id="simBreak"></div>
+          </div>
+          <p class="t-faint" style="font-size:.74rem;margin-top:12px">※ 整理の実証（概算）。日割り・最新の料金/キャンペーンは公式の初期費用シミュレータで確定してください。</p>
+          <a class="c-btn c-btn--primary c-btn--block" href="https://pspo24.hacomono.jp" target="_blank" rel="noopener" style="margin-top:12px">入会する（公式Web）</a>
+          <a class="c-btn c-btn--ghost c-btn--block" href="guide.html" style="margin-top:8px">はじめ方ガイドへ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, fmtInt, icon } from "./js/ui.js";
+import { PRICING, GUIDE, PLAN_BUILDER, CORPORATE_PRICING } from "./js/pspo-info.js";
+import { PSPO_FACTS, OFFICIAL } from "./js/insights.js";
+
+initChrome({ active: "" });
+const yen = (n) => (typeof n === "number" ? "¥" + fmtInt(n) : n);
+
+// 価格ヒーロー：焦点数字（巨大）＋24時間通い放題＋価値の一行
+document.getElementById("priceHero").innerHTML = `
+  <div class="figure figure--hero" style="margin-top:8px">
+    <div class="figure__n">${yen(PRICING.monthly)}<small>/月 税込</small></div>
+    <div class="figure__l">税抜 ${yen(PRICING.monthlyEx)}（ベーシック）。<b>${PRICING.allHours}。</b>30種類以上のサービスが、月額一本。愛媛ほか ${PSPO_FACTS.stores} 店舗で利用可能。</div>
+  </div>`;
+
+document.getElementById("priceGuide").innerHTML = `
+  <div class="price-guide">
+    <div class="price-guide__item"><span>1</span><b>月額を選ぶ</b><p>まずはベーシック／SPA／DAYの3つ。迷ったらベーシック。</p></div>
+    <div class="price-guide__item"><span>2</span><b>初回費用を確認</b><p>入会金・事務手数料・初回の月額前払いがかかります。</p></div>
+    <div class="price-guide__item"><span>3</span><b>必要なものだけ足す</b><p>手ぶらなららくらく、専用利用なら美容・ロッカーなどを追加。</p></div>
+  </div>`;
+
+// 新規獲得の主動線：入会の前に、まず無料体験・見学
+document.getElementById("priceCta").innerHTML = `
+  <div class="aura-card" style="text-align:center">
+    <div class="c-card__title" style="font-size:1.25rem">入会の前に、まず体験。</div>
+    <p class="t-muted" style="margin:8px auto 0;max-width:50ch">有人店舗 ¥${GUIDE.trial.staffed.price}（${GUIDE.trial.staffed.dur}）／無人店舗 無料（${GUIDE.trial.unstaffed.dur}・${GUIDE.trial.unstaffed.note.replace("無人店舗・","")}）。実際の施設を確かめてから決められます。</p>
+    <div class="cluster" style="justify-content:center;margin-top:18px">
+      <a class="c-btn c-btn--primary c-btn--lg" href="${OFFICIAL.cta.trial}" target="_blank" rel="noopener">無料体験・見学を予約</a>
+      <a class="c-btn c-btn--ghost c-btn--lg" href="guide.html">はじめ方ガイド</a>
+    </div>
+  </div>`;
+
+// メインの料金プラン（BASIC / SPA / DAY）
+const MAIN_PLANS = [
+  { flag: "いちばん人気", t: "ベーシックプラン", n: PRICING.monthly, ex: PRICING.monthlyEx, inc: PRICING.basicIncludes, feat: true },
+  { flag: "温泉つき", t: "SPA P・SPO プラン", n: PRICING.spaPlan, ex: PRICING.spaPlanEx, inc: PRICING.spaIncludes, feat: false },
+  { flag: "日中だけ", t: "DAYプラン", n: PRICING.dayPlan, ex: null, inc: PRICING.dayIncludes, feat: false },
+];
+document.getElementById("planCards").innerHTML = `
+  <div class="plan-cards plan-cards--main">
+    ${MAIN_PLANS.map(p=>`
+      <div class="plan-card plan-card--main${p.feat?' plan-card--featured':''}">
+        <span class="plan-card__flag">${p.flag}</span>
+        <div class="plan-card__t">${p.t}</div>
+        <div class="plan-card__n">${yen(p.n)}<small>/月 税込</small></div>
+        ${p.ex?`<div class="plan-card__tax">税抜 ${yen(p.ex)}</div>`:""}
+        <p class="plan-card__inc">${p.inc}</p>
+      </div>`).join("")}
+  </div>`;
+
+// ===== プランビルダー（Apple Mac風：ベース＋追加で料金UP＆使える施設が増える） =====
+const PB = PLAN_BUILDER;
+const bld = { base: "basic", addons: new Set() };
+function renderBuilder(){
+  const base = PB.bases.find(b=>b.id===bld.base);
+  let monthly = base.monthly, once = PB.always.join + PB.always.admin;
+  const gives = [...base.gives];
+  PB.addons.forEach(a=>{ if(bld.addons.has(a.id)){ if(a.monthly) monthly+=a.monthly; if(a.once) once+=a.once; gives.push(...a.gives); } });
+  const baseHtml = PB.bases.map(b=>`
+    <button type="button" class="bld-opt${bld.base===b.id?' is-on':''}" data-base="${b.id}" aria-pressed="${bld.base===b.id}">
+      <span class="bld-opt__name">${b.name}</span>
+      <span class="bld-opt__price">¥${fmtInt(b.monthly)}<small>/月 税込</small></span>
+    </button>`).join("");
+  const addHtml = PB.addons.map(a=>{
+    const on = bld.addons.has(a.id);
+    // 依存アドオン（例: ビューティ→らくらく）の月額が“隠れコスト”にならないよう併記
+    const req = a.requires ? PB.addons.find(x=>x.id===a.requires) : null;
+    const reqLabel = (req && req.monthly && !bld.addons.has(req.id)) ? `<br>＋¥${fmtInt(req.monthly)}/月（${req.name}必須）` : "";
+    const price = (a.monthly ? `+¥${fmtInt(a.monthly)}/月` : `+¥${fmtInt(a.once)}（初回）`) + reqLabel;
+    return `<button type="button" class="bld-add${on?' is-on':''}" data-add="${a.id}" aria-pressed="${on}">
+      <span class="bld-add__check">${on?'✓':'＋'}</span>
+      <span class="bld-add__main"><b>${a.name}</b><small>${a.gives.join('・')}${a.note?`<br>${a.note}`:''}</small></span>
+      <span class="bld-add__price">${price}</span>
+    </button>`;
+  }).join("");
+  document.getElementById("builder").innerHTML = `
+    <div class="bld-grid">
+      <div class="bld-build">
+        <div class="bld-step"><div class="bld-step__t">1. ベースを選ぶ</div><div class="bld-opts">${baseHtml}</div></div>
+        <div class="bld-step"><div class="bld-step__t">2. 必要なものを足す（任意）</div><div class="bld-adds">${addHtml}</div></div>
+      </div>
+      <aside class="bld-sum">
+        <div class="t-faint" style="font-size:.78rem">あなたの月額</div>
+        <div class="figure__n" style="font-size:clamp(2.4rem,7vw,3.2rem)">¥${fmtInt(monthly)}<small>/月 税込</small></div>
+        <div class="data-row" style="padding:12px 0"><div class="data-row__l" style="font-weight:600;font-size:.86rem">初回費用<small>入会金・事務手数料・選んだ初回費用込み（概算）</small></div><div class="data-row__v" style="font-size:1.3rem">¥${fmtInt(once)}</div></div>
+        <div class="bld-gives"><div class="bld-gives__t">使えるようになるもの（${gives.length}）</div><ul>${gives.map(g=>`<li>${icon('check',{size:14,cls:'accent-ic'})}${g}</li>`).join('')}</ul></div>
+        <a class="c-btn c-btn--primary c-btn--block" href="${OFFICIAL.hacomono}" target="_blank" rel="noopener" style="margin-top:14px">このプランで入会する</a>
+        <p class="t-faint" style="font-size:.72rem;margin-top:8px">※ 概算。最新の料金・条件は公式でご確認ください。</p>
+      </aside>
+    </div>`;
+  const el = document.getElementById("builder");
+  el.querySelectorAll('[data-base]').forEach(b=>b.addEventListener('click',()=>{ bld.base=b.dataset.base; renderBuilder(); }));
+  el.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.add, a=PB.addons.find(x=>x.id===id);
+    if(bld.addons.has(id)){ bld.addons.delete(id); PB.addons.forEach(x=>{ if(x.requires===id) bld.addons.delete(x.id); }); }
+    else { bld.addons.add(id); if(a.requires) bld.addons.add(a.requires); }
+    renderBuilder();
+  }));
+}
+renderBuilder();
+
+document.getElementById("corporatePrice").innerHTML = `
+  <section class="corp-price">
+    <div class="section-head" style="margin-bottom:18px">
+      <p class="t-eyebrow">CORPORATE — 法人契約</p>
+      <h2>福利厚生として、まとめて契約。</h2>
+      <p>${CORPORATE_PRICING.minUsers}から。社員ごとにプランを選べて、人数が増えるほど1人あたりの月額が下がります。</p>
+    </div>
+    <div class="corp-price__grid">
+      ${CORPORATE_PRICING.plans.map((p)=>`
+        <div class="corp-plan">
+          <div class="corp-plan__head"><span>${p.name}</span><b>¥${p.base.toLocaleString("ja-JP")}<small>/人・月</small></b></div>
+          <p class="t-faint">通常 ¥${p.normal.toLocaleString("ja-JP")}/月</p>
+          <div class="corp-tier-list">${p.tiers.map(([label, price])=>`<div><span>${label}</span><b>¥${price.toLocaleString("ja-JP")}</b></div>`).join("")}</div>
+        </div>`).join("")}
+    </div>
+    <div class="corp-notes">
+      ${CORPORATE_PRICING.included.map((x)=>`<span>${icon("check",{size:14})}${x}</span>`).join("")}
+      <span>${icon("clock",{size:14})}${CORPORATE_PRICING.leadTime}</span>
+      <span>${icon("card",{size:14})}${CORPORATE_PRICING.payment}</span>
+    </div>
+    <div class="cluster" style="margin-top:16px">
+      <a class="c-btn c-btn--primary" href="${OFFICIAL.cta.corporate}" target="_blank" rel="noopener">法人プランを見る</a>
+      <a class="c-btn c-btn--ghost" href="https://pspo.jp/form-hozin/" target="_blank" rel="noopener">法人お問い合わせ</a>
+    </div>
+  </section>`;
+
+// はじめの費用
+document.getElementById("initTable").innerHTML = `
+  <div class="data-row"><div class="data-row__l">入会金</div><div class="data-row__v">${yen(PRICING.initial.join)}</div></div>
+  <div class="data-row"><div class="data-row__l">事務手数料</div><div class="data-row__v">${yen(PRICING.initial.admin)}</div></div>
+  <div class="data-row"><div class="data-row__l">初回の月額前払い<small>${PRICING.monthsNote}</small></div><div class="data-row__v" style="font-size:1rem;color:var(--fg-muted)">開始日で変動</div></div>`;
+
+// 初回のみ・対象者だけの費用（畳む）
+document.getElementById("initOnce").innerHTML = PRICING.initialOnce.map(o=>`
+  <div class="data-row"><div class="data-row__l">${o.name}<small>${o.note}</small></div><div class="data-row__v">${yen(o.price)}</div></div>`).join("");
+
+// 月額オプション
+document.getElementById("options").innerHTML = `
+  <div class="data-row"><div class="data-row__l">${PRICING.option.name}<small>${PRICING.option.includes}</small></div><div class="data-row__v">+${yen(PRICING.option.price)}<small>/月</small></div></div>
+  <div class="data-row"><div class="data-row__l">契約ロッカー<small>サイズで選べる（月額）</small></div><div class="data-row__v" style="white-space:normal;text-align:right;font-size:1rem">${PRICING.lockers.map(([s,n])=>`${s} ${yen(n)}`).join(" ／ ")}</div></div>
+  <div class="data-row"><div class="data-row__l">プロテイン</div><div class="data-row__v">${yen(PRICING.protein)}〜</div></div>`;
+
+// キャンペーン（節約額を大きく）
+document.getElementById("campaigns").innerHTML = PRICING.campaigns.map(c=>`
+  <div class="data-row"><div class="data-row__l">${c.name}<small>${c.how}${c.saveLabel?` ・ ${c.saveLabel}`:""}</small></div><div class="data-row__v" style="color:#067a47">−${yen(c.save)}</div></div>`).join("");
+
+// 都度利用（会員でなくても使えるメニュー）
+document.getElementById("dropIn").innerHTML = PRICING.dropIn.map(d=>`
+  <div class="data-row"><div class="data-row__l">${d.name}${d.note?`<small>${d.note}</small>`:""}</div><div class="data-row__v">${yen(d.price)}</div></div>`).join("");
+
+// ---- シミュレータ ----
+const state = { plan: "normal", camp: "none", days: 15 };
+const PLANS = [["normal","通常"],["raku","らくらく"]];
+const CAMPS = [["none","なし"],["admin","事務無料"],["pair","ペア/紹介"]];
+function seg(elId, opts, key){
+  document.getElementById(elId).innerHTML = opts.map(([v,l])=>`<button class="sim__opt" data-v="${v}" aria-pressed="${state[key]===v}">${l}</button>`).join("");
+  document.querySelectorAll(`#${elId} [data-v]`).forEach(b=>b.addEventListener("click",()=>{ state[key]=b.dataset.v; document.querySelectorAll(`#${elId} [data-v]`).forEach(x=>x.setAttribute("aria-pressed",x===b)); calc(); }));
+}
+seg("simPlan", PLANS, "plan");
+seg("simCamp", CAMPS, "camp");
+const daysEl = document.getElementById("days");
+daysEl.addEventListener("input", ()=>{ state.days=+daysEl.value; calc(); });
+
+function calc(){
+  const monthly = PRICING.monthly + (state.plan==="raku" ? PRICING.option.price : 0);
+  const firstMonth = Math.round(monthly / 30 * state.days);   // 初月日割り
+  const nextMonth = monthly;                                   // 翌月分前払い
+  let save = 0, saveLbl = "";
+  if (state.camp==="admin") { save = PRICING.initial.admin; saveLbl = "事務手数料 無料"; }
+  if (state.camp==="pair")  { save = PRICING.initial.join;  saveLbl = "入会金 無料"; }
+  const total = PRICING.initial.join + PRICING.initial.admin + firstMonth + nextMonth - save;
+  document.getElementById("daysVal").textContent = state.days;
+  document.getElementById("simTotal").innerHTML = `<span class="figure__n" style="font-size:clamp(2.4rem,8vw,3.4rem)">¥${fmtInt(total)}<small>概算</small></span>`;
+  document.getElementById("simBreak").innerHTML = `
+    <div><span>入会金</span><b>${yen(PRICING.initial.join)}</b></div>
+    <div><span>事務手数料</span><b>${yen(PRICING.initial.admin)}</b></div>
+    <div><span>初月（${state.days}日 日割り）</span><b>${yen(firstMonth)}</b></div>
+    <div><span>翌月分 前払い</span><b>${yen(nextMonth)}</b></div>
+    ${save?`<div class="is-save"><span>キャンペーン（${saveLbl}）</span><b>−${yen(save)}</b></div>`:""}
+    <div style="border-top:1px solid var(--border-soft);padding-top:6px;margin-top:4px"><span>月々（継続）</span><b>${yen(monthly)}/月</b></div>`;
+}
+calc();
+</script>
+</body>
+</html>

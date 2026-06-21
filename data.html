@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>データ戦略・都市知能｜PSPO＝松山の都市知能ゲートウェイ</title>
+<meta name="description" content="顔認証・来館・利用・（オプトイン）位置データを、高い倫理のもと匿名・同意ベースで会員価値・経営判断・松山市政のEBPMへ。生存分析・需要平準化・Huff出店・人流OD・k匿名/差分プライバシーを計算で実証。" />
+<meta name="theme-color" content="#16243a" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<meta property="og:title" content="データ戦略・都市知能 — PSPO＝松山の都市知能ゲートウェイ" />
+<meta property="og:image" content="https://pspo.jp/wp2022/wp-content/uploads/2022/02/img_facility.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body class="surface-cine">
+<div class="cine-cursor" aria-hidden="true"></div>
+<main id="main">
+
+  <!-- プレミアム・ヒーロー -->
+  <section class="pro-hero">
+    <div class="container">
+      <p class="pro-eyebrow reveal reveal-1">DATA STRATEGY × URBAN INTELLIGENCE</p>
+      <h1 class="reveal reveal-2">PSPOは、松山の<br><span class="text-accent">都市知能ゲートウェイ</span>。</h1>
+      <p class="pro-lead reveal reveal-3">顔認証・来館・利用・（オプトインの）位置データを、<b>高い倫理</b>のもと匿名・同意ベースで、<b>会員価値・経営判断・松山市政のEBPM</b>へ。新しいデータを足す前に、いま手元にあるデータを<b>正しく計算</b>して意思決定材料を出す——それを、ここで実証します。</p>
+      <div class="pro-metric-row reveal reveal-4" id="heroMetrics"></div>
+    </div>
+  </section>
+
+  <!-- 1. アプリが取るデータ（3層テレメトリ） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">DATA TAXONOMY</p><h2>アプリが“何を”取り、どう射影するか。</h2><p>顧客画面は常に<b>人数・占有率・集計だけ（非PII）</b>。PIIは金庫。目的限定・同意・最小化が前提。</p></div>
+      <div class="grid grid-cards io" id="telemetry"></div>
+    </div>
+  </section>
+
+  <!-- 2. 退会の科学（生存時間分析） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">SURVIVAL ANALYSIS</p><h2>退会を、生存時間分析で読む。</h2><p>一次資料の平均在籍に整合した生存モデル <span class="mono">S(t)=e^(−t/μ)</span>。学生コホートの早期離脱が、数字で見える。</p></div>
+      <div class="two-col">
+        <div class="c-card io">
+          <div class="c-card__head"><span class="c-card__title">コホート別 継続率</span><span class="method-tag">指数生存（μ＝観測平均在籍）</span></div>
+          <div id="survival"></div>
+          <div id="survivalLegend"></div>
+        </div>
+        <div class="stack">
+          <div class="c-card io"><div class="c-card__head"><span class="c-card__title">中央生存期間（半数が辞めるまで）</span></div><div id="medians"></div></div>
+          <div class="c-callout c-callout--warn io"><span class="c-callout__icon" id="survIc"></span><div class="c-callout__body" id="survInsight"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 需要平準化シミュレータ -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">DEMAND LEVELING</p><h2>ピークを削り、谷を埋める。</h2><p>オフピーク誘導で、<b>同じ会員数のまま</b>受入余地と満足度を上げる。出店前に既存店効率を最大化。</p></div>
+      <div class="c-card io">
+        <div class="c-card__head"><span class="c-card__title">松山大街道店：現状 → 誘導後（24時間）</span><span class="method-tag">時系列平滑化</span></div>
+        <div id="demand"></div>
+        <div class="viz-legend"><span class="viz-legend__item"><span class="viz-legend__sw" style="background:color-mix(in srgb,var(--lv-full) 52%,transparent)"></span>現状</span><span class="viz-legend__item"><span class="viz-legend__sw" style="background:color-mix(in srgb,var(--lv-free) 78%,transparent)"></span>誘導後</span></div>
+        <div class="pro-metric-row" id="demandMetrics" style="margin-top:18px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 出店ロケーションAI（Huff） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">SITE SELECTION — HUFF MODEL</p><h2>次に、どこへ出すか。</h2><p>Huffモデルで候補地の<b>来店確率×商圏人口</b>を採点。三福綜合不動産の空き店舗在庫×需要×カニバリを定量化。</p></div>
+      <div class="c-card io">
+        <div class="c-card__head"><span class="c-card__title">出店候補の期待捕捉人口</span><span class="method-tag">P=A/Dᵝ ÷ ΣA/Dᵝ</span></div>
+        <div id="huff"></div>
+        <p class="t-faint io" style="font-size:.78rem;margin-top:8px" id="huffNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 人流（重力モデル OD） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">HUMAN FLOW — GRAVITY / OD</p><h2>松山の人流を、面で観る。</h2><p>重力モデルで地区間の流動を推定。国勢調査が取れない<b>連続・行動ベース</b>の市民パネル（EBPM）。</p></div>
+      <div class="two-col">
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">地区別 流入（人流ヒート）</span><span class="method-tag">T=P·A/Dᵝ</span></div><div id="flowHeat"></div></div>
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">主要 OD（流動の太い経路）</span></div><div id="odList"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 匿名加工（k-匿名・差分プライバシー） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">PRIVACY ENGINEERING</p><h2>“正確さ”と“匿名性”を、両立する。</h2><p>第三者提供は、再識別を防ぐ匿名加工が前提。<b>k-匿名性</b>と<b>差分プライバシー</b>を実装で示す。</p></div>
+      <div class="two-col">
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">k-匿名性（再識別リスク）</span><span class="method-tag">min group size</span></div><div id="kanon"></div></div>
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">差分プライバシー（Laplaceノイズ）</span><span class="method-tag">ε トレードオフ</span></div>
+          <div id="dpBox"></div>
+          <label class="dp-slider"><span>プライバシー予算 ε：<b id="epsVal">1.0</b>（小さいほど強保護）</span>
+            <input id="eps" type="range" min="0.05" max="3" step="0.05" value="1" /></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 倫理憲章 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">ETHICS CHARTER</p><h2>市民のデータを扱う。だから、ここが前提。</h2><p>高い倫理は後付けでなく中核。これが競争優位の“信頼”を生む。</p></div>
+      <div class="grid grid-cards io" id="gov"></div>
+      <div class="c-card io" style="margin-top:18px;border-left:4px solid var(--lv-full)">
+        <div class="c-card__head"><span class="c-card__title">誠実な限界と正統性（過大評価しない）</span></div>
+        <ul id="limits" style="display:grid;gap:10px"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 松山の発展（civic） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">FOR MATSUYAMA — EBPM</p><h2>松山の発展に、役立てる。</h2><p>自治体が取れないものを、本人同意・匿名加工・公益性のもとで補完する。</p></div>
+      <div class="move-grid io" id="civic"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section center io">
+    <div class="container container-narrow center">
+      <h2 class="big-head">計算が、意思決定になる。</h2>
+      <div class="cluster" style="justify-content:center;margin-top:18px"><a class="c-btn c-btn--primary c-btn--lg" href="growth.html">経営AIエージェントへ</a><a class="c-btn c-btn--ghost c-btn--lg" href="brief.html">経営層への説明 →</a></div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon, fmtInt } from "./js/ui.js";
+import { CHURN, PSPO_FACTS, GOVERNANCE, LIMITS, CIVIC_APPS } from "./js/insights.js";
+import { getStore } from "./js/data.js";
+import { cohortCurves, levelDemand, rankSites, gravityFlow, kAnonymity, dpCount, CITY_POP, MATSUYAMA_MESH } from "./js/stats.js";
+import { survivalChart, demandChart, barChart, heatGrid, legend } from "./js/viz.js";
+
+initChrome({ active: "data" });
+
+// ヒーロー・メトリクス
+const M = (n, l, hint) => `<div class="metric"><div class="metric__n">${n}</div><div class="metric__l">${l}</div>${hint?`<div class="metric__hint">${hint}</div>`:""}</div>`;
+document.getElementById("heroMetrics").innerHTML =
+  M(fmtInt(CHURN.totals.members), "会員（2025）", "市内最大級の生活者ネットワーク") +
+  M(PSPO_FACTS.stores, "店舗（多業態）", "愛媛中心に面で接点") +
+  M("市内 約3%", "松山市民への到達（現状）", "2030目標で約1割へ・面で拡大") +
+  M("100%", "非PII射影", "顧客画面は集計のみ");
+
+// 1. テレメトリ3層
+document.getElementById("telemetry").innerHTML = [
+  ["check","① 同意済みID＋入退館","顔認証 in/out ＝ 在館純人数（多カメラの重複計上を避ける“単一の正”）。来館頻度・時間帯。"],
+  ["pulse","② 利用イベント","業態・滞在・アプリ操作（タップ/検索/閲覧）・目標/チェックイン。選好モデルの入力。"],
+  ["target","③ 位置（オプトイン・粗粒度）","本人同意時のみ・粗いグリッド・常時追跡なし。近隣施設レコメンド＆人流の素材。"],
+].map(([ic,t,d])=>`<div class="c-card"><div class="pillar__ic">${icon(ic,{size:22})}</div><div class="c-card__title" style="font-size:1rem">${t}</div><p class="c-card__body" style="font-size:.88rem;margin-top:6px">${d}</p></div>`).join("");
+
+// 2. 生存分析
+const cohorts = cohortCurves(24);
+document.getElementById("survival").innerHTML = survivalChart(cohorts);
+document.getElementById("survivalLegend").innerHTML = legend(cohorts.map(c=>({label:c.label,color:c.color,dashed:c.dashed,note:`中央${c.median.toFixed(1)}ヶ月`})));
+document.getElementById("medians").innerHTML = cohorts.map(c=>`
+  <div style="margin:8px 0"><div class="cluster" style="justify-content:space-between;font-size:.86rem"><span>${c.label}</span><span class="numeral" style="color:${c.color}">${c.median.toFixed(1)}ヶ月</span></div>
+  <div class="c-meter" style="margin-top:4px"><div class="c-meter__fill" style="--lv:${c.color};width:${Math.min(100,Math.round(c.median/14*100))}%"></div></div></div>`).join("");
+document.getElementById("survIc").innerHTML = icon("warn");
+const stu = cohorts.find(c=>c.id==="student"), all = cohorts.find(c=>c.id==="all");
+document.getElementById("survInsight").innerHTML = `<b>学生(18-21)の中央生存は約${stu.median.toFixed(1)}ヶ月</b>＝全会員（約${all.median.toFixed(1)}ヶ月）の半分以下。退会“率”が高いのではなく<b>学生コホートが早期離脱</b>。離脱リスクAIで、来館間隔が空く前に先回りする。`;
+
+// 3. 需要平準化
+const okaido = getStore("okaido");
+const dl = levelDemand(okaido.forecast);
+document.getElementById("demand").innerHTML = demandChart(dl.now, dl.smoothed);
+document.getElementById("demandMetrics").innerHTML =
+  M(dl.shavedPct+"%", "ピーク削減", "最混雑→誘導後") +
+  M("+"+dl.capacityUpliftPct+"%", "実効受入余地", "同一会員数で") +
+  M(dl.movedPct+"%", "オフピークへ移送", "ピーク超過分");
+
+// 4. Huff 出店
+const competitors = [
+  { name:"既存・大街道", lat:33.8447, lng:132.7679, attr:42 },
+  { name:"既存・空港通り", lat:33.8230, lng:132.7300, attr:36 },
+  { name:"既存・久米", lat:33.8290, lng:132.8120, attr:30 },
+];
+const candidates = [
+  { name:"候補A・砥部", lat:33.7490, lng:132.7900, attr:34 },
+  { name:"候補B・北条", lat:33.9760, lng:132.7720, attr:30 },
+  { name:"候補C・三津", lat:33.8660, lng:132.7170, attr:28 },
+  { name:"候補D・東温", lat:33.7909, lng:132.8719, attr:32 },
+];
+const ranked = rankSites(candidates, competitors, MATSUYAMA_MESH, 2.0);
+document.getElementById("huff").innerHTML = barChart(ranked.map(r=>({label:r.name,value:r.capturedPop})), { unit:"人", hot:"var(--lv-free)", color:"var(--accent)" });
+document.getElementById("huffNote").textContent = `期待捕捉人口の降順。最有力は「${ranked[0].name}」（約${fmtInt(ranked[0].capturedPop)}人の商圏）。空き店舗在庫と需要・カニバリの三点で採点。※ デモ：概略人口での計算。実運用は実データ・取得可否で再校正する。`;
+
+// 5. 人流（重力モデル）
+const dests = MATSUYAMA_MESH.map(m=>({ name:m.name, lat:m.lat, lng:m.lng, attr:Math.sqrt(m.pop) }));
+const flow = gravityFlow(MATSUYAMA_MESH, dests, 1.8);
+document.getElementById("flowHeat").innerHTML = heatGrid(flow.inflow.map(d=>({label:d.name,value:d.inflow})), { cols:3 });
+document.getElementById("odList").innerHTML = flow.topOD.slice(0,6).map(o=>`
+  <div class="c-row"><div class="c-row__main"><div class="c-row__title" style="font-size:.9rem">${o.from} → ${o.to}</div></div><div class="numeral" style="color:var(--accent)">${fmtInt(o.flow)}</div></div>`).join("");
+
+// 6. k-匿名 / 差分プライバシー
+const synth = [];
+for (let i=0;i<2000;i++) synth.push({ age:18+(i%4), sex:i%2?"M":"F", area:["松山","今治","新居浜","西条","宇和島","東温"][i%6] });
+const ka = kAnonymity(synth, ["age","sex","area"], 5);
+const kaGen = kAnonymity(synth.map(r=>({ageBand:r.age<20?"10代後半":"20代前半", area:r.area})), ["ageBand","area"], 5);
+document.getElementById("kanon").innerHTML = `
+  <p class="c-card__body" style="font-size:.88rem">準識別子〈年齢・性別・エリア〉のままだと最小グループ <b class="text-accent mono">k=${ka.k}</b>（${ka.groups}群・うち再識別リスク群 <b style="color:var(--lv-full)">${ka.riskyGroups}</b>）。</p>
+  <p class="c-card__body" style="font-size:.88rem;margin-top:8px">年齢を帯に一般化すると <b class="text-free mono">k=${kaGen.k}</b> に上昇し、リスク群 <b class="text-free">${kaGen.riskyGroups}</b> に。<b>粒度を下げて再識別を防ぐ</b>。</p>
+  <p class="t-faint" style="font-size:.74rem;margin-top:8px">※ 合成データでの実証。実分布では群が偏り再識別リスクが上がるため、運用は実データで評価する。</p>`;
+const eps = document.getElementById("eps");
+function renderDP(){
+  const e = parseFloat(eps.value); document.getElementById("epsVal").textContent = e.toFixed(2);
+  const samples = [["松山中心の来館",1240],["今治の来館",320],["女性・夜間の来館",180]];
+  document.getElementById("dpBox").innerHTML = samples.map(([l,v])=>{
+    const n = dpCount(v, e);
+    return `<div style="margin:8px 0"><div class="cluster" style="justify-content:space-between;font-size:.86rem"><span>${l}</span><span class="mono">真値 ${fmtInt(v)} → 公開 <b style="color:var(--accent)">${fmtInt(n)}</b></span></div></div>`;
+  }).join("") + `<p class="t-faint" style="font-size:.76rem">εが小さいほどノイズ大＝個人を守る。大きいほど正確だが保護は弱い（プライバシー⇄有用性）。</p>`;
+}
+eps.addEventListener("input", renderDP); renderDP();
+
+// 7. 倫理 / 8. civic
+document.getElementById("gov").innerHTML = GOVERNANCE.map(g=>`<div class="c-card"><div class="cluster" style="gap:10px;margin-bottom:6px"><span class="accent-ic">${icon("shield",{size:20})}</span><div class="c-card__title" style="font-size:.98rem">${g.p}</div></div><p class="c-card__body" style="font-size:.86rem">${g.d}</p></div>`).join("");
+document.getElementById("limits").innerHTML = LIMITS.map(l=>`<li style="display:flex;gap:10px"><span class="text-full" style="flex:none">${icon("warn",{size:16})}</span><span style="font-size:.88rem">${l}</span></li>`).join("");
+document.getElementById("civic").innerHTML = CIVIC_APPS.map(c=>`<div class="c-card io"><div class="c-card__title" style="font-size:1rem">${c.app}</div><div class="c-badge c-badge--sea" style="margin-top:6px">対象: ${c.who}</div><p class="c-card__body" style="font-size:.86rem;margin-top:8px">${c.why}</p><div class="c-callout c-callout--ok" style="margin-top:10px;padding:9px 11px"><span class="c-callout__icon">${icon("shield",{size:15})}</span><div class="c-callout__body" style="font-size:.78rem">信頼性: ${c.trust}</div></div></div>`).join("");
+</script>
+<script type="module" src="js/cine.js"></script>
+</body>
+</html>

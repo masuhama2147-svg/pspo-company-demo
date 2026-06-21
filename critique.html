@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>批評｜P・SPO — 有用性の低さの証明と、私ならこう作る。</title>
+<meta name="description" content="現行P・SPOのデジタル体験の有用性の低さを、公式サイトの実地確認と一次資料で証明。Before/After・課題×証拠×設計の対応表・設計判断（Notionプレイブック準拠）。良い点も誠実に認める批評。" />
+<meta name="theme-color" content="#16243a" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="P・SPO" />
+<meta property="og:title" content="P・SPO 批評 — 私ならこう作る。" />
+<meta property="og:image" content="assets/og.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body class="surface-cine">
+<div class="cine-cursor" aria-hidden="true"></div>
+<main id="main">
+  <section class="section-tight">
+    <div class="container">
+      <p class="t-eyebrow reveal reveal-1">CRITIQUE — 徹底批評</p>
+      <h1 class="reveal reveal-2" style="font-size:clamp(1.7rem,4.6vw,2.7rem)">“有用性の低さ”を、<span class="text-accent">証拠</span>で。<br>そして、私ならこう作る。</h1>
+      <p class="t-muted reveal reveal-3" style="max-width:66ch;margin-top:8px">対象は<b>デジタル体験とデータ活用</b>です（事業自体の急成長・多業態・不動産シナジーは正当に評価します）。主張はすべて公式サイトの実地確認・学生BPOチームの一次資料・競合調査に基づきます。</p>
+
+      <!-- 結論サマリー -->
+      <div class="grid grid-cards reveal reveal-4" id="summary" style="margin-top:22px"></div>
+    </div>
+  </section>
+
+  <!-- Before / After -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">BEFORE → AFTER</p><h2>同じ入力から、出すものが違う。</h2></div>
+
+      <div class="stack">
+        <!-- 混雑表示 -->
+        <div class="c-compare io">
+          <div class="c-compare__col c-compare__col--before">
+            <div class="c-compare__tag">現行 P・SPO</div>
+            <div class="c-cctv" style="margin-bottom:10px">
+              <div class="c-cctv__noise"></div><div class="c-cctv__stamp">CAM01 ● REC</div><div class="c-cctv__stamp c-cctv__stamp--r">--:--</div>
+              <svg viewBox="0 0 320 240" width="100%" height="100%" aria-label="見づらいカメラ映像の再現">
+                <rect width="320" height="240" fill="#15171a"/>
+                <g fill="#2a2f36"><rect x="20" y="150" width="280" height="70"/><rect x="40" y="60" width="60" height="100" rx="6"/><rect x="220" y="70" width="70" height="90" rx="6"/></g>
+                <g fill="#3a4048"><ellipse cx="120" cy="170" rx="9" ry="22"/><ellipse cx="150" cy="175" rx="9" ry="20"/><ellipse cx="200" cy="168" rx="9" ry="22"/></g>
+              </svg>
+            </div>
+            <p style="font-size:.84rem">ライブカメラ画像2枚＋「※10分間隔で更新」。<b>混雑度はあなたが目視で推測</b>。何台空きかは不明。</p>
+          </div>
+          <div class="c-compare__col c-compare__col--after">
+            <div class="c-compare__tag">P・SPO</div>
+            <div data-level="moderate" style="display:grid;justify-items:center;margin-bottom:8px">
+              <div class="c-gauge" style="--val:.52;--size:128px"><div class="c-gauge__inner"><div class="c-gauge__pct">52<small>%</small></div><div class="c-gauge__label">ほどよい</div></div></div>
+            </div>
+            <p style="font-size:.84rem"><b class="text-free">地図・ゲージ・あと何台・待ち分・狙い目時間</b>。来店判断にそのまま使える“答え”。</p>
+          </div>
+        </div>
+
+        <!-- アプリ -->
+        <div class="c-compare io">
+          <div class="c-compare__col c-compare__col--before"><div class="c-compare__tag">現行 P・SPO</div>
+            <p style="font-size:.9rem"><b>iOSアプリ</b>なのに、マイページは<b>別SaaS（hacomono）を外部ブラウザで開くだけ</b>。Chrome等に蹴り出されて体験が分断し、ログイン・通知・パーソナライズの土台にならない。</p>
+            <div class="cluster" style="margin-top:10px;font-size:.8rem;color:var(--lv-full)">アプリ → 🌐 外部ブラウザ(hacomono) → 😕</div>
+          </div>
+          <div class="c-compare__col c-compare__col--after"><div class="c-compare__tag">P・SPO</div>
+            <p style="font-size:.9rem"><b>1つのPWAで完結</b>。「ホーム画面に追加」で全画面アプリに。<b>ワンタップ・ログイン／外部遷移ゼロ</b>、将来プッシュ通知も。</p>
+            <button class="c-btn c-btn--primary c-btn--sm" data-install style="margin-top:10px">ホーム画面に追加</button>
+          </div>
+        </div>
+
+        <!-- パーソナライズ -->
+        <div class="c-compare io">
+          <div class="c-compare__col c-compare__col--before"><div class="c-compare__tag">現行 P・SPO</div>
+            <p style="font-size:.9rem">全員に<b>同じ画面</b>。顔認証で来館データを取得しているのに、会員には<b>1mmも還元しない</b>（データの死蔵）。</p></div>
+          <div class="c-compare__col c-compare__col--after"><div class="c-compare__tag">P・SPO</div>
+            <p style="font-size:.9rem">通い方に応じて<b>あなた専用</b>。ランク・連続記録・<b>利用連動割引</b>・目標・最適時間に変換。</p>
+            <a class="c-btn c-btn--sea c-btn--sm" href="me.html" style="margin-top:10px">マイページを見る</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 課題×証拠×設計 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">課題 × 証拠 × 設計</p><h2>一つずつ、対応させる。</h2></div>
+      <div class="crit-row" id="weak"></div>
+    </div>
+  </section>
+
+  <!-- フェアネス -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="c-card io" style="border-left:4px solid var(--lv-free)">
+        <div class="c-card__head"><span class="c-card__title">誠実な但し書き — PSPOの“強い”ところ</span></div>
+        <ul style="display:grid;gap:8px;color:var(--fg-muted);font-size:.92rem">
+          <li>✅ <b>急成長</b>：2016年約350名 → 2025年 約1.6万人。2026年に愛媛80店舗突破。</li>
+          <li>✅ <b>居場所化で継続率は業界比むしろ良い</b>（カフェ・酒場・サウナ）。退会“率”が高いのではなく、学生コホートが過剰退会。</li>
+          <li>✅ <b>不動産シナジー</b>：三福綜合不動産の空き店舗→低コスト出店（シャッターゼロ）。模倣困難な拡大エンジン。</li>
+          <li>✅ <b>多業態の希少性</b>：ジム＋自習室＋カフェ＋サウナ＋コワーキングを月額一本で。</li>
+        </ul>
+        <p class="t-faint" style="font-size:.82rem;margin-top:12px">だからこそ、弱点は“事業”ではなく“デジタル体験とデータ活用”に集中している。そこを直せば伸びしろは大きい。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 設計判断 -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">設計判断 — 私ならこう作る</p><h2>派手な技術ではなく、壊れない手順で。</h2></div>
+      <div class="grid grid-cards">
+        <div class="c-card io" id="tech">
+          <div class="pillar__ic" id="ic-tech"></div>
+          <div class="c-card__title">ビルド無しの静的＋PWA</div>
+          <p class="c-card__body">素のHTML/CSS/JS＋ESモジュール。「書いたJS＝動くJS」で原因切り分けが速く、引き継ぎも軽い。配信は実質ファイル転送。ローカルは依存ゼロのサーバ（ポート8731・自動回避）。</p>
+        </div>
+        <div class="c-card io" id="privacy">
+          <div class="pillar__ic" id="ic-priv"></div>
+          <div class="c-card__title">非PII射影（顔を持たない）</div>
+          <p class="c-card__body">データは“人数・占有率”だけ。顔・個票は一切持たない。更衣室/サウナは非カメラ計測の前提を明示。日本のプライバシー感度を逆手に取った安心訴求に。</p>
+        </div>
+        <div class="c-card io" id="playbook">
+          <div class="pillar__ic" id="ic-event"></div>
+          <div class="c-card__title">イベント駆動＆単一の真実の源</div>
+          <p class="c-card__body">「状態が変わった時だけ描画」。閾値・色・文言は config.js に集約しCSS変数と同期。タブ非表示で停止＝無駄な実行（コスト）を抑制。Notionプレイブック準拠。</p>
+        </div>
+        <div class="c-card io">
+          <div class="pillar__ic" id="ic-a11y"></div>
+          <div class="c-card__title">モバイル＆アクセシビリティ</div>
+          <p class="c-card__body">タップ44px・入力16px（iOS自動ズーム回避）・スキップリンク・aria・reduced-motion尊重。下部タブバーで“アプリ感”。検索・地図で探しやすく。</p>
+        </div>
+        <div class="c-card io">
+          <div class="pillar__ic" id="ic-method"></div>
+          <div class="c-card__title">計測は“純人数(in−out)”を単一の正に</div>
+          <p class="c-card__body">多数カメラは画角の重複・死角で同一人物を二重計上しやすく高コスト＝有用性が低い。顔認証入退館の差分(in−out)なら<b>カメラ非依存・低コストで正確</b>。粒度が要る所のみ匿名センサで補完。<b>会員には計測方法を出さず</b>、画面は人数・空き台数だけ（顧客アプリはカメラレス表現）。</p>
+        </div>
+      </div>
+
+      <div class="c-callout io" style="margin-top:22px"><span class="c-callout__icon" id="ic-final"></span><div class="c-callout__body"><b>結論。</b> 現行PSPOは「顔認証で取った混雑データを“生映像”で見せ、アプリはブラウザに蹴り出し、パーソナライズは皆無」。同じ入力から、会員には<b>価値</b>を、経営には<b>武器</b>を出せる。それを、ビルド無しの実物で証明しました。</div></div>
+      <div class="center" style="margin-top:28px"><a class="c-btn c-btn--primary" href="app.html">アプリで体験する</a> <a class="c-btn c-btn--ghost" href="growth.html">経営インパクト →</a></div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon } from "./js/ui.js";
+import { WEAKNESSES, PSPO_FACTS } from "./js/insights.js";
+
+initChrome({ active: "critique" });
+
+const SUM = [
+  { ic:"camera", t:"“映像”を見せ、“答え”を出さない", d:"カメラ画像2枚・10分更新。混雑度はユーザーが目視で解釈（公式店舗ページで実地確認）。" },
+  { ic:"pulse", t:"粒度ゼロ・鮮度なし", d:"ゾーン別も設備別も無し。10分前の映像は24hジムのピーク判断に使えない。" },
+  { ic:"download", t:"アプリ→ブラウザ遷移", d:"iOSアプリなのにChrome等へ。体験が分断し通知・個別化の土台にならない。" },
+  { ic:"data", t:"顔認証データの死蔵", d:"取得済みの来館データを会員に還元せず、退会という本丸にも紐づかない。" },
+];
+document.getElementById("summary").innerHTML = SUM.map((s)=>`<div class="c-card"><div class="pillar__ic">${icon(s.ic,{size:24})}</div><div class="c-card__title" style="font-size:1rem">${s.t}</div><p class="c-card__body" style="font-size:.88rem;margin-top:4px">${s.d}</p></div>`).join("");
+
+document.getElementById("weak").innerHTML = WEAKNESSES.map((w)=>`
+  <div class="crit-item io">
+    <div class="crit-item__tag">${w.tag}</div>
+    <div class="c-card crit-ba">
+      <div class="c-card__title" style="font-size:1.02rem">${w.title}</div>
+      <div class="crit-ba__now">現状: <b>${w.now}</b></div>
+      <div class="crit-ba__fix">私の設計: <b>${w.fix}</b></div>
+      <div class="crit-ba__ev">根拠: ${w.evidence}</div>
+    </div>
+  </div>`).join("");
+
+document.getElementById("ic-tech").innerHTML = icon("bolt",{size:24});
+document.getElementById("ic-priv").innerHTML = icon("shield",{size:24});
+document.getElementById("ic-event").innerHTML = icon("pulse",{size:24});
+document.getElementById("ic-a11y").innerHTML = icon("user",{size:24});
+document.getElementById("ic-method").innerHTML = icon("data",{size:24});
+document.getElementById("ic-final").innerHTML = icon("sparkles");
+</script>
+<script type="module" src="js/cine.js"></script>
+</body>
+</html>

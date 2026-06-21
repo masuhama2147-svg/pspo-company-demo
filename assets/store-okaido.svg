@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#ef7a2e" stop-opacity="0.32"/>
+  <stop offset="0.55" stop-color="#11161d"/><stop offset="1" stop-color="#0a0e13"/></linearGradient>
+ <radialGradient id="gl" cx="0.8" cy="0.15" r="0.9">
+  <stop offset="0" stop-color="#ef7a2e" stop-opacity="0.45"/><stop offset="1" stop-color="#ef7a2e" stop-opacity="0"/></radialGradient>
+ <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+  <path d="M40 0H0V40" fill="none" stroke="#ef7a2e" stroke-opacity="0.10" stroke-width="1"/></pattern>
+</defs>
+<rect width="800" height="450" fill="url(#bg)"/>
+<rect width="800" height="450" fill="url(#grid)"/>
+<rect width="800" height="450" fill="url(#gl)"/>
+<!-- abstract equipment silhouettes (no people, privacy-by-design) -->
+<g stroke="#ef7a2e" stroke-opacity="0.5" stroke-width="5" fill="none" stroke-linecap="round">
+ <path d="M120 330 h120 M130 312 v36 M230 312 v36"/>
+ <circle cx="120" cy="330" r="14" fill="#ef7a2e" fill-opacity="0.25"/>
+ <circle cx="240" cy="330" r="14" fill="#ef7a2e" fill-opacity="0.25"/>
+ <rect x="330" y="250" width="150" height="80" rx="10" stroke-opacity="0.4"/>
+ <path d="M560 340 q40 -90 90 -90 M560 340 h110"/>
+</g>
+<g fill="#ef7a2e" fill-opacity="0.16">
+ <circle cx="650" cy="110" r="60"/><circle cx="120" cy="120" r="34"/>
+</g>
+<rect x="36" y="34" width="14" height="44" rx="4" fill="#ef7a2e"/>
+<text x="62" y="58" font-family="'Hiragino Mincho ProN',serif" font-size="30" fill="#eaf0f4" font-weight="700">松山大街道店</text>
+<text x="62" y="84" font-family="ui-monospace,monospace" font-size="14" fill="#ef7a2e" letter-spacing="3">P·SPO 改修提案デモ</text>
+<text x="40" y="424" font-family="ui-monospace,monospace" font-size="12" fill="#61707d">DUMMY IMAGE — ダミー画像（撮影なし・人物なし）</text>
+</svg>

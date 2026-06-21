@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>マチミル — 松山の人流データ × AI を、地元企業へ。｜P・SPOカンパニー</title>
+<meta name="description" content="地元企業（製造業・飲食）のための人流データSaaS『マチミル』。個人を一切追跡せず、集計した松山の“人の流れ”とAI分析を月額で。来店の波・商圏・客層・出店スコア・来店→購買のROIまで。APPI準拠・非PII。" />
+<meta name="theme-color" content="#16243a" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="マチミル" />
+<meta property="og:title" content="マチミル — 松山の人流データ × AI を、地元企業へ。" />
+<meta property="og:image" content="assets/og.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/base.css?v=40" />
+<link rel="stylesheet" href="css/layout.css?v=40" />
+<link rel="stylesheet" href="css/components.css?v=40" />
+<link rel="stylesheet" href="css/pages.css?v=40" />
+<link rel="stylesheet" href="css/motion.css?v=40" />
+</head>
+<body class="surface-cine">
+<div class="cine-cursor" aria-hidden="true"></div>
+<main id="main">
+
+  <!-- プレミアム・ヒーロー（成果見出し＋証拠＋単一CTA） -->
+  <section class="pro-hero">
+    <div class="container">
+      <p class="pro-eyebrow reveal reveal-1" id="owned"></p>
+      <h1 class="reveal reveal-2" id="heroH"></h1>
+      <p class="pro-lead reveal reveal-3" id="heroSub"></p>
+      <div class="cluster reveal reveal-4" style="margin-top:22px;gap:12px">
+        <a class="c-btn c-btn--primary c-btn--lg" href="data.html">松山の人流サンプルを見る</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" href="#contact">デモ・資料を申し込む</a>
+      </div>
+      <div class="pro-metric-row reveal reveal-4" id="stats" style="margin-top:26px"></div>
+    </div>
+  </section>
+
+  <!-- 分析モジュール（成果で語る） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">できること</p><h2>勘を、根拠に変える9つの分析。</h2><p>むずかしい設定は不要。知りたいことを、AIに聞くだけ。</p></div>
+      <div class="grid grid-cards io" id="modules"></div>
+    </div>
+  </section>
+
+  <!-- 業種別 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">業種別の使い方</p><h2>あなたの仕事に、効く。</h2></div>
+      <div class="grid grid-cards io" id="industries"></div>
+    </div>
+  </section>
+
+  <!-- サンプル：会員行動ダッシュボード（実データ） -->
+  <section class="section-tight" id="dashboard">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">SAMPLE — 会員行動ダッシュボード</p><h2>これが、毎月手に入る。</h2><p>P・SPO会員（同意済み）の集計サンプル。<b>個人は含みません</b>。実運用は対象店舗・期間で再計算します。</p></div>
+      <div class="two-col">
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">客層：年代別の会員数</span><span class="method-tag">実データ（在籍会員）</span></div><div id="dashAge"></div><p class="t-faint" id="dashSex" style="font-size:.78rem;margin-top:8px"></p></div>
+        <div class="c-card io"><div class="c-card__head"><span class="c-card__title">継続率：半数が辞めるまで</span><span class="method-tag">生存分析</span></div><div id="dashSurv"></div><div id="dashSurvLeg"></div></div>
+      </div>
+      <div class="c-card io" style="margin-top:16px"><div class="c-card__head"><span class="c-card__title">来店の波：時間帯</span><span class="method-tag">代表パターン</span></div><div id="dashHeat"></div>
+        <p class="t-faint" style="font-size:.74rem;margin-top:10px">※ 客層・継続は在籍会員の<b>実集計</b>（一次資料 2025-05-31）。時間帯は<b>代表パターン</b>で、実運用は対象店舗の実来店で再計算します。個人は一切含みません。</p></div>
+    </div>
+  </section>
+
+  <!-- 第一者の堀 + 誠実な限界 -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">なぜ信頼できるか — 堀(MOAT)</p><h2>“原本”を持つのは、地元のPSPOだけ。</h2><p>全国の位置情報ベンダーは「広く浅い」推定。マチミルは「狭く深い」第一者の真実。</p></div>
+      <div class="two-col">
+        <div class="c-card io"><ul id="moat" style="display:grid;gap:12px"></ul></div>
+        <div class="c-card io" style="border-left:4px solid var(--lv-full)">
+          <div class="c-card__head"><span class="c-card__title">誠実な限界（過大評価しない）</span><span class="c-badge c-badge--gold">honest</span></div>
+          <ul id="limits" style="display:grid;gap:10px"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- プライバシー・トラスト（APPI） -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-head io"><p class="t-eyebrow">PRIVACY — 信頼ファースト</p><h2>個人は、追跡しない。</h2><p>扱うのは集計した“人の流れ”だけ。これが事業の前提です。</p></div>
+      <div class="grid grid-cards io" id="privacy"></div>
+      <div class="c-callout c-callout--ok io" style="margin-top:18px"><span class="c-callout__icon" id="privIc"></span><div class="c-callout__body" id="privacyPara"></div></div>
+    </div>
+  </section>
+
+  <!-- 価格（Good-Better-Best） -->
+  <section class="section-tight" id="pricing">
+    <div class="container">
+      <div class="section-head io" style="margin-inline:auto;text-align:center;max-width:none"><p class="t-eyebrow">料金</p><h2>松山の深さを、月額で。</h2><p>規模に合わせて選べる3プラン。まずはサンプルから。</p></div>
+      <div class="biz-tiers io" id="tiers"></div>
+    </div>
+  </section>
+
+  <!-- 最終CTA -->
+  <section class="section center io" id="contact">
+    <div class="container container-narrow center">
+      <h2 class="big-head">まず、あなたの店の人流から。</h2>
+      <p class="t-muted" style="margin-top:8px;max-width:56ch;margin-inline:auto">無料の松山人流サンプルで、データ経営の手応えを。デモ・資料はお気軽に。</p>
+      <div class="cluster" style="justify-content:center;margin-top:22px">
+        <a class="c-btn c-btn--primary c-btn--lg" href="data.html">人流サンプルを見る</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" href="brief.html">経営層への説明資料</a>
+      </div>
+      <p class="t-faint" style="font-size:.74rem;margin-top:14px">※ 改善提案デモ。数値・料金は概略。実運用は実データ・契約条件で確定します。</p>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { initChrome, icon } from "./js/ui.js";
+import { BIZ, BIZ_STATS, BIZ_MODULES, BIZ_INDUSTRIES, BIZ_TIERS, BIZ_PRIVACY, BIZ_MOAT, BIZ_LIMITS } from "./js/biz-product.js";
+import { CHURN } from "./js/insights.js";
+import { cohortCurves } from "./js/stats.js";
+import { barChart, survivalChart, legend, heatGrid } from "./js/viz.js";
+
+initChrome({ active: "machimiru" });
+
+document.getElementById("owned").textContent = BIZ.owned + "  —  " + BIZ.category;
+document.getElementById("heroH").innerHTML = BIZ.hero.replace("人の流れ", '<span class="text-accent">人の流れ</span>');
+document.getElementById("heroSub").textContent = BIZ.sub;
+
+const M = (n, l, h) => `<div class="metric"><div class="metric__n">${n}</div><div class="metric__l">${l}</div>${h ? `<div class="metric__hint">${h}</div>` : ""}</div>`;
+document.getElementById("stats").innerHTML = BIZ_STATS.map(s => M(s.n, s.l, s.h)).join("");
+
+document.getElementById("modules").innerHTML = BIZ_MODULES.map(m => `
+  <div class="c-card">
+    <div class="cluster" style="justify-content:space-between;margin-bottom:8px"><div class="pillar__ic">${icon(m.ic, { size: 22 })}</div>${m.moat ? `<span class="c-badge c-badge--accent">第一者の強み</span>` : ""}</div>
+    <div class="c-card__title" style="font-size:1.05rem">${m.title}</div>
+    <p class="c-card__body" style="font-size:.88rem;margin-top:6px">${m.what}</p>
+  </div>`).join("");
+
+document.getElementById("industries").innerHTML = BIZ_INDUSTRIES.map(i => `
+  <div class="c-card">
+    <span class="c-badge c-badge--sea">${i.tag}</span>
+    <div class="c-card__title" style="font-size:1.08rem;margin-top:8px">${i.title}</div>
+    <ul style="display:grid;gap:7px;margin-top:10px">${i.points.map(p => `<li style="display:flex;gap:8px;font-size:.88rem;color:var(--fg-muted)"><span class="accent-ic" style="flex:none">${icon("check", { size: 16 })}</span>${p}</li>`).join("")}</ul>
+  </div>`).join("");
+
+document.getElementById("moat").innerHTML = BIZ_MOAT.map(m => `<li style="display:flex;gap:10px"><span class="accent-ic" style="flex:none">${icon("check", { size: 18 })}</span><span style="font-size:.9rem">${m}</span></li>`).join("");
+document.getElementById("limits").innerHTML = BIZ_LIMITS.map(l => `<li style="display:flex;gap:10px"><span class="text-full" style="flex:none">${icon("warn", { size: 16 })}</span><span style="font-size:.88rem">${l}</span></li>`).join("");
+
+document.getElementById("privacy").innerHTML = BIZ_PRIVACY.pillars.map(g => `<div class="c-card"><div class="cluster" style="gap:10px;margin-bottom:6px"><span class="accent-ic">${icon("shield", { size: 20 })}</span><div class="c-card__title" style="font-size:.98rem">${g.p}</div></div><p class="c-card__body" style="font-size:.86rem">${g.d}</p></div>`).join("");
+document.getElementById("privIc").innerHTML = icon("shield");
+document.getElementById("privacyPara").innerHTML = `<b>マチミルのデータ・ガバナンス。</b> ${BIZ_PRIVACY.paragraph}`;
+
+document.getElementById("tiers").innerHTML = BIZ_TIERS.map(t => `
+  <div class="biz-tier ${t.best ? "biz-tier--best" : ""}">
+    ${t.best ? `<div class="biz-tier__badge">おすすめ</div>` : ""}
+    <div class="biz-tier__name">${t.name}</div>
+    <div class="biz-tier__price">${t.price}<small>${t.unit}</small></div>
+    ${t.note ? `<div class="biz-tier__note">${t.note}</div>` : ""}
+    <div class="biz-tier__for">${t.for}</div>
+    <ul class="biz-tier__list">${t.includes.map(x => `<li>${icon("check", { size: 14, cls: "accent-ic" })}<span>${x}</span></li>`).join("")}</ul>
+    <a class="c-btn ${t.best ? "c-btn--primary" : "c-btn--ghost"} c-btn--block" href="#contact">${t.id === "partner" ? "相談する" : "申し込む"}</a>
+  </div>`).join("");
+
+// ---- サンプルダッシュボード（実データ：客層・継続／代表：時間帯） ----
+const ageItems = CHURN.enrolled.map((e) => ({ label: e.age + "歳", value: e.n }));
+document.getElementById("dashAge").innerHTML = barChart(ageItems, { unit: "名", color: "var(--accent)" });
+const mTot = CHURN.enrolled.reduce((s, e) => s + e.m, 0), wTot = CHURN.enrolled.reduce((s, e) => s + e.w, 0);
+const wPct = Math.round(wTot / (mTot + wTot) * 100);
+document.getElementById("dashSex").innerHTML = `男性 ${mTot.toLocaleString()}名・女性 ${wTot.toLocaleString()}名（<b class="text-accent">女性 ${wPct}%</b>）。女性の在籍は一貫して短く、定着が伸びしろ。`;
+
+const cohorts = cohortCurves(24);
+document.getElementById("dashSurv").innerHTML = survivalChart(cohorts);
+document.getElementById("dashSurvLeg").innerHTML = legend(cohorts.map((c) => ({ label: c.label, color: c.color, dashed: c.dashed, note: `中央${c.median.toFixed(1)}ヶ月` })));
+
+const HOURS = [10, 8, 6, 6, 9, 16, 30, 44, 38, 34, 30, 28, 33, 30, 28, 31, 40, 50, 58, 60, 54, 42, 30, 18];
+document.getElementById("dashHeat").innerHTML = heatGrid(HOURS.map((v, i) => ({ label: i + "時", value: v })), { cols: 12 });
+</script>
+<script type="module" src="js/cine.js"></script>
+</body>
+</html>

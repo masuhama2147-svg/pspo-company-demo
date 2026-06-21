@@ -1,0 +1,229 @@
+/* ============================================================================
+   base.css  ── トークン / リセット / タイポグラフィ / テーマ
+   5層CSS(base/layout/components/pages/motion) の第1層。
+   方針転換: 「明るく・シンプル・親しみ」。愛媛=みかんオレンジ／せとうち=海の青。
+   chocoZAP研究より: フラットな単色ボタン・余白多め・会話的・装飾過多を避ける。
+   Notion原則:「CSS変数で統一」「特徴的なタイポで量産AI感を回避」。
+   ========================================================================== */
+
+/* ---- デザイントークン（ライト=既定: 明るい紙の上に みかん＆海） ----- */
+:root {
+  /* 面と背景（ロゴ＝白地に紺。クリーンな淡色ベース） */
+  --bg:        #f4f6f9;
+  --bg-grad-1: #f8fafc;
+  --bg-grad-2: #eef1f6;
+  --surface:   #ffffff;
+  --surface-2: #f3f6fa;
+  --surface-3: #e9eef4;
+  --border:    #dde4ec;
+  --border-soft:#e9eef4;
+  --border-strong:#aebccd;  /* 操作要素の枠線（非テキスト3:1確保） */
+
+  /* 文字（ロゴの紺寄りの墨） */
+  --fg:        #16243a;
+  --fg-muted:  #54637a;
+  --fg-faint:  #6b7785;   /* WCAG AA: 白地で約4.6:1（旧#91a0b3は2.66:1で不合格） */
+
+  /* ブランド: P・SPOロゴ配色 — ネイビー(構造)＋ティール/緑(副次)＋オレンジ(文字だけ) */
+  --accent:     #163a66;          /* ネイビー＝CTA・面・構造（ロゴのP·SPO） */
+  --accent-ink: #ffffff;
+  --hot:        #ef7a2e;          /* オレンジ＝“文字”アクセント専用 */
+  --accent-2:   #1f9e8d;          /* ティール/緑＝副次（ロゴのバッジ） */
+  --accent-2-ink:#ffffff;
+  --hot-text:   #a84d08;          /* 小さい文字のオレンジ用。白地で約5:1（旧#c85a10は4.26:1で僅か不足） */
+  --accent-glow: rgba(22,58,102,.22);
+  --sea-glow:    rgba(31,158,141,.16);
+  --cta:         var(--accent);   /* プライマリCTAの塗り（ダークでは白文字AAのため濃色へ差し替え） */
+  --brand-grad:  linear-gradient(135deg, #2fae9b 0%, #f0884a 100%); /* ロゴのバッジ・グラデ */
+
+  /* 占有レベル（config.js LEVELS と同期。ブランド橙と被らない緑→赤） */
+  --lv-free:     #14b072;   /* 空き＝緑（ドット/バー等の“塗り”用） */
+  --lv-moderate: #f3a712;   /* 適＝黄金 */
+  --lv-busy:     #f4633a;   /* 混＝朱（橙より赤寄り） */
+  --lv-full:     #db2b39;   /* 満＝赤 */
+  /* 占有レベルの“文字色”：16%淡色tint背景でも本文AA(≥4.5:1)を満たす濃色（WCAG 1.4.3） */
+  --lv-free-text:     #0a6b46;
+  --lv-moderate-text: #7a5300;
+  --lv-busy-text:     #b23a18;
+  --lv-full-text:     #b0001a;
+  --sea-text:         #157e70;   /* .text-sea を白地でAA（--accent-2 #1f9e8d は3.3:1で不足） */
+
+  /* 角丸（親しみのある大きめ）・影（柔らかい温色）・余白 */
+  --r-xs: 8px;  --r-sm: 12px;  --r-md: 16px;  --r-lg: 20px;  --r-xl: 28px;  --r-pill: 999px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 72px;
+  --shadow-1: 0 1px 2px rgba(60,45,15,.06);
+  --shadow-2: 0 12px 28px -16px rgba(70,50,15,.18);
+  --shadow-pop: 0 22px 48px -22px rgba(70,50,15,.24);
+  --ring: 0 0 0 3px rgba(22,58,102,.30);
+
+  /* タイポ：枠は柔らかく、文字は“しっかり真面目な愛媛”。
+     見出し=Zen Kaku Gothic New（凛とした和ゴシック）、英字ディスプレイ=Anton（力強い）、本文=Noto Sans JP。 */
+  --font-display: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+  --font-en: "Anton", "Zen Kaku Gothic New", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+  --font-mono: "Zen Kaku Gothic New", "Noto Sans JP", ui-monospace, monospace;
+
+  --maxw: 1140px;
+  color-scheme: light;
+}
+
+/* ---- ダークテーマ（任意トグル）＋ Tier A シネマティック面（常時ダーク） ----
+   body.surface-cine は :root のテーマ切替に依存せず常にダークトークンを使う
+   （antigravity流の集客/経営/B2B面。body に変数を置くので子孫が継承し、トグルより勝つ）。*/
+:root[data-theme="dark"], body.surface-cine {
+  --bg:        #0c1116;
+  --bg-grad-1: #0e141b;
+  --bg-grad-2: #0b1015;
+  --surface:   #141b23;
+  --surface-2: #1a232d;
+  --surface-3: #212c38;
+  --border:    #27323f;
+  --border-soft:#1d2731;
+  --border-strong:#46586a;
+  --fg:        #eaf0f4;
+  --fg-muted:  #98a6b3;
+  --fg-faint:  #8b97a3;   /* WCAG AA: 暗地で約5:1（旧#66747fは3.95:1で不合格） */
+  --accent:     #4f86c9;          /* ネイビー(明)＝構造 */
+  --accent-ink: #ffffff;
+  --cta:        #3a6fb0;           /* ダークCTA塗り: 白文字で約5.2:1（AA達成） */
+  --ring:       0 0 0 3px color-mix(in srgb, var(--accent) 78%, transparent);  /* ダーク面で視認できる明色フォーカスリング */
+  --hot:        #ff9550;          /* オレンジ＝文字アクセント */
+  --accent-2:   #2fc3ae;          /* ティール */
+  --accent-2-ink:#06231f;
+  --hot-text:   #ff9550;          /* ダークでは明るいオレンジで十分なコントラスト */
+  --accent-glow: rgba(79,134,201,.30);
+  --sea-glow:    rgba(47,195,174,.2);
+  --brand-grad:  linear-gradient(135deg, #2fc3ae 0%, #ff9550 100%);
+  --lv-free:     #2cd08c;
+  --lv-moderate: #ffc24b;
+  --lv-busy:     #ff8a5c;
+  --lv-full:     #ff5d73;
+  /* ダーク面では tint 背景が暗いので、明色レベル色そのものが本文AAを満たす */
+  --lv-free-text: var(--lv-free); --lv-moderate-text: var(--lv-moderate);
+  --lv-busy-text: var(--lv-busy); --lv-full-text: var(--lv-full);
+  --sea-text:     var(--accent-2);
+  --shadow-2: 0 14px 32px -18px rgba(0,0,0,.7);
+  --shadow-pop: 0 24px 56px -22px rgba(0,0,0,.8);
+  color-scheme: dark;
+}
+
+/* ---- リセット ---------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--font-body);
+  color: var(--fg);
+  background:
+    radial-gradient(900px 480px at 88% -8%, var(--accent-glow), transparent 60%),
+    radial-gradient(820px 460px at -8% 8%, var(--sea-glow), transparent 58%),
+    linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
+  min-height: 100dvh;
+  line-height: 1.75;
+  letter-spacing: .005em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Aurora 背景（antigravity級の“先進性”をブランド配色のまま） -------
+   固定レイヤーでネイビー×ティール×オレンジの光がゆっくり流れる。CSSのみ・軽量。
+   セクション背景は透過なので、ここがページ全体の“地”になる。reduced-motion で停止。 */
+body::before {
+  content: ""; position: fixed; inset: -10%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(38% 48% at 16% 12%, color-mix(in srgb, var(--accent-2) 20%, transparent), transparent 70%),
+    radial-gradient(42% 52% at 86% 18%, color-mix(in srgb, var(--hot) 15%, transparent), transparent 72%),
+    radial-gradient(48% 58% at 72% 92%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
+  filter: blur(36px); opacity: .55;
+  animation: auroraDrift 28s ease-in-out infinite alternate;
+}
+:root[data-theme="dark"] body::before { opacity: .7; }
+
+/* 粒子(grain)オーバーレイ＝"高級化乗数"。バンディングを消し、AI的な平坦さを除く。
+   全面に薄く敷く（SVG feTurbulence・静的・操作を妨げない）。research: css-tricks grainy gradients。 */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[data-theme="dark"] body::after { opacity: .06; }
+
+/* ---- Tier A: シネマティック面（antigravity流・常時ダーク＋強グロー＋カーソル光） ----
+   手法だけ借り、配色は P・SPO（ネイビー基調＋オレンジのグロー）。 */
+body.surface-cine {
+  --mx: 50%; --my: -8%;
+  background:
+    radial-gradient(120% 78% at 50% -12%, #16243a 0%, #0c1116 58%, #0a0e13 100%);
+}
+body.surface-cine #themeBtn { display: none; }   /* 常時ダークのためトグルは隠す */
+body.surface-cine::before {                       /* オーロラグロー（オレンジ＋ネイビー・強め） */
+  opacity: .8;
+  background:
+    radial-gradient(40% 50% at 18% 10%, color-mix(in srgb, var(--hot) 26%, transparent), transparent 65%),
+    radial-gradient(44% 54% at 84% 8%, color-mix(in srgb, var(--accent) 32%, transparent), transparent 66%),
+    radial-gradient(52% 60% at 72% 96%, color-mix(in srgb, var(--hot) 14%, transparent), transparent 68%);
+}
+body.surface-cine::after { opacity: .07; }         /* グレイン少し強め */
+/* カーソル追従光（js/cine.js が --mx/--my を更新。タッチ/未対応は中央上で静止） */
+.cine-cursor {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(380px 380px at var(--mx) var(--my), color-mix(in srgb, var(--hot) 16%, transparent), transparent 60%);
+}
+@media (prefers-reduced-motion: reduce) { .cine-cursor { display: none; } }
+
+/* クロスドキュメントのページ遷移を滑らかに（対応ブラウザのみ・自動でreduced-motion尊重） */
+@view-transition { navigation: auto; }
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+input, select, textarea { font: inherit; font-size: 16px; /* iOS自動ズーム回避 */ }
+ul { list-style: none; padding: 0; }
+
+/* ---- タイポグラフィ ---------------------------------------------------- */
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 900; line-height: 1.22; letter-spacing: -.01em; }
+.display { font-family: var(--font-display); }
+.font-en { font-family: var(--font-en); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.t-eyebrow {
+  font-family: var(--font-display);
+  font-size: .76rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--hot-text); font-weight: 900;   /* AA: 小さいオレンジ文字は濃色トークンで（--hotは白地2.8:1で不合格） */
+}
+.t-muted { color: var(--fg-muted); }
+.t-faint { color: var(--fg-faint); }
+.numeral { font-family: var(--font-display); font-variant-numeric: tabular-nums; font-weight: 700; }
+
+/* ---- フォーカス可視化（A11y・青リング） ------------------------------ */
+:focus-visible { outline: none; box-shadow: var(--ring); border-radius: var(--r-xs); }
+
+/* ---- スキップリンク ---------------------------------------------------- */
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 200;
+  background: var(--cta); color: var(--accent-ink);
+  padding: 10px 16px; border-radius: var(--r-sm); font-weight: 700;
+  transition: top .2s ease;
+}
+.skip-link:focus { top: 12px; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+/* ユーティリティ */
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.ic { display: inline-block; vertical-align: middle; flex: none; }
+.accent-ic { color: var(--accent); }
+.text-accent { color: var(--hot-text); }   /* オレンジ文字。ライトは#a84d08(AA5.6:1)/ダークは#ff9550 */
+.text-navy { color: var(--accent); }
+.text-sea { color: var(--sea-text); }
+.text-free { color: var(--lv-free-text); } .text-full { color: var(--lv-full-text); }
+.center { text-align: center; }
+.mb-0 { margin-bottom: 0; }
+.grow { flex: 1; }
