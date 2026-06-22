@@ -20,14 +20,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/base.css?v=45" />
-<link rel="stylesheet" href="css/layout.css?v=45" />
-<link rel="stylesheet" href="css/components.css?v=45" />
-<link rel="stylesheet" href="css/pages.css?v=45" />
-<link rel="stylesheet" href="css/motion.css?v=45" />
+<link rel="stylesheet" href="css/base.css?v=46" />
+<link rel="stylesheet" href="css/layout.css?v=46" />
+<link rel="stylesheet" href="css/components.css?v=46" />
+<link rel="stylesheet" href="css/pages.css?v=46" />
+<link rel="stylesheet" href="css/motion.css?v=46" />
 </head>
 <body>
-<div class="cine-cursor" aria-hidden="true"></div>
 <main id="main">
 
   <!-- HERO（Antigravity流ライトステージ：物理パーティクル＋エントランス。表示内容・配置は維持） -->
@@ -69,7 +68,6 @@
       <p class="t-muted center io" style="margin:-18px auto 22px;max-width:54ch">気になる業態をタップ → <b class="text-accent">何店舗で使えるか</b>と店舗一覧が見られます。</p>
       <!-- antigravity流：業態アイコンが流れるショーケース（装飾） -->
       <div class="icon-marquee io" style="margin:4px 0 26px" aria-hidden="true"><div class="icon-marquee__track" id="iconRow"></div></div>
-      <div class="visual-rail io" id="serviceVisualRail" aria-hidden="true"></div>
       <div class="c-svcs io" id="svcs"></div>
     </div>
   </section>
@@ -163,16 +161,12 @@ import { OFFICIAL, PSPO_FACTS, JOIN_AREAS, RESERVE_NOTE, SUPPORTING_TEAMS, NEWS 
 import { CORPORATE_PRICING } from "./js/pspo-info.js";
 import { renderServiceGrid } from "./js/services.js";
 import { GEO_STORES } from "./js/geo.js";   // 店舗数の単一真実源（地図・近い順・サービス件数と共有）
-import { VISUAL_RAIL } from "./js/visuals.js";
 import { mountReelShowcase } from "./js/reels.js";   // 公式リールの無重力ショーケース
 import { mountHeroParticles } from "./js/hero-particles.js";   // Antigravity流 物理パーティクル
-import "./js/cine.js";   // シネマティック演出（粒子登録＋カーソル光・非対応で安全に無効）
 
 initLanding();
 renderServiceGrid(document.getElementById("svcs"), OFFICIAL.icon);
 mountReelShowcase(document.getElementById("reelShowcase"));
-document.getElementById("serviceVisualRail").innerHTML =
-  `<div class="visual-rail__track">${VISUAL_RAIL.map((src) => `<figure class="visual-tile"><img src="${src}" alt="" loading="lazy" /></figure>`).join("")}</div>`;
 
 // 業態アイコンの横スクロール・ショーケース（2セット連結でシームレスループ）
 const MARQUEE = ["dumbbell","run","yoga","sauna","cup","desk","drop","weight","home","pulse","spark","shield","user","growth"];

@@ -19,14 +19,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/base.css?v=45" />
-<link rel="stylesheet" href="css/layout.css?v=45" />
-<link rel="stylesheet" href="css/components.css?v=45" />
-<link rel="stylesheet" href="css/pages.css?v=45" />
-<link rel="stylesheet" href="css/motion.css?v=45" />
+<link rel="stylesheet" href="css/base.css?v=46" />
+<link rel="stylesheet" href="css/layout.css?v=46" />
+<link rel="stylesheet" href="css/components.css?v=46" />
+<link rel="stylesheet" href="css/pages.css?v=46" />
+<link rel="stylesheet" href="css/motion.css?v=46" />
 </head>
 <body>
-<div class="cine-cursor" aria-hidden="true"></div>
 <main id="main">
 
   <!-- プレミアム・ヒーロー -->
@@ -237,6 +236,5 @@ document.getElementById("gov").innerHTML = GOVERNANCE.map(g=>`<div class="c-card
 document.getElementById("limits").innerHTML = LIMITS.map(l=>`<li style="display:flex;gap:10px"><span class="text-full" style="flex:none">${icon("warn",{size:16})}</span><span style="font-size:.88rem">${l}</span></li>`).join("");
 document.getElementById("civic").innerHTML = CIVIC_APPS.map(c=>`<div class="c-card io"><div class="c-card__title" style="font-size:1rem">${c.app}</div><div class="c-badge c-badge--sea" style="margin-top:6px">対象: ${c.who}</div><p class="c-card__body" style="font-size:.86rem;margin-top:8px">${c.why}</p><div class="c-callout c-callout--ok" style="margin-top:10px;padding:9px 11px"><span class="c-callout__icon">${icon("shield",{size:15})}</span><div class="c-callout__body" style="font-size:.78rem">信頼性: ${c.trust}</div></div></div>`).join("");
 </script>
-<script type="module" src="js/cine.js"></script>
 </body>
 </html>

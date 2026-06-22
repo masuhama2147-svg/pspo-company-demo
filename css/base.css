@@ -68,45 +68,7 @@
   color-scheme: light;
 }
 
-/* ---- ダークテーマ（任意トグル）＋ Tier A シネマティック面（常時ダーク） ----
-   body.surface-cine は :root のテーマ切替に依存せず常にダークトークンを使う
-   （antigravity流の集客/経営/B2B面。body に変数を置くので子孫が継承し、トグルより勝つ）。*/
-:root[data-theme="dark"], body.surface-cine {
-  --bg:        #0c1116;
-  --bg-grad-1: #0e141b;
-  --bg-grad-2: #0b1015;
-  --surface:   #141b23;
-  --surface-2: #1a232d;
-  --surface-3: #212c38;
-  --border:    #27323f;
-  --border-soft:#1d2731;
-  --border-strong:#46586a;
-  --fg:        #eaf0f4;
-  --fg-muted:  #98a6b3;
-  --fg-faint:  #8b97a3;   /* WCAG AA: 暗地で約5:1（旧#66747fは3.95:1で不合格） */
-  --accent:     #4f86c9;          /* ネイビー(明)＝構造 */
-  --accent-ink: #ffffff;
-  --cta:        #3a6fb0;           /* ダークCTA塗り: 白文字で約5.2:1（AA達成） */
-  --ring:       0 0 0 3px color-mix(in srgb, var(--accent) 78%, transparent);  /* ダーク面で視認できる明色フォーカスリング */
-  --hot:        #ff9550;          /* オレンジ＝文字アクセント */
-  --accent-2:   #2fc3ae;          /* ティール */
-  --accent-2-ink:#06231f;
-  --hot-text:   #ff9550;          /* ダークでは明るいオレンジで十分なコントラスト */
-  --accent-glow: rgba(79,134,201,.30);
-  --sea-glow:    rgba(47,195,174,.2);
-  --brand-grad:  linear-gradient(135deg, #2fc3ae 0%, #ff9550 100%);
-  --lv-free:     #2cd08c;
-  --lv-moderate: #ffc24b;
-  --lv-busy:     #ff8a5c;
-  --lv-full:     #ff5d73;
-  /* ダーク面では tint 背景が暗いので、明色レベル色そのものが本文AAを満たす */
-  --lv-free-text: var(--lv-free); --lv-moderate-text: var(--lv-moderate);
-  --lv-busy-text: var(--lv-busy); --lv-full-text: var(--lv-full);
-  --sea-text:     var(--accent-2);
-  --shadow-2: 0 14px 32px -18px rgba(0,0,0,.7);
-  --shadow-pop: 0 24px 56px -22px rgba(0,0,0,.8);
-  color-scheme: dark;
-}
+/* ダークモードは廃止（ライト固定）。旧 :root[data-theme="dark"]/body.surface-cine のトークンは削除済み。 */
 
 /* ---- リセット ---------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -140,7 +102,6 @@ body::before {
   filter: blur(36px); opacity: .55;
   animation: auroraDrift 28s ease-in-out infinite alternate;
 }
-:root[data-theme="dark"] body::before { opacity: .7; }
 
 /* 粒子(grain)オーバーレイ＝"高級化乗数"。バンディングを消し、AI的な平坦さを除く。
    全面に薄く敷く（SVG feTurbulence・静的・操作を妨げない）。research: css-tricks grainy gradients。 */
@@ -148,30 +109,7 @@ body::after {
   content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .045;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-:root[data-theme="dark"] body::after { opacity: .06; }
-
-/* ---- Tier A: シネマティック面（antigravity流・常時ダーク＋強グロー＋カーソル光） ----
-   手法だけ借り、配色は P・SPO（ネイビー基調＋オレンジのグロー）。 */
-body.surface-cine {
-  --mx: 50%; --my: -8%;
-  background:
-    radial-gradient(120% 78% at 50% -12%, #16243a 0%, #0c1116 58%, #0a0e13 100%);
-}
-body.surface-cine #themeBtn { display: none; }   /* 常時ダークのためトグルは隠す */
-body.surface-cine::before {                       /* オーロラグロー（オレンジ＋ネイビー・強め） */
-  opacity: .8;
-  background:
-    radial-gradient(40% 50% at 18% 10%, color-mix(in srgb, var(--hot) 26%, transparent), transparent 65%),
-    radial-gradient(44% 54% at 84% 8%, color-mix(in srgb, var(--accent) 32%, transparent), transparent 66%),
-    radial-gradient(52% 60% at 72% 96%, color-mix(in srgb, var(--hot) 14%, transparent), transparent 68%);
-}
-body.surface-cine::after { opacity: .07; }         /* グレイン少し強め */
-/* カーソル追従光（js/cine.js が --mx/--my を更新。タッチ/未対応は中央上で静止） */
-.cine-cursor {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(420px 420px at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--hot) 10%, transparent), transparent 62%);
-}
-@media (prefers-reduced-motion: reduce) { .cine-cursor { display: none; } }
+/* ダークの常時ダーク面(surface-cine)とカーソル光(cine-cursor)は廃止済み。 */
 
 /* クロスドキュメントのページ遷移を滑らかに（対応ブラウザのみ・自動でreduced-motion尊重） */
 @view-transition { navigation: auto; }

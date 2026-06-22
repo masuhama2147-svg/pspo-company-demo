@@ -89,16 +89,10 @@ export function levelPill(ratio, { showPct = false } = {}) {
   return `<span class="c-level" data-level="${lv.id}"><span class="c-dot c-dot--pulse"></span>${lv.label}${showPct ? ` <span class="mono">${fmtPct(ratio)}%</span>` : ""}</span>`;
 }
 
-/* ---- テーマ ---------------------------------------------------------- */
-const THEME_KEY = "sukima-theme";
-export function getTheme() { return localStorage.getItem(THEME_KEY) || "light"; }
-export function applyTheme(t) {
-  document.documentElement.setAttribute("data-theme", t);
-  localStorage.setItem(THEME_KEY, t);
-  const btn = document.getElementById("themeBtn");
-  if (btn) btn.innerHTML = icon(t === "dark" ? "sun" : "moon");
-}
-export function toggleTheme() { applyTheme(getTheme() === "dark" ? "light" : "dark"); }
+/* ---- テーマ（ライト固定。ダークモードは廃止） ---------------------- */
+export function getTheme() { return "light"; }
+export function applyTheme() { document.documentElement.setAttribute("data-theme", "light"); }
+export function toggleTheme() { /* ダークモード廃止につき何もしない */ }
 
 /* ---- ペルソナ（パーソナライズのデモ用切替） ------------------------- */
 const PROFILE_KEY = "sukima-profile";
@@ -181,14 +175,12 @@ export function initLanding() {
       <div class="cluster" style="margin-left:auto;gap:8px;flex-wrap:nowrap">
         <a class="c-btn c-btn--ghost c-btn--sm landing-open-app" href="app.html"><span class="full">アプリを開く</span><span class="short">開く</span></a>
         <a class="c-btn c-btn--primary c-btn--sm" href="price.html" aria-label="会員になる（料金まるわかりへ）">会員になる</a>
-        <button id="themeBtn" class="icon-btn" aria-label="テーマ切替" title="テーマ切替">${icon("sun")}</button>
       </div>
     </div>`;
   document.body.prepend(header);
   const skip = document.createElement("a");
   skip.className = "skip-link"; skip.href = "#main"; skip.textContent = "本文へスキップ";
   document.body.prepend(skip);
-  document.getElementById("themeBtn").addEventListener("click", toggleTheme);
   // モバイルのサムゾーンに常設の入会CTAバー（いつでもタッチで契約へ）
   const ctaBar = document.createElement("div");
   ctaBar.className = "landing-cta-bar";
@@ -216,15 +208,12 @@ export function initChrome({ active = "" } = {}) {
       </a>
       <nav class="site-nav" aria-label="メイン">${navLinks(active)}</nav>
       ${accountButtonHTML()}
-      <button id="themeBtn" class="icon-btn" aria-label="テーマ切替" title="テーマ切替">${icon("sun")}</button>
     </div>`;
   document.body.prepend(header);
   // スキップリンク
   const skip = document.createElement("a");
   skip.className = "skip-link"; skip.href = "#main"; skip.textContent = "本文へスキップ";
   document.body.prepend(skip);
-
-  document.getElementById("themeBtn").addEventListener("click", toggleTheme);
 
   // アカウント（ログイン状態）。ログイン/ログアウトで再描画する。
   function refreshAccount() {
