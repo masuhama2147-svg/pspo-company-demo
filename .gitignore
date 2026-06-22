@@ -33,6 +33,4 @@ assets/reels/*.mp4
 # 一時成果物
 audit-*.jpeg
 reel-*-urls.json
-# 内部作業物（公開デモには含めない）
-docs/
-screenshots/
+# （docs/・screenshots/ は公開する：手渡し資料・設計の根拠として）
