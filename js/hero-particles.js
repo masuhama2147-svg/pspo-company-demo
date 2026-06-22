@@ -166,12 +166,29 @@ export function mountHeroParticles(canvas, opts = {}) {
     } else start();
   }
 
-  return function destroy() {
+  // タイピングのCaret座標から粒子を上方へ“誘発”（既存粒子を再利用＝リークなし）
+  function spawnBurst(clientX, clientY, n = 2) {
+    if (!particles.length || prefersReduced()) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left, y = clientY - rect.top;
+    if (x < 0 || y < 0 || x > W || y > H) return;
+    for (let k = 0; k < n; k++) {
+      const p = particles[(Math.random() * particles.length) | 0];
+      p.x = x + (Math.random() - 0.5) * 12;
+      p.y = y + (Math.random() - 0.5) * 6;
+      p.vy = -(0.6 + Math.random() * 0.9);   // 反重力方向のキック
+      p.vx = (Math.random() - 0.5) * 0.6;
+      p.alpha = 0.5 + Math.random() * 0.3;
+      p.r = 1.2 + Math.random() * 1.4;
+    }
+  }
+  function destroy() {
     stop();
     window.removeEventListener("pointermove", onMove);
     window.removeEventListener("pointerout", onLeave);
     window.removeEventListener("resize", onResize);
     document.removeEventListener("visibilitychange", onVis);
     if (io) io.disconnect();
-  };
+  }
+  return { destroy, spawnBurst };
 }

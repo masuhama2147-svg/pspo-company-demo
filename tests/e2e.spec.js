@@ -59,6 +59,15 @@ test.describe("hero (index)", () => {
     expect(painted).toBe(true);
   });
 
+  test("smooth typing: hero tagline uses type-host + full aria-label (a11y, jitter-safe)", async ({ page }) => {
+    const sub = page.locator(".hero-brand__sub");
+    await expect(sub).toHaveClass(/type-host/);
+    await expect(sub).toHaveAttribute("aria-label", "地域の暮らしを、リアルタイムにつなぐ。");
+    await expect(sub).toHaveAttribute("role", "text");
+    await expect(sub.locator(".type-ghost")).toHaveCount(1);     // 領域確保のゴースト（ガタつき防止）
+    await expect(sub.locator(".type-actor")).toHaveText(/リアルタイムにつなぐ。$/); // 完成でフル表示
+  });
+
   test("hero shows 3 fact-based trust stats (no member headcount)", async ({ page }) => {
     await expect(page.locator("#heroStats .hero-brand__stat")).toHaveCount(3);
     // 人数（会員数）は出さない方針の回帰ガード

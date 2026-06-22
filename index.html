@@ -20,11 +20,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/base.css?v=46" />
-<link rel="stylesheet" href="css/layout.css?v=46" />
-<link rel="stylesheet" href="css/components.css?v=46" />
-<link rel="stylesheet" href="css/pages.css?v=46" />
-<link rel="stylesheet" href="css/motion.css?v=46" />
+<link rel="stylesheet" href="css/base.css?v=47" />
+<link rel="stylesheet" href="css/layout.css?v=47" />
+<link rel="stylesheet" href="css/components.css?v=47" />
+<link rel="stylesheet" href="css/pages.css?v=47" />
+<link rel="stylesheet" href="css/motion.css?v=47" />
 </head>
 <body>
 <main id="main">
@@ -163,6 +163,7 @@ import { renderServiceGrid } from "./js/services.js";
 import { GEO_STORES } from "./js/geo.js";   // 店舗数の単一真実源（地図・近い順・サービス件数と共有）
 import { mountReelShowcase } from "./js/reels.js";   // 公式リールの無重力ショーケース
 import { mountHeroParticles } from "./js/hero-particles.js";   // Antigravity流 物理パーティクル
+import { smoothType, smoothTypeAll } from "./js/typing.js";    // Smooth Typing（変速タイピング）
 
 initLanding();
 renderServiceGrid(document.getElementById("svcs"), OFFICIAL.icon);
@@ -174,7 +175,12 @@ const chips = MARQUEE.map((g)=>`<span class="icon-chip">${icon(g,{size:22})}</sp
 document.getElementById("iconRow").innerHTML = chips + chips;
 
 // Antigravity流ヒーロー：物理パーティクル（Canvas）をマウント
-mountHeroParticles(document.getElementById("heroCanvas"));
+const heroFX = mountHeroParticles(document.getElementById("heroCanvas"));
+// Smooth Typing: ヒーローのタグライン（Caretからパーティクルを誘発）＋全セクション見出し（視界内で開始）
+smoothType(document.querySelector(".hero-brand__sub"), {
+  startOnView: false, startDelay: 1300,
+  onChar: (rect) => { if (heroFX && heroFX.spawnBurst) heroFX.spawnBurst(rect.left, rect.top, 2); },
+});
 const applyImg = document.getElementById("applyImg");
 applyImg.src = "assets/pspo-visual-guide.png"; applyImg.onerror = () => applyImg.remove();
 document.getElementById("webJoin").href = OFFICIAL.hacomono;            // 入会（公式Web）
@@ -279,6 +285,9 @@ document.getElementById("roleRouter").innerHTML = ROLES.map((r) => `
 
 // 実績（HERO_STATS を再利用＝二重管理と数値不整合を解消）
 document.getElementById("proof").innerHTML = HERO_STATS.map(([n, l]) => `<div class="figure" style="align-items:center;gap:2px"><div class="figure__n" style="font-size:clamp(2.2rem,6vw,3.4rem)">${n}</div><div class="figure__l" style="text-align:center">${l}</div></div>`).join("");
+
+// Smooth Typing: 全セクションの主要見出しを視界内で順にタイピング（JS描画分も含め最後に走査）
+smoothTypeAll([...document.querySelectorAll("main .big-head, #apply .apply-band h2")], { startOnView: true });
 </script>
 </body>
 </html>

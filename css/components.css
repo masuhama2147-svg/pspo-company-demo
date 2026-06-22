@@ -1053,3 +1053,18 @@
 @media (prefers-reduced-motion: reduce) {
   .reel-tile__frame { animation: none; }
 }
+
+/* ===== Smooth Typing（変速タイピング）=========================================
+   ゴースト(全文・透過)で領域を確保し、その上にactorを絶対配置＝中央揃えでも
+   折返し/高さがブレない。Caretはタイピング中は常時点灯、完了後に滑らかな点滅。 */
+.type-host { position: relative; }
+.type-ghost { opacity: 0; pointer-events: none; }                 /* 完成時サイズを先に確保 */
+.type-actor { position: absolute; inset: 0; text-align: inherit; }/* 実表示（hostのtext-alignを継承） */
+.type-caret {
+  display: inline-block; width: 2px; height: .92em; margin-left: 2px;
+  vertical-align: -.08em; border-radius: 1px; background: currentColor;
+  opacity: 1;                                                     /* タイピング中は常時点灯 */
+}
+.type-caret--done { animation: smooth-blink 1s ease-in-out .3s infinite; } /* 完了0.3s後に点滅 */
+@keyframes smooth-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .type-caret--done { animation: none; opacity: .85; } }
