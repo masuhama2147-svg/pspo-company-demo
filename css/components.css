@@ -932,12 +932,13 @@
 .role-card__title { font-family: var(--font-display); font-weight: 900; font-size: 1.25rem; }
 .role-card__desc { color: var(--fg-muted); font-size: .9rem; flex: 1; }
 .role-card__go { margin-top: 8px; color: var(--accent); font-weight: 700; font-size: .9rem; display: inline-flex; align-items: center; gap: 6px; }
-.role-card--biz { background: linear-gradient(160deg, #16243a, #0e1b30); border-color: rgba(255,255,255,.12); }
-.role-card--biz .role-card__ic { color: #fff; background: rgba(255,255,255,.1); }
-.role-card--biz .role-card__title { color: #fff; }
-.role-card--biz .role-card__desc { color: rgba(234,240,244,.75); }
-.role-card--biz .role-card__tag { color: var(--accent-2); }
-.role-card--biz .role-card__go { color: #fff; }
+/* 事業者向けカード: 暗navyをやめ navy-tintのライトカードでB2C/B2Bを差別化（ライト統一） */
+.role-card--biz { background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 8%, var(--surface)), var(--surface)); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.role-card--biz .role-card__ic { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.role-card--biz .role-card__title { color: var(--fg); }
+.role-card--biz .role-card__desc { color: var(--fg-muted); }
+.role-card--biz .role-card__tag { color: var(--sea-text); }
+.role-card--biz .role-card__go { color: var(--accent); }
 .role-card--biz:hover { border-color: var(--accent-2); }
 
 /* 実ストアバッジ（公式画像・失敗時はテキストボタン） */
