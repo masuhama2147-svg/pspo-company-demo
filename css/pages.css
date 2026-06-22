@@ -109,6 +109,12 @@
 .hero-brand__stat b { font-family: var(--font-en); font-weight: 400; font-size: clamp(1.6rem, 3.4vw, 2.2rem); line-height: 1; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
 .hero-brand__stat span { font-size: .76rem; color: rgba(255,255,255,.82); margin-top: 4px; }
 
+/* 公式アプリのダウンロード（左カラム・PSPO COMPANY直下に配置） */
+.hero-brand__store { margin-top: clamp(18px, 3vw, 26px); }
+.hero-brand__store .store-badges { margin: 0; justify-content: flex-start; }
+.hero-brand__store .store-badge-img img { border-radius: 9px; box-shadow: 0 6px 16px -8px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.18); }
+.hero-brand__store-note { display: block; margin-top: 9px; font-size: .76rem; color: rgba(255,255,255,.72); }
+
 /* ===== デスクトップ最適化：Heroを2カラム（左＝lead／右＝panel）にして高さを抑え横幅を活かす ===== */
 @media (min-width: 900px) {
   .hero-brand { min-height: clamp(600px, 80vh, 780px); }
