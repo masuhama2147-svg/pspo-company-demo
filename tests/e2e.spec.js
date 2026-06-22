@@ -43,6 +43,21 @@ test.describe("hero (index)", () => {
     await expect(page.locator(".hero-brand__panel")).toHaveCount(0);
   });
 
+  test("antigravity light hero: particle canvas mounts and paints", async ({ page }) => {
+    await expect(page.locator("#heroCanvas")).toHaveCount(1);
+    // 白地ステージ＋語分割の回帰ガード
+    await expect(page.locator(".hero-brand--lift")).toHaveCount(1);
+    await expect(page.locator(".hero-brand__big .hero-word")).toHaveCount(2);
+    // Canvasが実際に描画している（パーティクル）
+    const painted = await page.locator("#heroCanvas").evaluate((cv) => {
+      const c = cv.getContext("2d"); if (!c || !cv.width) return false;
+      const d = c.getImageData(0, 0, Math.min(cv.width, 300), Math.min(cv.height, 300)).data;
+      for (let i = 3; i < d.length; i += 4) if (d[i] !== 0) return true;
+      return false;
+    });
+    expect(painted).toBe(true);
+  });
+
   test("hero shows 3 fact-based trust stats (no member headcount)", async ({ page }) => {
     await expect(page.locator("#heroStats .hero-brand__stat")).toHaveCount(3);
     // 人数（会員数）は出さない方針の回帰ガード

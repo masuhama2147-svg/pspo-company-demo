@@ -17,49 +17,38 @@
 <meta property="og:title" content="P・SPO COMPANY — 地域の暮らしを、リアルタイムにつなぐ。" />
 <meta property="og:image" content="assets/pspo-company-hero.png" />
 <meta property="og:type" content="website" />
-<!-- LCP: 生成したカンパニーヒーローを先読み -->
-<link rel="preload" as="image" href="assets/pspo-company-hero.png" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/base.css?v=43" />
-<link rel="stylesheet" href="css/layout.css?v=43" />
-<link rel="stylesheet" href="css/components.css?v=43" />
-<link rel="stylesheet" href="css/pages.css?v=43" />
-<link rel="stylesheet" href="css/motion.css?v=43" />
+<link rel="stylesheet" href="css/base.css?v=44" />
+<link rel="stylesheet" href="css/layout.css?v=44" />
+<link rel="stylesheet" href="css/components.css?v=44" />
+<link rel="stylesheet" href="css/pages.css?v=44" />
+<link rel="stylesheet" href="css/motion.css?v=44" />
 </head>
 <body class="surface-cine">
 <div class="cine-cursor" aria-hidden="true"></div>
 <main id="main">
 
-  <!-- HERO（生成画像を“舞台”に、光・ノード・導線をCSSで動かす） -->
-  <section class="hero-brand">
-    <div class="hero-brand__media"><img id="heroImg" src="assets/pspo-company-hero.png" alt="" /></div>
-    <div class="hero-brand__scrim" aria-hidden="true"></div>
-    <div class="cine-particles" aria-hidden="true"></div>
-    <div class="hero-brand__motion" aria-hidden="true">
-      <span class="hero-orbit hero-orbit--a"></span>
-      <span class="hero-orbit hero-orbit--b"></span>
-      <span class="hero-pulse hero-pulse--a"></span>
-      <span class="hero-pulse hero-pulse--b"></span>
-      <span class="hero-pulse hero-pulse--c"></span>
-    </div>
+  <!-- HERO（Antigravity流ライトステージ：物理パーティクル＋エントランス。表示内容・配置は維持） -->
+  <section class="hero-brand hero-brand--lift">
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
     <div class="container hero-brand__inner">
-      <p class="hero-brand__eyebrow reveal reveal-1">EHIME WELLNESS DATA PLATFORM</p>
-      <h1 class="hero-brand__big reveal reveal-2">PSPO<br>COMPANY</h1>
-      <p class="hero-brand__sub reveal reveal-3">地域の暮らしを、リアルタイムにつなぐ。</p>
-      <!-- 主要CTA（PSPO COMPANYの直下・中央に大きく） -->
-      <div class="hero-brand__cta reveal reveal-4">
+      <p class="hero-brand__eyebrow">EHIME WELLNESS DATA PLATFORM</p>
+      <h1 class="hero-brand__big"><span class="hero-word">PSPO</span><span class="hero-word">COMPANY</span></h1>
+      <p class="hero-brand__sub">地域の暮らしを、リアルタイムにつなぐ。</p>
+      <!-- 主要CTA（PSPO COMPANYの直下・中央） -->
+      <div class="hero-brand__cta">
         <a class="c-btn c-btn--primary c-btn--lg" id="heroJoin" href="price.html">会員になる（料金を見る）</a>
         <a class="c-btn c-btn--ghost c-btn--lg" id="heroTrial" target="_blank" rel="noopener">無料体験・見学を予約</a>
       </div>
       <!-- 公式アプリのダウンロード -->
-      <div class="hero-brand__store reveal reveal-5">
+      <div class="hero-brand__store">
         <div class="store-badges" id="heroBadges"></div>
         <span class="hero-brand__store-note">公式アプリ「P・SPO24」を無料ダウンロード</span>
       </div>
       <!-- Heroに実数値の信頼シグナル -->
-      <div class="hero-brand__stats reveal reveal-6" id="heroStats"></div>
+      <div class="hero-brand__stats" id="heroStats"></div>
       <p class="hero-brand__note">※ 改善提案デモ。写真は公式サイトのもの。</p>
     </div>
   </section>
@@ -176,6 +165,7 @@ import { renderServiceGrid } from "./js/services.js";
 import { GEO_STORES } from "./js/geo.js";   // 店舗数の単一真実源（地図・近い順・サービス件数と共有）
 import { VISUAL_RAIL } from "./js/visuals.js";
 import { mountReelShowcase } from "./js/reels.js";   // 公式リールの無重力ショーケース
+import { mountHeroParticles } from "./js/hero-particles.js";   // Antigravity流 物理パーティクル
 import "./js/cine.js";   // シネマティック演出（粒子登録＋カーソル光・非対応で安全に無効）
 
 initLanding();
@@ -189,9 +179,8 @@ const MARQUEE = ["dumbbell","run","yoga","sauna","cup","desk","drop","weight","h
 const chips = MARQUEE.map((g)=>`<span class="icon-chip">${icon(g,{size:22})}</span>`).join("");
 document.getElementById("iconRow").innerHTML = chips + chips;
 
-// 生成ヒーロー（読み込み失敗時は背景グラデのまま）
-const hero = document.getElementById("heroImg");
-hero.onerror = () => hero.remove();
+// Antigravity流ヒーロー：物理パーティクル（Canvas）をマウント
+mountHeroParticles(document.getElementById("heroCanvas"));
 const applyImg = document.getElementById("applyImg");
 applyImg.src = "assets/pspo-visual-guide.png"; applyImg.onerror = () => applyImg.remove();
 document.getElementById("webJoin").href = OFFICIAL.hacomono;            // 入会（公式Web）

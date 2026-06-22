@@ -243,3 +243,47 @@
 .brief-ch__list li span { flex: none; }
 .brief-ch__src { font-size: .76rem; color: var(--fg-faint); margin-top: 14px; border-top: 1px dashed var(--border); padding-top: 10px; max-width: 72ch; }
 @media (max-width: 620px) { .brief-ch { grid-template-columns: 1fr; gap: 4px; } .brief-ch__n { font-size: 2.2rem; } }
+
+/* ===== Antigravity流ライトヒーロー（白地・物理パーティクル・dark text）=================
+   先輩の実装指示書に準拠。表示内容/配置は維持し“演出”だけを差し替える。
+   下の暗いセクションへは ::after でふわっと接続。 */
+.hero-brand--lift { background: #FAFBFD; color: #1F1F1F; }
+.hero-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.hero-brand--lift .hero-brand__inner { position: relative; z-index: 2; }
+.hero-brand--lift::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 140px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(250,251,253,0) 0%, var(--bg) 100%); }
+
+/* タイポ（spec: 幾何学サンセリフ・引き締まったtracking・狭めline-height・dark text） */
+.hero-brand--lift .hero-brand__eyebrow { color: #5b6b7a; opacity: 1; }
+.hero-brand--lift .hero-brand__big { color: #1F1F1F; text-shadow: none; letter-spacing: -.025em; line-height: 1.04; }
+.hero-brand--lift .hero-brand__sub { color: #39414b; opacity: 1; font-weight: 500; }
+.hero-brand--lift .hero-brand__store-note { color: #6b7785; }
+.hero-brand--lift .hero-brand__note { color: #97a1ac; }
+.hero-brand--lift .hero-brand__stat b { color: #1F1F1F; }
+.hero-brand--lift .hero-brand__stat span { color: #5b6b7a; }
+/* 白地ではストアバッジの白ヘアラインを外し、淡い影に */
+.hero-brand--lift .hero-brand__store .store-badge-img img { box-shadow: 0 4px 14px -8px rgba(15,23,36,.3); }
+
+/* CTA（spec: プライマリ=黒背景白文字・角丸、セカンダリ=控えめ） */
+.hero-brand--lift .hero-brand__cta .c-btn { border-radius: 999px; }
+.hero-brand--lift .hero-brand__cta .c-btn--primary { background: #1F1F1F; color: #fff; border-color: #1F1F1F; }
+.hero-brand--lift .hero-brand__cta .c-btn--primary:hover { background: #000; box-shadow: 0 12px 26px -12px rgba(0,0,0,.4); }
+.hero-brand--lift .hero-brand__cta .c-btn--ghost { background: transparent; color: #1F1F1F; border-color: rgba(31,31,31,.2); }
+.hero-brand--lift .hero-brand__cta .c-btn--ghost:hover { border-color: #1F1F1F; background: rgba(31,31,31,.04); }
+
+/* ===== エントランス（spec: メインコピーのズーム＋語のスタッガ／他要素は下からスライドフェード）===== */
+.hero-word { display: block; }   /* PSPO / COMPANY を2行・語単位でスタッガ */
+@keyframes heroWordIn { from { opacity: 0; transform: translateY(.14em) scale(1.08); filter: blur(2px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes heroRiseIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-brand--lift .hero-word { opacity: 0; animation: heroWordIn .95s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-brand--lift .hero-word:nth-child(1) { animation-delay: .12s; }
+  .hero-brand--lift .hero-word:nth-child(2) { animation-delay: .30s; }
+  .hero-brand--lift .hero-brand__eyebrow { opacity: 0; animation: heroRiseIn .7s ease .04s both; }
+  .hero-brand--lift .hero-brand__sub    { opacity: 0; animation: heroRiseIn .7s ease .55s both; }
+  .hero-brand--lift .hero-brand__cta    { opacity: 0; animation: heroRiseIn .7s cubic-bezier(.2,.8,.2,1) .72s both; }
+  .hero-brand--lift .hero-brand__store  { opacity: 0; animation: heroRiseIn .7s ease .88s both; }
+  .hero-brand--lift .hero-brand__stats  { opacity: 0; animation: heroRiseIn .7s ease 1.02s both; }
+  .hero-brand--lift .hero-brand__note   { opacity: 0; animation: heroRiseIn .7s ease 1.15s both; }
+}
+/* reduced-motion: アニメ無し＝静止（要素は既定で可視） */
