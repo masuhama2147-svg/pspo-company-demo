@@ -60,6 +60,7 @@
      見出し=Zen Kaku Gothic New（凛とした和ゴシック）、英字ディスプレイ=Anton（力強い）、本文=Noto Sans JP。 */
   --font-display: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
   --font-en: "Anton", "Zen Kaku Gothic New", sans-serif;
+  --font-wordmark: "Outfit", "Google Sans", "Zen Kaku Gothic New", system-ui, sans-serif; /* antigravity流: 精緻な幾何学サンセリフ */
   --font-body: "Noto Sans JP", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
   --font-mono: "Zen Kaku Gothic New", "Noto Sans JP", ui-monospace, monospace;
 
