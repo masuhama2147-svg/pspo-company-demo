@@ -34,14 +34,20 @@ test("brand: no visible SUKIMA on index", async ({ page }) => {
 test.describe("hero (index)", () => {
   test.beforeEach(async ({ page }) => { await page.goto("/index.html"); });
 
-  // パネル不可視バグ（.levitate が .reveal の fadeUp を上書き）への回帰ガード
-  test("hero panel is actually visible (opacity === 1)", async ({ page }) => {
-    const opacity = await page.locator(".hero-brand__panel").evaluate((el) => getComputedStyle(el).opacity);
-    expect(opacity).toBe("1");
+  // 不可視バグ回帰ガード: センター構成の主要CTA・タイトルが実際に見えていること
+  test("centered hero: title and primary CTA are visible (opacity === 1)", async ({ page }) => {
+    await expect(page.locator(".hero-brand__big")).toBeVisible();
+    const joinOpacity = await page.locator("#heroJoin").evaluate((el) => getComputedStyle(el).opacity);
+    expect(joinOpacity).toBe("1");
+    // 旧2カラムのパネルは廃止済み（センター単一カラム）
+    await expect(page.locator(".hero-brand__panel")).toHaveCount(0);
   });
 
-  test("hero shows exactly 4 trust stats", async ({ page }) => {
-    await expect(page.locator("#heroStats .hero-brand__stat")).toHaveCount(4);
+  test("hero shows 3 fact-based trust stats (no member headcount)", async ({ page }) => {
+    await expect(page.locator("#heroStats .hero-brand__stat")).toHaveCount(3);
+    // 人数（会員数）は出さない方針の回帰ガード
+    await expect(page.locator("#heroStats")).not.toContainText("万");
+    await expect(page.locator("#heroStats")).not.toContainText("人に1人");
   });
 
   test("store badges deep-link to real App Store / Google Play (new tab)", async ({ page }) => {
