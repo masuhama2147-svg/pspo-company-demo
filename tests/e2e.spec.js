@@ -48,10 +48,11 @@ test.describe("hero (index)", () => {
     // 白地ステージ＋語分割の回帰ガード
     await expect(page.locator(".hero-brand--lift")).toHaveCount(1);
     await expect(page.locator(".hero-brand__big .hero-word")).toHaveCount(2);
-    // Canvasが実際に描画している（パーティクル）
+    // Canvasが実際に描画している（パーティクル）。rAF描画を待ち、canvas全体を走査（モバイルは粒子が疎なため）
+    await page.waitForTimeout(500);
     const painted = await page.locator("#heroCanvas").evaluate((cv) => {
       const c = cv.getContext("2d"); if (!c || !cv.width) return false;
-      const d = c.getImageData(0, 0, Math.min(cv.width, 300), Math.min(cv.height, 300)).data;
+      const d = c.getImageData(0, 0, cv.width, cv.height).data;
       for (let i = 3; i < d.length; i += 4) if (d[i] !== 0) return true;
       return false;
     });

@@ -9,7 +9,7 @@
 /* ---- デザイントークン（ライト=既定: 明るい紙の上に みかん＆海） ----- */
 :root {
   /* 面と背景（ロゴ＝白地に紺。クリーンな淡色ベース） */
-  --bg:        #f4f6f9;
+  --bg:        #FAFBFD;  /* Antigravity流オフホワイト（ヒーローと統一） */
   --bg-grad-1: #f8fafc;
   --bg-grad-2: #eef1f6;
   --surface:   #ffffff;
@@ -169,7 +169,7 @@ body.surface-cine::after { opacity: .07; }         /* グレイン少し強め *
 /* カーソル追従光（js/cine.js が --mx/--my を更新。タッチ/未対応は中央上で静止） */
 .cine-cursor {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(380px 380px at var(--mx) var(--my), color-mix(in srgb, var(--hot) 16%, transparent), transparent 60%);
+  background: radial-gradient(420px 420px at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--hot) 10%, transparent), transparent 62%);
 }
 @media (prefers-reduced-motion: reduce) { .cine-cursor { display: none; } }
 

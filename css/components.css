@@ -809,23 +809,24 @@ body.surface-cine .hero-brand__media img { filter: brightness(.5) saturate(.92);
 .viz-legend__item small { color: var(--fg-faint); margin-left: 4px; }
 
 /* プレミアム・ヒーロー（data / brief / 経営AI 上部の“格”） */
-.pro-hero { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(56px, 10vw, 124px); color: #eaf0f4;
-  background: radial-gradient(110% 90% at 12% 8%, color-mix(in srgb, var(--accent-2) 34%, transparent), transparent 56%),
-              radial-gradient(110% 90% at 92% 96%, color-mix(in srgb, var(--hot) 22%, transparent), transparent 56%),
-              linear-gradient(160deg, #0e1b30, #16243a 55%, #0b2233); }
+/* Antigravity流ライト: 白地＋ブランド色のソフトオーロラ・dark text・Outfit見出し */
+.pro-hero { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(56px, 10vw, 124px); color: var(--fg);
+  background: radial-gradient(70% 80% at 14% 4%, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 60%),
+              radial-gradient(60% 80% at 92% 98%, color-mix(in srgb, var(--hot) 12%, transparent), transparent 60%),
+              linear-gradient(180deg, var(--surface), var(--bg)); }
 .pro-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
-  background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(22,36,58,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(22,36,58,.05) 1px, transparent 1px);
   background-size: 44px 44px; mask-image: radial-gradient(120% 100% at 50% 0%, #000 40%, transparent 85%); }
-/* Aurora ぼかしブロブ（ドリフト）＝先進的な"生きた"背景。research: Linear/Antigravity の手法。 */
-.pro-hero::after { content: ""; position: absolute; inset: -25%; z-index: -1; pointer-events: none; opacity: .55;
+/* Aurora ぼかしブロブ（ドリフト・ライト面の淡色）。research: Linear/Antigravity の手法。 */
+.pro-hero::after { content: ""; position: absolute; inset: -25%; z-index: -1; pointer-events: none; opacity: .5;
   background:
-    radial-gradient(38% 46% at 18% 22%, color-mix(in oklch, var(--accent-2) 42%, transparent), transparent 60%),
-    radial-gradient(42% 50% at 84% 78%, color-mix(in oklch, var(--hot) 32%, transparent), transparent 60%);
+    radial-gradient(38% 46% at 18% 22%, color-mix(in oklch, var(--accent-2) 18%, transparent), transparent 60%),
+    radial-gradient(42% 50% at 84% 78%, color-mix(in oklch, var(--hot) 16%, transparent), transparent 60%);
   filter: blur(64px); animation: auroraDrift 24s ease-in-out infinite alternate; will-change: transform; }
-.pro-eyebrow { font-family: var(--font-mono); font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; color: var(--hot); font-weight: 800; }
-.pro-hero h1 { color: #fff; font-size: clamp(2rem, 5.6vw, 3.4rem); line-height: 1.14; margin-top: 10px; letter-spacing: -.01em; }
-.pro-hero .pro-lead { color: rgba(234,240,244,.82); max-width: 70ch; margin-top: 14px; font-size: clamp(.96rem, 1.6vw, 1.12rem); }
-.pro-hero .pro-lead b { color: #fff; }
+.pro-eyebrow { font-family: var(--font-mono); font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; color: var(--hot-text); font-weight: 800; }
+.pro-hero h1 { color: var(--fg); font-family: var(--font-wordmark); font-weight: 600; font-size: clamp(2rem, 5.6vw, 3.4rem); line-height: 1.1; margin-top: 10px; letter-spacing: -.02em; }
+.pro-hero .pro-lead { color: var(--fg-muted); max-width: 70ch; margin-top: 14px; font-size: clamp(.96rem, 1.6vw, 1.12rem); }
+.pro-hero .pro-lead b { color: var(--fg); }
 
 /* メトリクス・タイル（大きな数字＝意思決定材料の要点） */
 .pro-metric-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 26px; }
@@ -834,10 +835,7 @@ body.surface-cine .hero-brand__media img { filter: brightness(.5) saturate(.92);
 .metric__n small { font-size: .42em; color: var(--fg-muted); font-weight: 700; }
 .metric__l { font-size: .82rem; color: var(--fg-muted); margin-top: 7px; }
 .metric__hint { font-size: .72rem; color: var(--fg-faint); margin-top: 4px; }
-.pro-hero .metric { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); box-shadow: none; backdrop-filter: blur(4px); }
-.pro-hero .metric__n { color: #fff; }
-.pro-hero .metric__n small, .pro-hero .metric__l { color: rgba(234,240,244,.72); }
-.pro-hero .metric__hint { color: rgba(234,240,244,.5); }
+/* メトリクスタイルはベースのライト（白面・ネイビー数字）をそのまま使用 */
 
 /* データページのカード見出し（手法ラベル付き） */
 .method-tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .04em; color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent-2) 28%, transparent); border-radius: var(--r-pill); padding: 3px 9px; white-space: nowrap; }
