@@ -22,11 +22,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/base.css?v=41" />
-<link rel="stylesheet" href="css/layout.css?v=41" />
-<link rel="stylesheet" href="css/components.css?v=41" />
-<link rel="stylesheet" href="css/pages.css?v=41" />
-<link rel="stylesheet" href="css/motion.css?v=41" />
+<link rel="stylesheet" href="css/base.css?v=42" />
+<link rel="stylesheet" href="css/layout.css?v=42" />
+<link rel="stylesheet" href="css/components.css?v=42" />
+<link rel="stylesheet" href="css/pages.css?v=42" />
+<link rel="stylesheet" href="css/motion.css?v=42" />
 </head>
 <body class="surface-cine">
 <div class="cine-cursor" aria-hidden="true"></div>
@@ -45,25 +45,22 @@
       <span class="hero-pulse hero-pulse--c"></span>
     </div>
     <div class="container hero-brand__inner">
-      <div class="hero-brand__lead">
-        <p class="hero-brand__eyebrow reveal reveal-1">EHIME WELLNESS DATA PLATFORM</p>
-        <h1 class="hero-brand__big reveal reveal-2">PSPO<br>COMPANY</h1>
-        <p class="hero-brand__sub reveal reveal-3">地域の暮らしを、リアルタイムにつなぐ。</p>
-        <!-- 公式アプリのダウンロード（PSPO COMPANYの直下に配置） -->
-        <div class="hero-brand__store reveal reveal-4">
-          <div class="store-badges" id="heroBadges"></div>
-          <span class="hero-brand__store-note">公式アプリ「P・SPO24」を無料ダウンロード</span>
-        </div>
-        <!-- Heroに実数値の信頼シグナルを（情報量UP） -->
-        <div class="hero-brand__stats reveal reveal-5" id="heroStats"></div>
+      <p class="hero-brand__eyebrow reveal reveal-1">EHIME WELLNESS DATA PLATFORM</p>
+      <h1 class="hero-brand__big reveal reveal-2">PSPO<br>COMPANY</h1>
+      <p class="hero-brand__sub reveal reveal-3">地域の暮らしを、リアルタイムにつなぐ。</p>
+      <!-- 主要CTA（PSPO COMPANYの直下・中央に大きく） -->
+      <div class="hero-brand__cta reveal reveal-4">
+        <a class="c-btn c-btn--primary c-btn--lg" id="heroJoin" href="price.html">会員になる（料金を見る）</a>
+        <a class="c-btn c-btn--ghost c-btn--lg" id="heroTrial" target="_blank" rel="noopener">無料体験・見学を予約</a>
       </div>
-      <div class="hero-brand__panel levitate">
-        <div class="hero-brand__cta">
-          <a class="c-btn c-btn--primary c-btn--lg" id="heroJoin" href="price.html">会員になる（料金を見る）</a>
-          <a class="c-btn c-btn--ghost c-btn--lg" id="heroTrial" target="_blank" rel="noopener">無料体験・見学を予約</a>
-        </div>
-        <p class="hero-brand__note">※ 改善提案デモ。写真は公式サイトのもの。</p>
+      <!-- 公式アプリのダウンロード -->
+      <div class="hero-brand__store reveal reveal-5">
+        <div class="store-badges" id="heroBadges"></div>
+        <span class="hero-brand__store-note">公式アプリ「P・SPO24」を無料ダウンロード</span>
       </div>
+      <!-- Heroに実数値の信頼シグナル -->
+      <div class="hero-brand__stats reveal reveal-6" id="heroStats"></div>
+      <p class="hero-brand__note">※ 改善提案デモ。写真は公式サイトのもの。</p>
     </div>
   </section>
 
@@ -173,7 +170,7 @@
 
 <script type="module">
 import { initLanding, icon } from "./js/ui.js";
-import { OFFICIAL, PSPO_FACTS, CHURN, JOIN_AREAS, RESERVE_NOTE, SUPPORTING_TEAMS, NEWS } from "./js/insights.js";
+import { OFFICIAL, PSPO_FACTS, JOIN_AREAS, RESERVE_NOTE, SUPPORTING_TEAMS, NEWS } from "./js/insights.js";
 import { CORPORATE_PRICING } from "./js/pspo-info.js";
 import { renderServiceGrid } from "./js/services.js";
 import { GEO_STORES } from "./js/geo.js";   // 店舗数の単一真実源（地図・近い順・サービス件数と共有）
@@ -273,12 +270,9 @@ document.getElementById("heroBadges").innerHTML = badges;
 document.getElementById("ctaBadges").innerHTML = badges;
 
 // Heroの信頼スタット（単一真実源：店舗数は GEO_STORES.length で実データと必ず一致）
-// 会員数は具体人数でなく「松山市民の◯人に1人」という体感比で提示（誇張しない＝実データから算出）
-const MATSUYAMA_POP = 508000; // 松山市人口（公開統計・2024概数）
-const memberRatio = Math.round(MATSUYAMA_POP / CHURN.totals.members); // ≒ 1.6万人 → 約32
+// 会員数など“人数”は出さない（母数で揺れ・誇張リスクがあるため）。事実ベースの3指標に絞る。
 const HERO_STATS = [
   [GEO_STORES.length + "", "店舗 使い放題"],
-  [memberRatio + "人に1人", "松山市民が会員（推計）"],
   ["30+", "使い放題サービス"],
   ["24h", "営業"],
 ];

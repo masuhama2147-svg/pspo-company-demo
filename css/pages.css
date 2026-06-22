@@ -56,11 +56,13 @@
   100% { transform: scale(1.18); box-shadow: 0 0 0 0 rgba(255,149,80,0), 0 0 12px rgba(255,149,80,.1); opacity: .48; }
 }
 /* （旧 hero-brand__blob 虹色レイヤーはシネマティック化で廃止・削除済み） */
-.hero-brand__inner { position: relative; width: 100%; padding-block: clamp(48px,9vw,96px); }
+.hero-brand__inner { position: relative; width: 100%; padding-block: clamp(48px,9vw,96px);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  max-width: 1040px; margin-inline: auto; }
 .hero-brand__eyebrow { font-family: var(--font-en); letter-spacing: .24em; font-weight: 400; font-size: clamp(.74rem,1.7vw,1rem); color: #fff; opacity: .95; display: flex; align-items: center; gap: 12px; }
 .hero-brand__eyebrow::before { content: ""; width: 34px; height: 4px; background: var(--accent); border-radius: 2px; flex: none; }
-.hero-brand__big { font-family: var(--font-en); font-weight: 400; line-height: .88; font-size: clamp(3.45rem,13vw,7.9rem); letter-spacing: .01em; margin: 10px 0 6px; color: #fff;
-  text-shadow: 0 6px 34px rgba(0,0,0,.5), 0 1px 0 rgba(0,0,0,.3); }
+.hero-brand__big { font-family: var(--font-en); font-weight: 400; line-height: .86; font-size: clamp(3.6rem,14vw,9.6rem); letter-spacing: .005em; margin: 12px 0 8px; color: #fff;
+  text-shadow: 0 6px 38px rgba(0,0,0,.55), 0 1px 0 rgba(0,0,0,.3); }
 .hero-brand__sub { font-family: var(--font-en); font-weight: 400; letter-spacing: .16em; color: #fff; opacity: .82; font-size: clamp(.82rem,2.2vw,1.18rem); }
 .hero-brand__panel { margin-top: clamp(22px,4vw,34px); max-width: 660px; padding: clamp(18px,3vw,26px);
   border-radius: var(--r-xl); background: color-mix(in srgb, var(--surface) 82%, transparent);
@@ -80,7 +82,7 @@
 .hero-brand__price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .hero-brand__price b { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.8rem,5.5vw,2.6rem); color: var(--accent); }
 .hero-brand__stores { font-size: .86rem; color: var(--fg-muted); }
-.hero-brand__cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.hero-brand__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(22px, 3vw, 32px); }
 .hero-brand__official { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .hero-brand__official a { font-size: .82rem; font-weight: 700; color: var(--fg-muted); display: inline-flex; align-items: center; min-height: 40px; padding: 9px 14px; border-radius: var(--r-pill); border: 1.5px solid var(--border-strong); transition: all .15s; }
 .hero-brand__official a:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
@@ -104,28 +106,21 @@
 }
 
 /* Heroの信頼スタット（実数値・情報量UP）。白文字＋スクリムで可読。 */
-.hero-brand__stats { display: flex; flex-wrap: wrap; gap: clamp(16px, 3vw, 34px); margin-top: clamp(20px, 3vw, 30px); }
+.hero-brand__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(20px, 4vw, 48px); margin-top: clamp(24px, 3.5vw, 36px); }
 .hero-brand__stat { display: flex; flex-direction: column; }
 .hero-brand__stat b { font-family: var(--font-en); font-weight: 400; font-size: clamp(1.6rem, 3.4vw, 2.2rem); line-height: 1; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
 .hero-brand__stat span { font-size: .76rem; color: rgba(255,255,255,.82); margin-top: 4px; }
 
 /* 公式アプリのダウンロード（左カラム・PSPO COMPANY直下に配置） */
 .hero-brand__store { margin-top: clamp(18px, 3vw, 26px); }
-.hero-brand__store .store-badges { margin: 0; justify-content: flex-start; }
+.hero-brand__store .store-badges { margin: 0; justify-content: center; }
 .hero-brand__store .store-badge-img img { border-radius: 9px; box-shadow: 0 6px 16px -8px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.18); }
 .hero-brand__store-note { display: block; margin-top: 9px; font-size: .76rem; color: rgba(255,255,255,.72); }
 
 /* ===== デスクトップ最適化：Heroを2カラム（左＝lead／右＝panel）にして高さを抑え横幅を活かす ===== */
 @media (min-width: 900px) {
-  .hero-brand { min-height: clamp(600px, 80vh, 780px); }
-  .hero-brand__big { font-size: clamp(3.4rem, 8vw, 5.6rem); }
-  .hero-brand__inner {
-    display: grid;
-    grid-template-columns: 1fr minmax(360px, 460px);
-    column-gap: clamp(40px, 5vw, 72px);
-    align-items: center;
-  }
-  .hero-brand__panel { margin-top: 0; max-width: none; }
+  /* センター構成: PSPO COMPANY を中央に大きく、その下にCTA・DL・指標を積む */
+  .hero-brand { min-height: clamp(640px, 88vh, 900px); }
 }
 
 @media (max-width: 760px) {
